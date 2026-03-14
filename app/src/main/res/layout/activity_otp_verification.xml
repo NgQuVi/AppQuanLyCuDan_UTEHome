@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/otpRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:fillViewport="true"
+    tools:context=".feature.auth.otp.OtpVerificationActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingTop="64dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="32dp">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/otp_title"
+            android:textColor="#17213A"
+            android:textSize="26sp" />
+
+        <!-- Subtitle -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/otp_subtitle"
+            android:textColor="#50626D"
+            android:textSize="14sp" />
+
+        <!-- OTP Input Container (6 dots) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/otp1"
+                style="@style/OtpEditText" />
+
+            <EditText
+                android:id="@+id/otp2"
+                style="@style/OtpEditText"
+                android:layout_marginStart="8dp" />
+
+            <EditText
+                android:id="@+id/otp3"
+                style="@style/OtpEditText"
+                android:layout_marginStart="8dp" />
+
+            <EditText
+                android:id="@+id/otp4"
+                style="@style/OtpEditText"
+                android:layout_marginStart="8dp" />
+
+            <EditText
+                android:id="@+id/otp5"
+                style="@style/OtpEditText"
+                android:layout_marginStart="8dp" />
+
+            <EditText
+                android:id="@+id/otp6"
+                style="@style/OtpEditText"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+        <!-- Help text -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/otp_not_received"
+            android:textColor="#7E8CA4"
+            android:textSize="13sp" />
+
+        <!-- Resend timer -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_timer_orange" />
+
+            <TextView
+                android:id="@+id/tvResendTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/otp_resend_timer_initial"
+                android:textColor="#FF7E4E"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Confirm button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirmOtp"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="#FF7E4E"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/otp_confirm_button"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:cornerRadius="27dp"
+            app:elevation="0dp" />
+
+        <!-- Change phone number link -->
+        <TextView
+            android:id="@+id/tvChangePhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/otp_change_phone"
+            android:textColor="#50626D"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</ScrollView>

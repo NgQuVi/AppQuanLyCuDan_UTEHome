@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Real building photo fills the entire hero area -->
+    <item>
+        <bitmap
+            android:antialias="true"
+            android:gravity="center|fill_horizontal"
+            android:src="@drawable/photo_login_buildings"
+            android:tileMode="disabled" />
+    </item>
+
+    <!-- Subtle top dark overlay for logo readability -->
+    <item android:bottom="60dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:endColor="#00000000"
+                android:startColor="#55000000" />
+        </shape>
+    </item>
+
+    <!-- Bottom fade into white card for smooth transition -->
+    <item android:top="50dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:endColor="#F0F8F8F8"
+                android:startColor="#00F8F8F8" />
+        </shape>
+    </item>
+
+</layer-list>
