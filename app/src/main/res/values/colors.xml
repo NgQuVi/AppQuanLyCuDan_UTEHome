@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="login_card_background">#FFF8F8F8</color>
+    <color name="login_hint">#FF91A0B4</color>
+    <color name="login_icon_tint">#FF93A0B2</color>
+    <color name="login_input_background">#FFF1ECEC</color>
+    <color name="login_primary">#FFFF7E4E</color>
+    <color name="login_screen_background">#FFDDE4E7</color>
+    <color name="login_text_primary">#FF17213A</color>
+    <color name="login_text_secondary">#FF7E8CA4</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <color name="home_background">#F8F9FA</color>
+    <color name="home_primary_orange">#FF784A</color>
+    <color name="home_primary_orange_light">#FF9E73</color>
+    <color name="home_status_green">#34C759</color>
+    <color name="home_tag_event_bg">#FFF0ED</color>
+    <color name="home_tag_event_text">#FF784A</color>
+    <color name="home_tag_offer_bg">#EAF8ED</color>
+    <color name="home_tag_offer_text">#34C759</color>
+    <color name="home_text_primary">#1D2A43</color>
+    <color name="home_text_secondary">#7A87A0</color>
+    <color name="home_border_color">#E8ECEF</color>
+    <color name="home_icon_bg">#FFFFFF</color>
 </resources>
