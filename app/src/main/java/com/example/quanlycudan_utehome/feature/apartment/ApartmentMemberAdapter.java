@@ -40,6 +40,14 @@ public class ApartmentMemberAdapter extends RecyclerView.Adapter<ApartmentMember
         // Tạo avatar từ chữ cái đầu tiên của tên
         String firstLetter = detail.resident.fullName.substring(0, 1).toUpperCase();
         holder.tvMemberAvatar.setText(firstLetter);
+
+        holder.itemView.setOnClickListener(v -> {
+            android.content.Context context = v.getContext();
+            android.content.Intent intent = new android.content.Intent(context, com.example.quanlycudan_utehome.feature.member.MemberDetailActivity.class);
+            intent.putExtra("MEMBER_ID", detail.resident.id);
+            intent.putExtra("MEMBER_ROLE", detail.apartmentMember.role);
+            context.startActivity(intent);
+        });
     }
 
     @Override
