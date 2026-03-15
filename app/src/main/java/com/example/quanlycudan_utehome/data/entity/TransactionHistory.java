@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "transactions")
-public class TransactionHistory {
+public class TransactionHistory implements java.io.Serializable{
     @PrimaryKey
     @NonNull
     public String transactionCode = ""; // VD: "#PMH102315"

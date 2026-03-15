@@ -10,22 +10,19 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.quanlycudan_utehome.R;
+import com.example.quanlycudan_utehome.data.entity.TransactionHistory;
 
 public class TransactionDetailActivity extends AppCompatActivity {
 
+    private TransactionHistory transaction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        transaction = (TransactionHistory) getIntent().getSerializableExtra("DATA_KEY");
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_transaction_detail);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(v.getPaddingLeft(), systemBars.top, v.getPaddingRight(), v.getPaddingBottom());
-            return insets;
-        });
 
-        ImageView ivBack = findViewById(R.id.ivBack);
-        ivBack.setOnClickListener(v -> finish());
     }
 }
