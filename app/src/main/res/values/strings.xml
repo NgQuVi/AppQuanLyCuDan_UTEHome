@@ -103,4 +103,43 @@
     <string name="apartment_member_son_role">Con • Cư dân chính thức</string>
     <string name="apartment_member_maid">Trần Văn Thành</string>
     <string name="apartment_member_maid_role">Giúp việc • Thẻ tạm trú</string>
+
+    <!-- Payment History Screen -->
+    <string name="payment_history_title">Lịch sử thanh toán</string>
+    <string name="payment_search_hint">Tìm kiếm</string>
+    <string name="payment_apartment_name">P.1205, Tòa S1</string>
+    <string name="payment_apartment_address">Phú Mỹ Hưng, Quận 7, TP.HCM</string>
+    <string name="payment_month_oct">THÁNG 10/2023</string>
+    <string name="payment_month_sep">THÁNG 09/2023</string>
+    <string name="payment_bill_oct_title">Thanh toán hóa đơn tháng 10</string>
+    <string name="payment_bill_oct_date">15/10/2023 - 09:45</string>
+    <string name="payment_bill_oct_code">#PMH102315</string>
+    <string name="payment_bill_oct_method">Ví MoMo</string>
+    <string name="payment_bill_oct_amount">2.292.500đ</string>
+    <string name="payment_bill_sep_title">Thanh toán hóa đơn tháng 09</string>
+    <string name="payment_bill_sep_date">10/09/2023 - 10:15</string>
+    <string name="payment_bill_sep_code">#PMH092310</string>
+    <string name="payment_bill_sep_method">Chuyển khoản</string>
+    <string name="payment_bill_sep_amount">3.150.000đ</string>
+    <string name="payment_status_success">Thành công</string>
+    <string name="payment_label_code">Mã giao dịch</string>
+    <string name="payment_label_method">Phương thức</string>
+    <string name="payment_label_total">Tổng tiền</string>
+
+    <!-- Transaction Detail Screen -->
+    <string name="transaction_detail_title">Chi tiết giao dịch</string>
+    <string name="transaction_status_success">Giao dịch thành công</string>
+    <string name="transaction_label_date">Ngày &amp; Giờ</string>
+    <string name="transaction_label_apartment">Căn hộ</string>
+    <string name="transaction_section_details">Chi tiết hóa đơn</string>
+    <string name="transaction_fee_electric">Tiền điện</string>
+    <string name="transaction_fee_water">Tiền nước</string>
+    <string name="transaction_fee_parking">Phí gửi xe</string>
+    <string name="transaction_fee_internet">Internet</string>
+    <string name="transaction_fee_total">Tổng thanh toán</string>
+    
+    <string name="transaction_val_electric">472.500đ</string>
+    <string name="transaction_val_water">270.000đ</string>
+    <string name="transaction_val_parking">1.200.000đ</string>
+    <string name="transaction_val_internet">350.000đ</string>
 </resources>
