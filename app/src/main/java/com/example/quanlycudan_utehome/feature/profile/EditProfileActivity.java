@@ -27,11 +27,25 @@ public class EditProfileActivity extends AppCompatActivity {
         tvDobPicker = findViewById(R.id.tvDobPicker);
         etIdNum = findViewById(R.id.etIdNum);
 
+        // Set up Gender Dropdown
+        tvGenderSpinner.setOnClickListener(v -> showGenderPopupMenu());
+
         // Header Back Button
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         // Save Button
         findViewById(R.id.btnSaveProfile).setOnClickListener(v -> saveProfileChanges());
+    }
+
+    private void showGenderPopupMenu() {
+        android.widget.PopupMenu popup = new android.widget.PopupMenu(this, tvGenderSpinner);
+        popup.getMenu().add("Nam");
+        popup.getMenu().add("Nữ");
+        popup.setOnMenuItemClickListener(item -> {
+            tvGenderSpinner.setText(item.getTitle());
+            return true;
+        });
+        popup.show();
     }
 
     @Override
