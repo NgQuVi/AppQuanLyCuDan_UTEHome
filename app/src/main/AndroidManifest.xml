@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyCuDan_UTEHome">
         <activity
-            android:name=".MainActivity"
+            android:name=".feature.auth.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +20,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.auth.register.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.auth.forgotpassword.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.auth.otp.OtpVerificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.auth.reset.ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.auth.reset.PasswordSuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.apartment.ApartmentInfoActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
