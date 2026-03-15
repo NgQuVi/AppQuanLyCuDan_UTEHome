@@ -49,6 +49,30 @@ public class MainActivity extends AppCompatActivity {
             // Add other navigation logic here if needed
             return true;
         });
+
+        loadUserData();
+    }
+
+    private void loadUserData() {
+        int residentId = com.example.quanlycudan_utehome.data.local.SessionManager.getInstance(this).getResidentId();
+        if (residentId == -1) {
+            // No valid session, redirect to login
+            startActivity(new android.content.Intent(this, com.example.quanlycudan_utehome.feature.auth.login.LoginActivity.class));
+            finish();
+            return;
+        }
+
+        java.util.concurrent.Executors.newSingleThreadExecutor().execute(() -> {
+            com.example.quanlycudan_utehome.data.entity.Resident user = AppDatabase.getInstance(this).residentDao().getResidentById(residentId);
+            if (user != null) {
+                runOnUiThread(() -> {
+                    android.widget.TextView tvUserName = findViewById(R.id.tvUserName);
+                    if (tvUserName != null) {
+                        tvUserName.setText(user.fullName);
+                    }
+                });
+            }
+        });
     }
 
 

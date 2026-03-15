@@ -84,13 +84,15 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            boolean isSuccess = com.example.quanlycudan_utehome.feature.auth.service.AuthService.getInstance().login(phone, password);
-            if (isSuccess) {
-                startActivity(new Intent(this, com.example.quanlycudan_utehome.MainActivity.class));
-                finish();
-            } else {
-                android.widget.Toast.makeText(this, "Thông tin đăng nhập không hợp lệ", android.widget.Toast.LENGTH_SHORT).show();
-            }
+            com.example.quanlycudan_utehome.feature.auth.service.AuthService.getInstance(this).login(phone, password, loggedInId -> {
+                if (loggedInId != -1) {
+                    com.example.quanlycudan_utehome.data.local.SessionManager.getInstance(this).saveResidentId(loggedInId);
+                    startActivity(new Intent(this, com.example.quanlycudan_utehome.MainActivity.class));
+                    finish();
+                } else {
+                    android.widget.Toast.makeText(this, "Thông tin đăng nhập không hợp lệ", android.widget.Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         // Edge-to-edge window insets

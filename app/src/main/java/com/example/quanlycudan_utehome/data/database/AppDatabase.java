@@ -23,7 +23,7 @@ import com.example.quanlycudan_utehome.data.entity.TransactionHistory;
         Invoice.class,
         InvoiceItem.class,
         TransactionHistory.class
-}, version = 3, exportSchema = false)
+}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ApartmentDao apartmentDao();

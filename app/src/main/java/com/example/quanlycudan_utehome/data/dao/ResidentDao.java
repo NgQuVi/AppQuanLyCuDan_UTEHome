@@ -26,4 +26,10 @@ public interface ResidentDao {
     
     @Query("SELECT * FROM residents WHERE phone = :phone LIMIT 1")
     Resident getResidentByPhone(String phone);
+
+    @Query("UPDATE residents SET password = :newPassword WHERE phone = :phone")
+    void updatePassword(String phone, String newPassword);
+
+    @Query("SELECT COUNT(*) FROM residents WHERE phone = :phone")
+    int checkPhoneExists(String phone);
 }

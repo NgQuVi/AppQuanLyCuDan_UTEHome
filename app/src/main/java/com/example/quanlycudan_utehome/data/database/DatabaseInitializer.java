@@ -36,6 +36,7 @@ public class DatabaseInitializer {
                 resident1.gender = "Nam";
                 resident1.idType = "CCCD / CMND";
                 resident1.idNum = "012345678910";
+                resident1.password = "12345678";
                 resident1.avatarUrl = "https://via.placeholder.com/150?text=Tuan";
 
                 Resident resident2 = new Resident();
