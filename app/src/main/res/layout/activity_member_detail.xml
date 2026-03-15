@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/home_background"
-    tools:context=".feature.apartment.ApartmentInfoActivity">
+    tools:context=".feature.member.MemberDetailActivity">
 
-    <!-- Custom Header -->
+    <!-- Header -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/home_background"
-        android:paddingTop="16dp"
+        android:paddingTop="32dp"
         android:paddingBottom="16dp"
+        android:background="@color/home_background"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -23,22 +23,22 @@
             android:layout_height="24dp"
             android:layout_marginStart="20dp"
             android:src="@drawable/ic_arrow_back_black"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
             android:id="@+id/tvHeaderTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/apartment_info_title"
+            android:text="Chi tiết thành viên"
             android:textColor="@color/home_text_primary"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -55,88 +55,86 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-            <!-- Card 1: Main Apartment Info -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/bg_card_white"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/tvTagLiving"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_tag_orange_light"
-                    android:text="@string/apartment_info_tag_living"
-                    android:textColor="@color/home_tag_event_text"
-                    android:textSize="12sp"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="4dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvMainApartmentCode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/home_apartment_name"
-                    android:textColor="@color/home_text_primary"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvTagLiving" />
-
-                <TextView
-                    android:id="@+id/tvMainBuilding"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Vinhomes Central Park"
-                    android:textColor="@color/home_text_secondary"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvMainApartmentCode" />
+            <!-- Avatar Circle -->
+            <FrameLayout
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp">
 
                 <ImageView
-                    android:id="@+id/ivApartmentPhoto"
+                    android:id="@+id/ivMemberAvatar"
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_placeholder_avatar"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/photo_login_buildings"
+                    android:background="@drawable/bg_member_avatar_large"
                     android:clipToOutline="true"
-                    android:background="@drawable/bg_card_white"
-                    app:layout_constraintTop_toBottomOf="@id/tvMainBuilding" />
+                    android:contentDescription="Member Avatar" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </FrameLayout>
 
-            <!-- Section: CHI TIẾT CĂN HỘ -->
+            <!-- Member Name -->
             <TextView
+                android:id="@+id/tvMemberName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/apartment_info_section_details"
-                android:textColor="@color/home_text_secondary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:text="Nguyễn Thị Lan Anh"
+                android:textColor="@color/home_text_primary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp" />
 
+            <!-- Member Role -->
+            <TextView
+                android:id="@+id/tvMemberRole"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="vợ"
+                android:textColor="@color/home_primary_orange"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Section: Thông tin cá nhân -->
             <LinearLayout
-                android:id="@+id/detailsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_card_white"
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Row 1: Mã căn hộ -->
+                <!-- Section Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_person_info"
+                        android:scaleType="centerInside"
+                        app:tint="@color/home_primary_orange" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thông tin cá nhân"
+                        android:textColor="@color/home_text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="8dp" />
+
+                </LinearLayout>
+
+                <!-- Row 1: Mã cư dân -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -147,17 +145,19 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/apartment_info_code_label"
+                        android:text="Mã cư dân"
                         android:textColor="@color/home_text_secondary"
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvResidentId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="P.1205"
+                        android:text="RES882910"
                         android:textColor="@color/home_text_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
+
                 </LinearLayout>
 
                 <View
@@ -165,7 +165,7 @@
                     android:layout_height="1dp"
                     android:background="@color/home_border_color" />
 
-                <!-- Row 2: Tòa nhà -->
+                <!-- Row 2: Ngày sinh -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -176,17 +176,19 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/apartment_info_building_label"
+                        android:text="Ngày sinh"
                         android:textColor="@color/home_text_secondary"
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvBirthDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tòa S1"
+                        android:text="15/05/1992"
                         android:textColor="@color/home_text_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
+
                 </LinearLayout>
 
                 <View
@@ -194,7 +196,7 @@
                     android:layout_height="1dp"
                     android:background="@color/home_border_color" />
 
-                <!-- Row 3: Tầng -->
+                <!-- Row 3: Giới tính -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -205,145 +207,215 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/apartment_info_floor_label"
+                        android:text="Giới tính"
                         android:textColor="@color/home_text_secondary"
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvGender"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="12"
+                        android:text="Nữ"
                         android:textColor="@color/home_text_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
-                </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/home_border_color" />
-
-                <!-- Row 4: Diện tích -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/apartment_info_area_label"
-                        android:textColor="@color/home_text_secondary"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/apartment_info_area"
-                        android:textColor="@color/home_text_primary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/home_border_color" />
-
-                <!-- Row 5: Chủ hộ -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/apartment_info_owner_label"
-                        android:textColor="@color/home_text_secondary"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nguyễn Anh Tuấn"
-                        android:textColor="@color/home_text_primary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/home_border_color" />
-
-                <!-- Row 6: Tình trạng -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/apartment_info_status_label"
-                        android:textColor="@color/home_text_secondary"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/apartment_info_status_value"
-                        android:textColor="@color/home_primary_orange"
-                        android:textSize="14sp" />
                 </LinearLayout>
 
             </LinearLayout>
 
-            <!-- Section: THÀNH VIÊN GIA ĐÌNH -->
-            <RelativeLayout
+            <!-- Section: Định danh -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="24dp">
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_card_white"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <!-- Section Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/apartment_info_section_members"
-                    android:textColor="@color/home_text_secondary"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_id_card"
+                        android:scaleType="centerInside"
+                        app:tint="@color/home_primary_orange" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Định danh"
+                        android:textColor="@color/home_text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="8dp" />
+
+                </LinearLayout>
+
+                <!-- Row 1: Loại giấy tờ -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Loại giấy tờ"
+                        android:textColor="@color/home_text_secondary"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvDocumentType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CCCD (Gắn chip)"
+                        android:textColor="@color/home_text_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/home_border_color" />
+
+                <!-- Row 2: Số định danh -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Số định danh"
+                        android:textColor="@color/home_text_secondary"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvDocumentNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0310092*****"
+                        android:textColor="@color/home_text_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Section: Liên hệ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_card_white"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Section Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_phone_contact"
+                        android:scaleType="centerInside"
+                        android:tint="@color/home_primary_orange" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Liên hệ"
+                        android:textColor="@color/home_text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="8dp" />
+
+                </LinearLayout>
+
+                <!-- Phone Number -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Số điện thoại"
+                        android:textColor="@color/home_text_secondary"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvPhoneNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0982 *** 888"
+                        android:textColor="@color/home_text_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Buttons Container -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="24dp"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp">
+
+                <!-- Edit Button -->
+                <Button
+                    android:id="@+id/btnEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_button_primary_orange"
+                    android:text="Chính sửa thông tin"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"/>
+                    android:paddingVertical="12dp"
+                    android:layout_marginBottom="12dp" />
 
-                <TextView
-                    android:id="@+id/btnAddMember"
-                    android:layout_width="wrap_content"
+                <!-- Delete Button -->
+                <Button
+                    android:id="@+id/btnDelete"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/apartment_info_add_new"
+                    android:background="@drawable/bg_button_outline_orange"
+                    android:text="Xóa thành viên"
                     android:textColor="@color/home_primary_orange"
-                    android:textSize="12sp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:paddingVertical="12dp" />
 
-            </RelativeLayout>
-
-            <!-- RecyclerView for Members -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewMembers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="12dp"
-                android:nestedScrollingEnabled="false"
-                android:orientation="vertical" />
+            </LinearLayout>
 
         </LinearLayout>
 
