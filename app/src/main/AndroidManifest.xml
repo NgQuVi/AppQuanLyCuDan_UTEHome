@@ -55,6 +55,12 @@
         <activity
             android:name=".feature.invoice.PaymentSuccessActivity"
             android:exported="false" />
+        <activity
+            android:name=".feature.payment.PaymentHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.payment.TransactionDetailActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -19,6 +19,8 @@ public class DatabaseInitializer {
 
         // Chèn dữ liệu vào bảng ApartmentMember (liên kết cư dân với căn hộ)
         insertSampleApartmentMembers(db);
+
+        insertSampleInvoices(db);
     }
 
     private static void insertSampleResidents(AppDatabase db) {
@@ -146,4 +148,57 @@ public class DatabaseInitializer {
             }
         }).start();
     }
+
+    private static void insertSampleInvoices(AppDatabase db) {
+        new Thread(() -> {
+            // Kiểm tra nếu chưa có hóa đơn nào thì mới chèn
+            if (db.paymentDao().getAllInvoices().isEmpty()) {
+
+                // 1. Tạo 1 Hóa đơn CHƯA THANH TOÁN cho căn hộ ID = "1" (P.1205)
+                com.example.quanlycudan_utehome.data.entity.Invoice inv1 = new com.example.quanlycudan_utehome.data.entity.Invoice(
+                        "INV-102023-1205", "1", "10/2023", 2292500, "15/11/2023", "UNPAID"
+                );
+                db.paymentDao().insertInvoice(inv1);
+
+                // Chèn các khoản phí chi tiết cho hóa đơn trên
+                java.util.List<com.example.quanlycudan_utehome.data.entity.InvoiceItem> items = new java.util.ArrayList<>();
+
+                // Phí điện
+                com.example.quanlycudan_utehome.data.entity.InvoiceItem electric = new com.example.quanlycudan_utehome.data.entity.InvoiceItem();
+                electric.invoiceId = inv1.id;
+                electric.serviceType = "ELECTRIC";
+                electric.amount = 472500;
+                electric.oldIndex = 1245;
+                electric.newIndex = 1380;
+                electric.consumption = 135;
+                electric.unitPrice = 3500;
+                items.add(electric);
+
+                // Phí nước
+                com.example.quanlycudan_utehome.data.entity.InvoiceItem water = new com.example.quanlycudan_utehome.data.entity.InvoiceItem();
+                water.invoiceId = inv1.id;
+                water.serviceType = "WATER";
+                water.amount = 270000;
+                water.oldIndex = 120;
+                water.newIndex = 135;
+                water.consumption = 15;
+                water.unitPrice = 18000;
+                items.add(water);
+
+                db.paymentDao().insertInvoiceItems(items);
+
+                // 2. Tạo 1 Lịch sử giao dịch ĐÃ THANH TOÁN (cho tháng 9)
+                com.example.quanlycudan_utehome.data.entity.Invoice invOld = new com.example.quanlycudan_utehome.data.entity.Invoice(
+                        "INV-092023-1205", "1", "09/2023", 1500000, "15/10/2023", "PAID"
+                );
+                db.paymentDao().insertInvoice(invOld);
+
+                com.example.quanlycudan_utehome.data.entity.TransactionHistory history = new com.example.quanlycudan_utehome.data.entity.TransactionHistory(
+                        "#PMH092310", invOld.id, "Ví MoMo", "10/09/2023 - 10:15", 1500000, "SUCCESS"
+                );
+                db.paymentDao().insertTransaction(history);
+            }
+        }).start();
+    }
+
 }

@@ -23,4 +23,13 @@
     <color name="home_text_secondary">#7A87A0</color>
     <color name="home_border_color">#E8ECEF</color>
     <color name="home_icon_bg">#FFFFFF</color>
+
+    <!-- Payment History -->
+    <color name="payment_success_bg">#EAF8ED</color>
+    <color name="payment_success_text">#34C759</color>
+    <color name="payment_amount_color">#FF784A</color>
+    <color name="payment_card_border">#E0E4E8</color>
+    <color name="payment_apartment_bg">#FFF5F0</color>
+    <color name="payment_apartment_title">#FF784A</color>
+    <color name="payment_section_title">#7A87A0</color>
 </resources>
