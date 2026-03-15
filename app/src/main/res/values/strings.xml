@@ -1,3 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">QuanLyCuDan_UTEHome</string>
+    <string name="login_brand_name">UTEHome</string>
+    <string name="login_title">&#272;&#259;ng nh&#7853;p t&#224;i kho&#7843;n</string>
+    <string name="login_subtitle">Vui l&#242;ng nh&#7853;p th&#244;ng tin c&#7911;a b&#7841;n &#273;&#7875; truy c&#7853;p ti&#7879;n &#237;ch c&#432; d&#226;n.</string>
+    <string name="login_phone_label">S&#7889; &#273;i&#7879;n tho&#7841;i</string>
+    <string name="login_phone_hint">09xx xxx xxx</string>
+    <string name="login_password_label">M&#7853;t kh&#7849;u</string>
+    <string name="login_password_hint">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</string>
+    <string name="login_forgot_password">Qu&#234;n m&#7853;t kh&#7849;u?</string>
+    <string name="login_button">&#272;&#259;ng nh&#7853;p</string>
+    <string name="login_sign_up_prefix">B&#7841;n ch&#432;a c&#243; t&#224;i kho&#7843;n c&#432; d&#226;n? </string>
+    <string name="login_sign_up_link">&#272;&#259;ng k&#253;</string>
+    <string name="login_toggle_password">Hi&#7875;n th&#7883; m&#7853;t kh&#7849;u</string>
+    <string name="register_title">&#272;&#259;ng k&#253; t&#224;i kho&#7843;n</string>
+    <string name="register_desc_full">&#272;&#7875; &#273;&#7843;m b&#7843;o t&#237;nh b&#7843;o m&#7853;t v&#224; x&#225;c th&#7921;c c&#432; d&#226;n, vui l&#242;ng li&#234;n h&#7879; tr&#7921;c ti&#7871;p v&#7899;i Ban qu&#7843;n l&#253; chung c&#432; &#273;&#7875; &#273;&#432;&#7907;c h&#7895; tr&#7907; &#273;&#259;ng k&#253; t&#224;i kho&#7843;n.</string>
+    <string name="register_desc_bold">Ban qu&#7843;n l&#253; chung c&#432;</string>
+    <string name="register_contact_button">Li&#234;n h&#7879; Ban qu&#7843;n l&#253;</string>
+    <string name="forgot_title">Qu&#234;n m&#7853;t kh&#7849;u</string>
+    <string name="forgot_subtitle">Vui l&#242;ng nh&#7853;p s&#7889; &#273;i&#7879;n tho&#7841;i &#273;&#227; &#273;&#259;ng k&#253; &#273;&#7875; nh&#7853;n m&#227; x&#225;c th&#7921;c &#273;&#7863;t l&#7841;i m&#7853;t kh&#7849;u.</string>
+    <string name="forgot_phone_label">S&#7889; &#273;i&#7879;n tho&#7841;i</string>
+    <string name="forgot_phone_hint">Nh&#7853;p s&#7889; &#273;i&#7879;n tho&#7841;i</string>
+    <string name="forgot_otp_note">Ch&#250;ng t&#244;i s&#7869; g&#7917;i m&#227; OTP &#273;&#7871;n s&#7889; &#273;i&#7879;n tho&#7841;i n&#224;y.</string>
+    <string name="forgot_send_button">G&#7917;i m&#227; x&#225;c th&#7921;c</string>
+    <string name="forgot_back_to_login">Quay l&#7841;i &#273;&#259;ng nh&#7853;p</string>
+    <string name="forgot_error_empty_phone">Vui l&#242;ng nh&#7853;p s&#7889; &#273;i&#7879;n tho&#7841;i</string>
+    <string name="forgot_otp_sent">&#272;&#227; g&#7917;i m&#227; OTP!</string>
+    <string name="otp_title">X&#225;c th&#7921;c m&#227; OTP</string>
+    <string name="otp_subtitle">Vui l&#242;ng nh&#7853;p m&#227; OTP g&#7891;m 6 ch&#7919; s&#7889; &#273;&#227;\n&#273;&#432;&#7907;c g&#7917;i &#273;&#7871;n s&#7889; &#273;i&#7879;n tho&#7841;i c&#7911;a b&#7841;n.</string>
+    <string name="otp_not_received">B&#7841;n ch&#432;a nh&#7853;n &#273;&#432;&#7907;c m&#227;?</string>
+    <string name="otp_resend_timer_initial">G&#7917;i l&#7841;i m&#227; sau 01:00</string>
+    <string name="otp_resend_timer">G&#7917;i l&#7841;i m&#227; sau 00:%02d</string>
+    <string name="otp_resend_now">G&#7917;i l&#7841;i m&#227; ngay</string>
+    <string name="otp_sent_again">&#272;&#227; g&#7917;i l&#7841;i m&#227; OTP</string>
+    <string name="otp_confirm_button">X&#225;c nh&#7853;n</string>
+    <string name="otp_change_phone">Thay &#273;&#7893;i s&#7889; &#273;i&#7879;n tho&#7841;i</string>
+    <string name="otp_error_incomplete">Vui l&#242;ng nh&#7853;p &#273;&#7911; 6 s&#7889;</string>
+    <string name="otp_success">X&#225;c th&#7921;c th&#224;nh c&#244;ng!</string>
+    <string name="reset_title">T&#7841;o m&#7853;t kh&#7849;u m&#7899;i</string>
+    <string name="reset_subtitle">Vui l&#242;ng t&#7841;o m&#7853;t kh&#7849;u m&#7899;i &#273;&#7875; b&#7843;o v&#7879; t&#224;i kho&#7843;n c&#7911;a b&#7841;n.</string>
+    <string name="reset_password_label">M&#7852;T KH&#7848;U M&#7898;I</string>
+    <string name="reset_password_hint">Nh&#7853;p m&#7853;t kh&#7849;u</string>
+    <string name="reset_confirm_password_label">X&#193;C NH&#7852;N M&#7852;T KH&#7848;U</string>
+    <string name="reset_confirm_password_hint">X&#225;c nh&#7853;n l&#7841;i m&#7853;t kh&#7849;u</string>
+    <string name="reset_password_info">M&#7853;t kh&#7849;u ph&#7843;i bao g&#7891;m &#237;t nh&#7845;t 8 k&#253; t&#7921;, bao g&#7891;m ch&#7919; c&#225;i v&#224; s&#7889;.</string>
+    <string name="reset_button">X&#225;c nh&#7853;n</string>
+    <string name="reset_error_empty">Vui l&#242;ng nh&#7853;p m&#7853;t kh&#7849;u m&#7899;i</string>
+    <string name="reset_error_short">M&#7853;t kh&#7849;u ph&#7843;i t&#7915; 8 k&#253; t&#7921; tr&#7903; l&#234;n</string>
+    <string name="reset_error_mismatch">M&#7853;t kh&#7849;u x&#225;c nh&#7853;n kh&#244;ng kh&#7899;p</string>
+    <string name="reset_success">&#272;&#7893;i m&#7853;t kh&#7849;u th&#224;nh c&#244;ng!</string>
+    <string name="success_title">&#272;&#7893;i m&#7853;t kh&#7849;u th&#224;nh\nc&#244;ng</string>
+    <string name="success_subtitle">M&#7853;t kh&#7849;u c&#7911;a b&#7841;n &#273;&#227; &#273;&#432;&#7907;c c&#7853;p nh&#7853;t.\nVui l&#242;ng &#273;&#259;ng nh&#7853;p l&#7841;i v&#7899;i m&#7853;t kh&#7849;u\nm&#7899;i &#273;&#7875; ti&#7871;p t&#7909;c s&#7917; d&#7909;ng &#7913;ng d&#7909;ng.</string>
+    <string name="success_login_button">&#272;&#259;ng nh&#7853;p ngay</string>
+
+    <string name="home_greeting">Xin chào,</string>
+    <string name="home_user_name">Anh Tuấn</string>
+    <string name="home_your_apartment">Căn hộ của bạn</string>
+    <string name="home_see_details">Chi tiết &gt;</string>
+    <string name="home_apartment_name">P.1205, Tòa S1</string>
+    <string name="home_apartment_status">Trạng thái: Đang ở</string>
+    <string name="home_financial_status">Tình hình tài chính</string>
+    <string name="home_no_bill">Chưa có hóa đơn</string>
+    <string name="home_financial_desc">Bạn đã thanh toán đầy đủ các khoản phí\ntháng này.</string>
+    <string name="home_quick_services">Dịch vụ nhanh</string>
+    <string name="home_service_repair">Sửa chữa</string>
+    <string name="home_service_cleaning">Chuyển đồ</string>
+    <string name="home_service_history">Lịch sử TT</string>
+    <string name="home_service_vehicle">Phương tiện</string>
+    <string name="home_service_access_card">Thẻ ra vào</string>
+    <string name="home_offers_events">Ưu đãi &amp; Sự kiện</string>
+    <string name="home_tag_event">SỰ KIỆN</string>
+    <string name="home_event_title">Lễ hội mùa hè 2024</string>
+    <string name="home_event_time">15/08/2024 - Công viên trung tâm</string>
+    <string name="home_tag_offer">ƯU ĐÃI</string>
+    <string name="home_offer_title">Giảm 20% phí</string>
+    <string name="home_offer_time">Hết hạn trong</string>
+    <string name="home_nav_home">Trang chủ</string>
+    <string name="home_nav_utilities">Tiện ích</string>
+    <string name="home_nav_notification">Thông báo</string>
+    <string name="home_nav_profile">Cá nhân</string>
+
+    <!-- Apartment Info Screen -->
+    <string name="apartment_info_title">Thông tin căn hộ</string>
+    <string name="apartment_info_tag_living">Đang ở</string>
+    <string name="apartment_info_area">120m²</string>
+    <string name="apartment_info_section_details">CHI TIẾT CĂN HỘ</string>
+    <string name="apartment_info_code_label">Mã căn hộ</string>
+    <string name="apartment_info_building_label">Tòa nhà</string>
+    <string name="apartment_info_floor_label">Tầng</string>
+    <string name="apartment_info_area_label">Diện tích</string>
+    <string name="apartment_info_owner_label">Chủ hộ</string>
+    <string name="apartment_info_status_label">Tình trạng</string>
+    <string name="apartment_info_status_value">Đã bàn giao</string>
+    <string name="apartment_info_member_button">Thành viên</string>
+    
+    <string name="apartment_info_section_members">THÀNH VIÊN GIA ĐÌNH</string>
+    <string name="apartment_info_add_new">+ Thêm mới</string>
+    
+    <string name="apartment_member_wife">Lê Thị Mai</string>
+    <string name="apartment_member_wife_role">Vợ • Cư dân chính thức</string>
+    <string name="apartment_member_son">Nguyễn Anh Minh</string>
+    <string name="apartment_member_son_role">Con • Cư dân chính thức</string>
+    <string name="apartment_member_maid">Trần Văn Thành</string>
+    <string name="apartment_member_maid_role">Giúp việc • Thẻ tạm trú</string>
+
+    <!-- Invoice Flow -->
+    <string name="invoice_title">Hóa đơn</string>
+    <string name="invoice_month">Tháng 10/2023</string>
+    <string name="invoice_electric">Tiền điện</string>
+    <string name="invoice_water">Tiền nước</string>
+    <string name="invoice_parking">Phí gửi xe</string>
+    <string name="invoice_internet">Internet</string>
+    <string name="invoice_unpaid">Chưa thanh toán</string>
+    <string name="invoice_total_label">Tổng cộng</string>
+    <string name="invoice_total_payment">TỔNG THANH TOÁN</string>
+    <string name="invoice_btn_pay">Thanh toán</string>
+    <string name="invoice_electric_old">Chỉ số cũ: 1.245</string>
+    <string name="invoice_electric_new">Chỉ số mới: 1.380</string>
+    <string name="invoice_electric_consumed">Tiêu thụ: 135 kWh</string>
+    <string name="invoice_electric_price">Đơn giá: 3.500đ</string>
+    <string name="invoice_electric_total">472.500đ</string>
+    <string name="invoice_water_old">Chỉ số cũ: 120</string>
+    <string name="invoice_water_new">Chỉ số mới: 135</string>
+    <string name="invoice_water_consumed">Tiêu thụ: 15 m3</string>
+    <string name="invoice_water_price">Đơn giá: 18.000đ</string>
+    <string name="invoice_water_total">270.000đ</string>
+    <string name="invoice_parking_month">Tháng 10/2023</string>
+    <string name="invoice_parking_car">Ô tô (01 xe):</string>
+    <string name="invoice_parking_car_price">1.000.000đ</string>
+    <string name="invoice_parking_moto">Xe máy (02 xe):</string>
+    <string name="invoice_parking_moto_price">200.000đ</string>
+    <string name="invoice_parking_total">1.200.000đ</string>
+    <string name="invoice_internet_pkg">Gói Home Combo 2</string>
+    <string name="invoice_internet_speed">Tốc độ: 150 Mbps</string>
+    <string name="invoice_internet_total">350.000đ</string>
+    <string name="invoice_sum_total">2.292.500đ</string>
+
+    <!-- Payment Confirmation -->
+    <string name="payment_confirm_title">Xác nhận thanh toán</string>
+    <string name="payment_confirm_detail">Chi tiết hóa đơn</string>
+    <string name="payment_confirm_method">PHƯƠNG THỨC THANH TOÁN</string>
+    <string name="payment_confirm_momo">Ví điện tử MoMo</string>
+    <string name="payment_confirm_card">Thẻ ngân hàng</string>
+    <string name="payment_confirm_transfer">Chuyển khoản</string>
+    <string name="payment_confirm_subtotal">Tạm tính</string>
+    <string name="payment_confirm_fee">Phí dịch vụ</string>
+    <string name="payment_confirm_fee_free">Miễn phí</string>
+    <string name="payment_confirm_btn_confirm">Xác nhận thanh toán</string>
+
+    <!-- Payment Success -->
+    <string name="payment_success_title">Thanh toán thành công!</string>
+    <string name="payment_success_desc">Giao dịch của bạn đã được thực hiện thành công. Cảm ơn bạn đã sử dụng dịch vụ.</string>
+    <string name="payment_success_tx_code">MÃ GIAO DỊCH</string>
+    <string name="payment_success_tx_code_val">#ST123456789</string>
+    <string name="payment_success_time">Thời gian</string>
+    <string name="payment_success_time_val">10:45 - 25/10/2023</string>
+    <string name="payment_success_method">Phương thức</string>
+    <string name="payment_success_method_val">Ví MoMo</string>
+    <string name="payment_success_total">Tổng thanh toán</string>
+    <string name="payment_success_btn_home">Về trang chủ</string>
+
+    <!-- Add Member Activity -->
+    <string name="add_member_title">Thêm thành viên</string>
+    <string name="add_member_upload_photo">Nhấn để tải ảnh lên</string>
+    <string name="add_member_full_name_label">Họ và tên *</string>
+    <string name="add_member_full_name_hint">Nhập họ và tên</string>
+    <string name="add_member_gender_label">Giới tính</string>
+    <string name="add_member_id_type_label">Loại giấy tờ</string>
+    <string name="add_member_id_number_label">Số định danh</string>
+    <string name="add_member_id_number_hint">Nhập số định danh</string>
+    <string name="add_member_relationship_label">Quan hệ với chủ hộ *</string>
+    <string name="add_member_dob_label">Ngày sinh</string>
+    <string name="add_member_phone_label">Số điện thoại</string>
+    <string name="add_member_save_button">Lưu thông tin</string>
+    <string name="add_member_country_code">+84</string>
+
+    <!-- Gender Options -->
+    <string-array name="gender_options">
+        <item>Nam</item>
+        <item>Nữ</item>
+        <item>Khác</item>
+    </string-array>
+
+
+
 </resources>
