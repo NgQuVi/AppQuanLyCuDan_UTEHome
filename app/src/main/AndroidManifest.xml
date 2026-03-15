@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyCuDan_UTEHome">
         <activity
-            android:name=".feature.auth.login.LoginActivity"
+
+            android:name=".feature.apartment.ApartmentInfoActivity"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,8 +40,20 @@
         <activity
             android:name=".feature.auth.reset.PasswordSuccessActivity"
             android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".feature.apartment.ApartmentInfoActivity"-->
+<!--            android:exported="false" />-->
         <activity
-            android:name=".feature.apartment.ApartmentInfoActivity"
+            android:name=".feature.member.MemberDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.invoice.InvoiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.invoice.PaymentConfirmationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.invoice.PaymentSuccessActivity"
             android:exported="false" />
         <activity
             android:name=".feature.payment.PaymentHistoryActivity"
