@@ -25,5 +25,10 @@ public class MainActivity extends AppCompatActivity {
             android.content.Intent intent = new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.apartment.ApartmentInfoActivity.class);
             startActivity(intent);
         });
+
+        findViewById(R.id.cardFinancial).setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.invoice.InvoiceActivity.class);
+            startActivity(intent);
+        });
     }
 }
