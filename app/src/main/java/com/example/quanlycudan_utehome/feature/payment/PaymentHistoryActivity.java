@@ -27,12 +27,12 @@ public class PaymentHistoryActivity extends AppCompatActivity {
 
         ImageView ivBack = findViewById(R.id.ivBack);
         ivBack.setOnClickListener(v -> finish());
-        
+
         // Handle click on payment card to open details
         findViewById(R.id.cardOct).setOnClickListener(v -> openTransactionDetail());
         findViewById(R.id.cardSep).setOnClickListener(v -> openTransactionDetail());
     }
-    
+
     private void openTransactionDetail() {
         android.content.Intent intent = new android.content.Intent(this, TransactionDetailActivity.class);
         startActivity(intent);
