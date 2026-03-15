@@ -17,6 +17,5 @@ public class Resident {
     public String gender;
     public String idType;
     public String idNum;
-    public String password;
     public String avatarUrl;
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.quanlycudan_utehome.data.entity.Apartment;
 import com.example.quanlycudan_utehome.data.entity.ApartmentMember;
 import com.example.quanlycudan_utehome.data.entity.Resident;
+import com.example.quanlycudan_utehome.data.entity.Account;
 
 public class DatabaseInitializer {
 
@@ -13,6 +14,9 @@ public class DatabaseInitializer {
 
         // Chèn dữ liệu vào bảng Resident (5 cư dân)
         insertSampleResidents(db);
+
+        // Chèn dữ liệu vào bảng Account (tài khoản đăng nhập)
+        insertSampleAccounts(db);
 
         // Chèn dữ liệu vào bảng Apartment (5 căn hộ)
         insertSampleApartments(db);
@@ -36,7 +40,6 @@ public class DatabaseInitializer {
                 resident1.gender = "Nam";
                 resident1.idType = "CCCD / CMND";
                 resident1.idNum = "012345678910";
-                resident1.password = "12345678";
                 resident1.avatarUrl = "https://via.placeholder.com/150?text=Tuan";
 
                 Resident resident2 = new Resident();
@@ -60,6 +63,20 @@ public class DatabaseInitializer {
                 db.residentDao().insert(resident3);
                 db.residentDao().insert(resident4);
                 db.residentDao().insert(resident5);
+            }
+        }).start();
+    }
+
+    private static void insertSampleAccounts(AppDatabase db) {
+        new Thread(() -> {
+            // Kiểm tra xem đã có dữ liệu chưa
+            if (db.accountDao().checkPhoneExists("0901234567") == 0) {
+                // Giả định residentId = 1 tương ứng với resident1 đã tạo
+                Account account1 = new Account(1, "0901234567", "12345678");
+                db.accountDao().insert(account1);
+                
+                // Các resident khác chưa có sdt trong sample thì không tạo account, 
+                // hoặc tạo random. Ở đây tao account1 cho resident1 để test login.
             }
         }).start();
     }
