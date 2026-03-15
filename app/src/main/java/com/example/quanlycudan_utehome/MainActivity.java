@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Initialize sample data if empty
+        com.example.quanlycudan_utehome.data.database.DatabaseInitializer.initializeSampleData(this);
+
         findViewById(R.id.cardApartment).setOnClickListener(v -> {
             android.content.Intent intent = new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.apartment.ApartmentInfoActivity.class);
             startActivity(intent);

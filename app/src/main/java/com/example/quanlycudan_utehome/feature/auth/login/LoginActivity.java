@@ -99,5 +99,8 @@ public class LoginActivity extends AppCompatActivity {
             view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Initialize sample data if empty
+        com.example.quanlycudan_utehome.data.database.DatabaseInitializer.initializeSampleData(this);
     }
 }

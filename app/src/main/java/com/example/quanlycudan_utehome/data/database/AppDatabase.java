@@ -8,10 +8,14 @@ import androidx.room.RoomDatabase;
 
 import com.example.quanlycudan_utehome.data.dao.ApartmentDao;
 import com.example.quanlycudan_utehome.data.dao.ApartmentMemberDao;
+import com.example.quanlycudan_utehome.data.dao.PaymentDao;
 import com.example.quanlycudan_utehome.data.dao.ResidentDao;
 import com.example.quanlycudan_utehome.data.entity.Apartment;
 import com.example.quanlycudan_utehome.data.entity.ApartmentMember;
+import com.example.quanlycudan_utehome.data.entity.Invoice;
+import com.example.quanlycudan_utehome.data.entity.InvoiceItem;
 import com.example.quanlycudan_utehome.data.entity.Resident;
+import com.example.quanlycudan_utehome.data.entity.TransactionHistory;
 
 @Database(entities = { Apartment.class,
         Resident.class,
@@ -19,12 +23,13 @@ import com.example.quanlycudan_utehome.data.entity.Resident;
         Invoice.class,
         InvoiceItem.class,
         TransactionHistory.class
-}, version = 2, exportSchema = false)
+}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ApartmentDao apartmentDao();
     public abstract ResidentDao residentDao();
     public abstract ApartmentMemberDao apartmentMemberDao();
+    public abstract PaymentDao paymentDao();
     private static AppDatabase instance;
 
     public static synchronized AppDatabase getInstance(Context context){
