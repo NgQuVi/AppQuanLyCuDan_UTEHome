@@ -199,4 +199,33 @@
     <string name="payment_success_total">Tổng thanh toán</string>
     <string name="payment_success_btn_home">Về trang chủ</string>
 
+    <!-- Profile Screen -->
+    <string name="profile_title">Thông tin người dùng</string>
+    <string name="profile_section_info">Hồ sơ cá nhân</string>
+    <string name="profile_code_label">MÃ CƯ DÂN</string>
+    <string name="profile_name_label">HỌ VÀ TÊN</string>
+    <string name="profile_dob_label">NGÀY SINH</string>
+    <string name="profile_phone_label">SỐ ĐIỆN THOẠI</string>
+    <string name="profile_gender_label">GIỚI TÍNH</string>
+    <string name="profile_id_type_label">LOẠI GIẤY TỜ</string>
+    <string name="profile_id_num_label">SỐ CMND/CCCD/HC</string>
+    <string name="profile_email_label">EMAIL</string>
+    <string name="profile_btn_edit">Chỉnh sửa thông tin</string>
+    <string name="profile_security_note">Thông tin của bạn được bảo mật theo tiêu chuẩn quốc tế ISO 27001.</string>
+
+    <!-- Edit Profile Screen -->
+    <string name="edit_profile_title">Chỉnh sửa thông tin</string>
+    <string name="edit_profile_avatar_label">Ảnh đại diện</string>
+    <string name="edit_profile_avatar_hint">Nhấn để thay đổi</string>
+    <string name="edit_profile_name_label">Họ và tên *</string>
+    <string name="edit_profile_phone_label">Số điện thoại *</string>
+    <string name="edit_profile_phone_hint">Liên hệ Ban quản lý để thay đổi số điện thoại định danh</string>
+    <string name="edit_profile_email_label">Email</string>
+    <string name="edit_profile_dob_label">Ngày sinh</string>
+    <string name="edit_profile_gender_label">Giới tính</string>
+    <string name="edit_profile_id_type_label">Loại giấy tờ</string>
+    <string name="edit_profile_id_num_label">Số giấy tờ *</string>
+    <string name="edit_profile_security_note">Thông tin của quý cư dân được bảo mật tuyệt đối theo tiêu chuẩn quốc tế và chỉ sử dụng cho mục đích quản lý vận hành toà nhà.</string>
+    <string name="edit_profile_btn_save">Lưu thay đổi</string>
+
 </resources>

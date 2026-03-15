@@ -28,7 +28,14 @@ public class DatabaseInitializer {
             // Kiểm tra xem đã có dữ liệu chưa
             if (db.residentDao().getAllResidents().isEmpty()) {
                 Resident resident1 = new Resident();
-                resident1.fullName = "Nguyễn Anh Tuấn";
+                resident1.residentCode = "RES12345";
+                resident1.fullName = "Nguyễn Văn An";
+                resident1.phone = "0901234567";
+                resident1.email = "an.nguyen@email.com";
+                resident1.dob = "15/05/1990";
+                resident1.gender = "Nam";
+                resident1.idType = "CCCD / CMND";
+                resident1.idNum = "012345678910";
                 resident1.avatarUrl = "https://via.placeholder.com/150?text=Tuan";
 
                 Resident resident2 = new Resident();

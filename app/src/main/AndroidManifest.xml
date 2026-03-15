@@ -12,18 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyCuDan_UTEHome">
         <activity
-
-            android:name=".feature.apartment.ApartmentInfoActivity"
-
+            android:name=".feature.auth.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.apartment.ApartmentInfoActivity"
             android:exported="false" />
         <activity
             android:name=".feature.auth.register.RegisterActivity"
@@ -54,6 +54,12 @@
             android:exported="false" />
         <activity
             android:name=".feature.invoice.PaymentSuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.profile.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.profile.EditProfileActivity"
             android:exported="false" />
         <activity
             android:name=".feature.payment.PaymentHistoryActivity"
