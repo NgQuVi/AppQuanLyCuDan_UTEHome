@@ -1,62 +1,81 @@
 package com.example.quanlycudan_utehome.feature.auth.service;
 
-import com.example.quanlycudan_utehome.feature.auth.model.User;
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.example.quanlycudan_utehome.data.database.AppDatabase;
+import com.example.quanlycudan_utehome.data.entity.Resident;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AuthService {
 
     private static AuthService instance;
+    private final AppDatabase db;
+    private final ExecutorService executorService;
 
-    // Simulate a database of users
-    private final Map<String, User> mockDatabase;
-
-    private AuthService() {
-        mockDatabase = new HashMap<>();
-        // Create 1 default test account: Phone: 0901234567, Pass: 12345678
-        mockDatabase.put("0901234567", new User("0901234567", "12345678"));
+    public interface AuthCallback<T> {
+        void onResult(T result);
     }
 
-    public static synchronized AuthService getInstance() {
+    private AuthService(Context context) {
+        db = AppDatabase.getInstance(context);
+        executorService = Executors.newSingleThreadExecutor();
+    }
+
+    public static synchronized AuthService getInstance(Context context) {
         if (instance == null) {
-            instance = new AuthService();
+            instance = new AuthService(context.getApplicationContext());
         }
         return instance;
     }
 
     /**
      * Attempts to log in with a phone number and password.
-     * @return true if successful, false if not found or wrong password.
+     * Returns the resident's ID upon success, or -1 if failed.
      */
-    public boolean login(String phone, String password) {
-        User user = mockDatabase.get(phone);
-        if (user != null) {
-            // In a real app we would use hashed password verification (e.g. BCrypt)
-            return user.getPassword().equals(password);
-        }
-        return false;
+    public void login(String phone, String password, AuthCallback<Integer> callback) {
+        executorService.execute(() -> {
+            Resident resident = db.residentDao().getResidentByPhone(phone);
+            int loggedInId = -1;
+            if (resident != null && resident.password != null) {
+                // In a real app we would use hashed password verification (e.g. BCrypt)
+                if (resident.password.equals(password)) {
+                    loggedInId = resident.id;
+                }
+            }
+            int finalId = loggedInId;
+            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(finalId));
+        });
     }
 
     /**
-     * Checks if a phone number exists in our mock database.
+     * Checks if a phone number exists in our Room database.
      * Useful for the "Forgot Password" flow.
      */
-    public boolean checkPhoneExists(String phone) {
-        return mockDatabase.containsKey(phone);
+    public void checkPhoneExists(String phone, AuthCallback<Boolean> callback) {
+        executorService.execute(() -> {
+            int count = db.residentDao().checkPhoneExists(phone);
+            boolean exists = count > 0;
+            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(exists));
+        });
     }
 
     /**
-     * Updates the password for a given phone number.
-     * @return true if successful, false if the phone doesn't exist.
+     * Updates the password for a given phone number in DB.
      */
-    public boolean updatePassword(String phone, String newPassword) {
-        User user = mockDatabase.get(phone);
-        if (user != null) {
-            user.setPassword(newPassword);
-            // In a real app we would also update this in DB
-            return true;
-        }
-        return false;
+    public void updatePassword(String phone, String newPassword, AuthCallback<Boolean> callback) {
+        executorService.execute(() -> {
+            int count = db.residentDao().checkPhoneExists(phone);
+            boolean success = false;
+            if (count > 0) {
+                db.residentDao().updatePassword(phone, newPassword);
+                success = true;
+            }
+            boolean finalSuccess = success;
+            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(finalSuccess));
+        });
     }
 }

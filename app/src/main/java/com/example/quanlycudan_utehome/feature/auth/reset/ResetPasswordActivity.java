@@ -77,11 +77,18 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 edtConfirmPassword.requestFocus();
             } else {
                 if (phone != null) {
-                    com.example.quanlycudan_utehome.feature.auth.service.AuthService.getInstance().updatePassword(phone, newPw);
+                    com.example.quanlycudan_utehome.feature.auth.service.AuthService.getInstance(this).updatePassword(phone, newPw, success -> {
+                        if (success) {
+                            Intent intent = new Intent(this, PasswordSuccessActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(this, "Cập nhật mật khẩu thất bại", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(this, "Lỗi, không tìm thấy số điện thoại", Toast.LENGTH_SHORT).show();
                 }
-                Intent intent = new Intent(this, PasswordSuccessActivity.class);
-                startActivity(intent);
-                finish();
             }
         });
 

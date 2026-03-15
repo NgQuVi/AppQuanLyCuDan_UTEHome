@@ -57,7 +57,9 @@ public class EditProfileActivity extends AppCompatActivity {
     private void loadUserProfileForEditing() {
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase db = AppDatabase.getInstance(this);
-            Resident user = db.residentDao().getResidentById(1);
+            int residentId = com.example.quanlycudan_utehome.data.local.SessionManager.getInstance(this).getResidentId();
+            if (residentId == -1) return;
+            Resident user = db.residentDao().getResidentById(residentId);
 
             if (user != null) {
                 runOnUiThread(() -> {
@@ -79,7 +81,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase db = AppDatabase.getInstance(this);
-            Resident user = db.residentDao().getResidentById(1);
+            int residentId = com.example.quanlycudan_utehome.data.local.SessionManager.getInstance(this).getResidentId();
+            if (residentId == -1) return;
+            Resident user = db.residentDao().getResidentById(residentId);
 
             if (user != null) {
                 user.email = newEmail;

@@ -49,8 +49,9 @@ public class ProfileActivity extends AppCompatActivity {
     private void loadUserProfile() {
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase db = AppDatabase.getInstance(this);
-            // Defaulting to user ID 1 as per requirements
-            Resident user = db.residentDao().getResidentById(1);
+            int residentId = com.example.quanlycudan_utehome.data.local.SessionManager.getInstance(this).getResidentId();
+            if (residentId == -1) return;
+            Resident user = db.residentDao().getResidentById(residentId);
 
             if (user != null) {
                 runOnUiThread(() -> {

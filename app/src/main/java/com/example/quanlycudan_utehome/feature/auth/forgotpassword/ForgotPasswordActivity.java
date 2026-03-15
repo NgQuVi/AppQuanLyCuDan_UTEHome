@@ -34,18 +34,19 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 edtPhone.setError(getString(R.string.forgot_error_empty_phone));
                 edtPhone.requestFocus();
             } else {
-                boolean exists = com.example.quanlycudan_utehome.feature.auth.service.AuthService.getInstance().checkPhoneExists(phone);
-                if (exists) {
-                    com.example.quanlycudan_utehome.feature.auth.service.OtpService.getInstance().generateOtp(phone);
-                    Toast.makeText(this,
-                            getString(R.string.forgot_otp_sent),
-                            Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(this, OtpVerificationActivity.class);
-                    intent.putExtra("PHONE", phone);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(this, "Số điện thoại không tồn tại", Toast.LENGTH_SHORT).show();
-                }
+                com.example.quanlycudan_utehome.feature.auth.service.AuthService.getInstance(this).checkPhoneExists(phone, exists -> {
+                    if (exists) {
+                        com.example.quanlycudan_utehome.feature.auth.service.OtpService.getInstance().generateOtp(phone);
+                        Toast.makeText(this,
+                                getString(R.string.forgot_otp_sent),
+                                Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, OtpVerificationActivity.class);
+                        intent.putExtra("PHONE", phone);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(this, "Số điện thoại không tồn tại", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
