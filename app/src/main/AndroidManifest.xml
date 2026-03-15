@@ -56,6 +56,12 @@
             android:name=".feature.invoice.PaymentSuccessActivity"
             android:exported="false" />
         <activity
+            android:name=".feature.profile.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.profile.EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.payment.PaymentHistoryActivity"
             android:exported="false" />
         <activity
