@@ -46,6 +46,15 @@
         <activity
             android:name=".feature.member.MemberDetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".feature.invoice.InvoiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.invoice.PaymentConfirmationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.invoice.PaymentSuccessActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

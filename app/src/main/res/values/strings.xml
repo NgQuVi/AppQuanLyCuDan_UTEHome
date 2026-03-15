@@ -104,17 +104,60 @@
     <string name="apartment_member_maid">Trần Văn Thành</string>
     <string name="apartment_member_maid_role">Giúp việc • Thẻ tạm trú</string>
 
-    <!-- Member Detail Screen -->
-    <string name="member_detail_title">Chi tiết thành viên</string>
-    <string name="member_detail_personal_info">Thông tin cá nhân</string>
-    <string name="member_detail_resident_id">Mã cư dân</string>
-    <string name="member_detail_birth_date">Ngày sinh</string>
-    <string name="member_detail_gender">Giới tính</string>
-    <string name="member_detail_identity">Định danh</string>
-    <string name="member_detail_document_type">Loại giấy tờ</string>
-    <string name="member_detail_document_number">Số định danh</string>
-    <string name="member_detail_contact">Liên hệ</string>
-    <string name="member_detail_phone">Số điện thoại</string>
-    <string name="member_detail_edit_button">Chính sửa thông tin</string>
-    <string name="member_detail_delete_button">Xóa thành viên</string>
+    <!-- Invoice Flow -->
+    <string name="invoice_title">Hóa đơn</string>
+    <string name="invoice_month">Tháng 10/2023</string>
+    <string name="invoice_electric">Tiền điện</string>
+    <string name="invoice_water">Tiền nước</string>
+    <string name="invoice_parking">Phí gửi xe</string>
+    <string name="invoice_internet">Internet</string>
+    <string name="invoice_unpaid">Chưa thanh toán</string>
+    <string name="invoice_total_label">Tổng cộng</string>
+    <string name="invoice_total_payment">TỔNG THANH TOÁN</string>
+    <string name="invoice_btn_pay">Thanh toán</string>
+    <string name="invoice_electric_old">Chỉ số cũ: 1.245</string>
+    <string name="invoice_electric_new">Chỉ số mới: 1.380</string>
+    <string name="invoice_electric_consumed">Tiêu thụ: 135 kWh</string>
+    <string name="invoice_electric_price">Đơn giá: 3.500đ</string>
+    <string name="invoice_electric_total">472.500đ</string>
+    <string name="invoice_water_old">Chỉ số cũ: 120</string>
+    <string name="invoice_water_new">Chỉ số mới: 135</string>
+    <string name="invoice_water_consumed">Tiêu thụ: 15 m3</string>
+    <string name="invoice_water_price">Đơn giá: 18.000đ</string>
+    <string name="invoice_water_total">270.000đ</string>
+    <string name="invoice_parking_month">Tháng 10/2023</string>
+    <string name="invoice_parking_car">Ô tô (01 xe):</string>
+    <string name="invoice_parking_car_price">1.000.000đ</string>
+    <string name="invoice_parking_moto">Xe máy (02 xe):</string>
+    <string name="invoice_parking_moto_price">200.000đ</string>
+    <string name="invoice_parking_total">1.200.000đ</string>
+    <string name="invoice_internet_pkg">Gói Home Combo 2</string>
+    <string name="invoice_internet_speed">Tốc độ: 150 Mbps</string>
+    <string name="invoice_internet_total">350.000đ</string>
+    <string name="invoice_sum_total">2.292.500đ</string>
+
+    <!-- Payment Confirmation -->
+    <string name="payment_confirm_title">Xác nhận thanh toán</string>
+    <string name="payment_confirm_detail">Chi tiết hóa đơn</string>
+    <string name="payment_confirm_method">PHƯƠNG THỨC THANH TOÁN</string>
+    <string name="payment_confirm_momo">Ví điện tử MoMo</string>
+    <string name="payment_confirm_card">Thẻ ngân hàng</string>
+    <string name="payment_confirm_transfer">Chuyển khoản</string>
+    <string name="payment_confirm_subtotal">Tạm tính</string>
+    <string name="payment_confirm_fee">Phí dịch vụ</string>
+    <string name="payment_confirm_fee_free">Miễn phí</string>
+    <string name="payment_confirm_btn_confirm">Xác nhận thanh toán</string>
+
+    <!-- Payment Success -->
+    <string name="payment_success_title">Thanh toán thành công!</string>
+    <string name="payment_success_desc">Giao dịch của bạn đã được thực hiện thành công. Cảm ơn bạn đã sử dụng dịch vụ.</string>
+    <string name="payment_success_tx_code">MÃ GIAO DỊCH</string>
+    <string name="payment_success_tx_code_val">#ST123456789</string>
+    <string name="payment_success_time">Thời gian</string>
+    <string name="payment_success_time_val">10:45 - 25/10/2023</string>
+    <string name="payment_success_method">Phương thức</string>
+    <string name="payment_success_method_val">Ví MoMo</string>
+    <string name="payment_success_total">Tổng thanh toán</string>
+    <string name="payment_success_btn_home">Về trang chủ</string>
+
 </resources>
