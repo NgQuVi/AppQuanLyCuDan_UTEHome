@@ -41,6 +41,15 @@
         <activity
             android:name=".feature.apartment.ApartmentInfoActivity"
             android:exported="false" />
+        <activity
+            android:name=".feature.invoice.InvoiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.invoice.PaymentConfirmationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.invoice.PaymentSuccessActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
