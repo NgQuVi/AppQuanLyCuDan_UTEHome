@@ -29,6 +29,7 @@ public class DatabaseInitializer {
                 resident1.fullName = "Nguyễn Anh Tuấn";
                 resident1.avatarUrl = "https://via.placeholder.com/150?text=Tuan";
 
+
                 Resident resident2 = new Resident();
                 resident2.fullName = "Trần Thị Hương";
                 resident2.avatarUrl = "https://via.placeholder.com/150?text=Huong";

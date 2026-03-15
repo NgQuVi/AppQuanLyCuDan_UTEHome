@@ -19,4 +19,7 @@ public class ResidentRepository {
         new Thread(() -> residentDao.insert(resident)).start();
     }
 
+    public long insertResidentSync(Resident resident) {
+        return residentDao.insert(resident);
+    }
 }

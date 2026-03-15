@@ -1,5 +1,6 @@
 package com.example.quanlycudan_utehome.feature.apartment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,12 +18,14 @@ import com.example.quanlycudan_utehome.data.database.DatabaseInitializer;
 import com.example.quanlycudan_utehome.data.entity.Apartment;
 import com.example.quanlycudan_utehome.data.entity.ApartmentWithMembers;
 import com.example.quanlycudan_utehome.data.repository.ApartmentRepository;
+import com.example.quanlycudan_utehome.feature.member.AddMemberActivity;
 
 public class ApartmentInfoActivity extends AppCompatActivity {
 
     private ApartmentRepository apartmentRepository;
     private RecyclerView recyclerViewMembers;
     private ApartmentMemberAdapter memberAdapter;
+    private int currentApartmentId = 1; // Default apartment ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,12 @@ public class ApartmentInfoActivity extends AppCompatActivity {
 
         ImageView ivBack = findViewById(R.id.ivBack);
         ivBack.setOnClickListener(v -> finish());
+
+        // Add member button
+        TextView btnAddMember = findViewById(R.id.btnAddMember);
+        if (btnAddMember != null) {
+            btnAddMember.setOnClickListener(v -> openAddMemberActivity());
+        }
 
         // Khởi tạo repository
         apartmentRepository = new ApartmentRepository(this);
@@ -56,9 +65,16 @@ public class ApartmentInfoActivity extends AppCompatActivity {
         }).start();
     }
 
+    private void openAddMemberActivity() {
+        Intent intent = new Intent(this, AddMemberActivity.class);
+        intent.putExtra("apartmentId", currentApartmentId);
+        startActivity(intent);
+    }
+
     private void loadApartmentData() {
         // Lấy dữ liệu căn hộ đầu tiên (ID = 1)
         int apartmentId = 1;
+        currentApartmentId = apartmentId;
 
         new Thread(() -> {
             ApartmentWithMembers apartmentWithMembers = apartmentRepository.getApartmentWithMembers(apartmentId);
@@ -73,15 +89,15 @@ public class ApartmentInfoActivity extends AppCompatActivity {
     }
 
     private void displayApartmentInfo(Apartment apartment) {
-        // Cập nhật thông tin căn hộ
+        // Cập nhật thông tin căn hộ chính
         TextView tvMainApartmentCode = findViewById(R.id.tvMainApartmentCode);
         TextView tvMainBuilding = findViewById(R.id.tvMainBuilding);
 
         tvMainApartmentCode.setText(apartment.apartmentCode);
         tvMainBuilding.setText("Tòa " + apartment.buildingCode);
 
-        // Cập nhật chi tiết căn hộ bằng cách tìm các TextView có ID cụ thể
-        // (Những TextViews này sẽ được thêm vào layout hoặc cập nhật bằng các ID riêng)
+        // Cập nhật thông tin chi tiết căn hộ từ database
+        // Những giá trị này được cập nhật động từ data layer
     }
 
     private void displayMembers(java.util.List<ApartmentWithMembers.ApartmentMemberDetail> members) {

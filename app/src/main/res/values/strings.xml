@@ -160,4 +160,28 @@
     <string name="payment_success_total">Tổng thanh toán</string>
     <string name="payment_success_btn_home">Về trang chủ</string>
 
+    <!-- Add Member Activity -->
+    <string name="add_member_title">Thêm thành viên</string>
+    <string name="add_member_upload_photo">Nhấn để tải ảnh lên</string>
+    <string name="add_member_full_name_label">Họ và tên *</string>
+    <string name="add_member_full_name_hint">Nhập họ và tên</string>
+    <string name="add_member_gender_label">Giới tính</string>
+    <string name="add_member_id_type_label">Loại giấy tờ</string>
+    <string name="add_member_id_number_label">Số định danh</string>
+    <string name="add_member_id_number_hint">Nhập số định danh</string>
+    <string name="add_member_relationship_label">Quan hệ với chủ hộ *</string>
+    <string name="add_member_dob_label">Ngày sinh</string>
+    <string name="add_member_phone_label">Số điện thoại</string>
+    <string name="add_member_save_button">Lưu thông tin</string>
+    <string name="add_member_country_code">+84</string>
+
+    <!-- Gender Options -->
+    <string-array name="gender_options">
+        <item>Nam</item>
+        <item>Nữ</item>
+        <item>Khác</item>
+    </string-array>
+
+
+
 </resources>

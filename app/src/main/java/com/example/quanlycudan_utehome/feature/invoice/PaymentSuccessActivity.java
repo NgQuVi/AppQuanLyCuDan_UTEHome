@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quanlycudan_utehome.MainActivity;
@@ -48,19 +49,19 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         if (valTime != null) valTime.setText(sdf.format(new Date()));
 
         // Setup Home Button
-        findViewById(R.id.btnHome).setOnClickListener(v -> {
-            // Navigate back to the home screen, clearing the back stack
-            Intent intent = new Intent(PaymentSuccessActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            finish();
-        });
+        findViewById(R.id.btnHome).setOnClickListener(v -> navigateToHome());
+
+        // Handle back press
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                navigateToHome();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
-    
-    @Override
-    public void onBackPressed() {
-        // Prevent going back to confirmation or invoice screen, redirect to home instead
-        super.onBackPressed();
+
+    private void navigateToHome() {
         Intent intent = new Intent(PaymentSuccessActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);

@@ -53,5 +53,12 @@ public class ApartmentRepository {
         result.members = memberDetails;
         return result;
     }
-}
 
+    public void insertApartmentMember(ApartmentMember member) {
+        new Thread(() -> apartmentMemberDao.insert(member)).start();
+    }
+
+    public void insertApartmentMemberSync(ApartmentMember member) {
+        apartmentMemberDao.insert(member);
+    }
+}

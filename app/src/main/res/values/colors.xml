@@ -21,6 +21,7 @@
     <color name="home_tag_offer_text">#34C759</color>
     <color name="home_text_primary">#1D2A43</color>
     <color name="home_text_secondary">#7A87A0</color>
+    <color name="home_text_hint">#B0B8C8</color>
     <color name="home_border_color">#E8ECEF</color>
     <color name="home_icon_bg">#FFFFFF</color>
 </resources>

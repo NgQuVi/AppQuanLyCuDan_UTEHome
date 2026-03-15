@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+<!--    <uses-permission android:name="android.permission.CAMERA" />-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,7 +18,6 @@
         <activity
 
             android:name=".feature.apartment.ApartmentInfoActivity"
-
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,14 +50,17 @@
             android:name=".feature.member.MemberDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".feature.invoice.InvoiceActivity"
+            android:name=".feature.member.AddMemberActivity"
             android:exported="false" />
-        <activity
-            android:name=".feature.invoice.PaymentConfirmationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".feature.invoice.PaymentSuccessActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".feature.invoice.InvoiceActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".feature.invoice.PaymentConfirmationActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".feature.invoice.PaymentSuccessActivity"-->
+<!--            android:exported="false" />-->
     </application>
 
 </manifest>
