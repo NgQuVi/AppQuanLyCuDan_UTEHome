@@ -3,7 +3,6 @@ package com.example.quanlycudan_utehome.data.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import com.example.quanlycudan_utehome.data.entity.ApartmentMember;
 
@@ -20,7 +19,4 @@ public interface ApartmentMemberDao {
 
     @Query("SELECT * FROM apartment_members")
     List<ApartmentMember> getAllMembers();
-
-    @Update
-    void update(ApartmentMember member);
 }

@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.example.quanlycudan_utehome.data.database.AppDatabase;
-import com.example.quanlycudan_utehome.data.entity.Resident;
+import com.example.quanlycudan_utehome.data.entity.Account;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -38,12 +38,12 @@ public class AuthService {
      */
     public void login(String phone, String password, AuthCallback<Integer> callback) {
         executorService.execute(() -> {
-            Resident resident = db.residentDao().getResidentByPhone(phone);
+            Account account = db.accountDao().getAccountByPhone(phone);
             int loggedInId = -1;
-            if (resident != null && resident.password != null) {
+            if (account != null && account.password != null) {
                 // In a real app we would use hashed password verification (e.g. BCrypt)
-                if (resident.password.equals(password)) {
-                    loggedInId = resident.id;
+                if (account.password.equals(password)) {
+                    loggedInId = account.residentId;
                 }
             }
             int finalId = loggedInId;
@@ -57,7 +57,7 @@ public class AuthService {
      */
     public void checkPhoneExists(String phone, AuthCallback<Boolean> callback) {
         executorService.execute(() -> {
-            int count = db.residentDao().checkPhoneExists(phone);
+            int count = db.accountDao().checkPhoneExists(phone);
             boolean exists = count > 0;
             new Handler(Looper.getMainLooper()).post(() -> callback.onResult(exists));
         });
@@ -68,10 +68,10 @@ public class AuthService {
      */
     public void updatePassword(String phone, String newPassword, AuthCallback<Boolean> callback) {
         executorService.execute(() -> {
-            int count = db.residentDao().checkPhoneExists(phone);
+            int count = db.accountDao().checkPhoneExists(phone);
             boolean success = false;
             if (count > 0) {
-                db.residentDao().updatePassword(phone, newPassword);
+                db.accountDao().updatePassword(phone, newPassword);
                 success = true;
             }
             boolean finalSuccess = success;

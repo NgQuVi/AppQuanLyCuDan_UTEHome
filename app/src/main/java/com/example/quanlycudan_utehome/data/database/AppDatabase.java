@@ -10,8 +10,10 @@ import com.example.quanlycudan_utehome.data.dao.ApartmentDao;
 import com.example.quanlycudan_utehome.data.dao.ApartmentMemberDao;
 import com.example.quanlycudan_utehome.data.dao.PaymentDao;
 import com.example.quanlycudan_utehome.data.dao.ResidentDao;
+import com.example.quanlycudan_utehome.data.dao.AccountDao;
 import com.example.quanlycudan_utehome.data.entity.Apartment;
 import com.example.quanlycudan_utehome.data.entity.ApartmentMember;
+import com.example.quanlycudan_utehome.data.entity.Account;
 import com.example.quanlycudan_utehome.data.entity.Invoice;
 import com.example.quanlycudan_utehome.data.entity.InvoiceItem;
 import com.example.quanlycudan_utehome.data.entity.Resident;
@@ -19,15 +21,17 @@ import com.example.quanlycudan_utehome.data.entity.TransactionHistory;
 
 @Database(entities = { Apartment.class,
         Resident.class,
+        Account.class,
         ApartmentMember.class,
         Invoice.class,
         InvoiceItem.class,
         TransactionHistory.class
-}, version = 4, exportSchema = false)
+}, version = 5, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ApartmentDao apartmentDao();
     public abstract ResidentDao residentDao();
+    public abstract AccountDao accountDao();
     public abstract ApartmentMemberDao apartmentMemberDao();
     public abstract PaymentDao paymentDao();
     private static AppDatabase instance;
