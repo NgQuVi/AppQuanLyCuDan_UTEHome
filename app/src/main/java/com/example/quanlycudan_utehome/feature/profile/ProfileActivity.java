@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView tvResidentName, tvUserNameDisplay, tvResidentCode, tvResidentDob;
+    private TextView tvResidentName, tvUserNameDisplay, tvResidentDob;
     private TextView tvResidentPhone, tvResidentGender, tvResidentIdType, tvResidentIdNum, tvResidentEmail;
 
     @Override
@@ -22,7 +22,6 @@ public class ProfileActivity extends AppCompatActivity {
         // Bind Views
         tvResidentName = findViewById(R.id.tvResidentName);
         tvUserNameDisplay = findViewById(R.id.tvUserNameDisplay);
-        tvResidentCode = findViewById(R.id.tvResidentCode);
         tvResidentDob = findViewById(R.id.tvResidentDob);
         tvResidentPhone = findViewById(R.id.tvResidentPhone);
         tvResidentGender = findViewById(R.id.tvResidentGender);
@@ -57,7 +56,6 @@ public class ProfileActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     tvUserNameDisplay.setText(user.fullName);
                     tvResidentName.setText(user.fullName);
-                    tvResidentCode.setText(user.residentCode != null ? user.residentCode : "--");
                     tvResidentPhone.setText(user.phone != null ? user.phone : "--");
                     tvResidentEmail.setText(user.email != null ? user.email : "--");
                     tvResidentDob.setText(user.dob != null ? user.dob : "--");
