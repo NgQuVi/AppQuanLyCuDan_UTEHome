@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "invoices")
-public class Invoice {
+public class Invoice implements java.io.Serializable{
     @PrimaryKey
     @NonNull
     public String id = "";

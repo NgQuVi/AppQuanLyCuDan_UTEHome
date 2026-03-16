@@ -35,12 +35,12 @@ public interface PaymentDao {
     @Query("UPDATE invoices SET status = 'PAID' WHERE id = :invoiceId")
     void markInvoiceAsPaid(String invoiceId);
 
-    // Thêm 2 phương thức này vào trong interface PaymentDao
+    @Query("SELECT * FROM invoices WHERE id = :invoiceId")
+    LiveData<Invoice> getInvoiceById(String invoiceId);
+
     @Query("SELECT * FROM invoices")
     List<Invoice> getAllInvoices();
 
     @Query("SELECT * FROM transactions WHERE transactionCode = :code")
     LiveData<TransactionHistory> getTransactionByCode(String code);
-
-
 }

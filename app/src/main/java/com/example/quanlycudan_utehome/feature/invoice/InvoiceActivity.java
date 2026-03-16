@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quanlycudan_utehome.R;
+import com.example.quanlycudan_utehome.feature.payment.PaymentHistoryActivity;
 
 public class InvoiceActivity extends AppCompatActivity {
 
@@ -28,6 +29,12 @@ public class InvoiceActivity extends AppCompatActivity {
         // Bind views
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
         
+        // Nút lịch sử chuyển sang PaymentHistoryActivity
+        findViewById(R.id.btnHistory).setOnClickListener(v -> {
+            Intent intent = new Intent(InvoiceActivity.this, PaymentHistoryActivity.class);
+            startActivity(intent);
+        });
+
         cbElec = findViewById(R.id.cbElec);
         cbWater = findViewById(R.id.cbWater);
         cbPark = findViewById(R.id.cbPark);
