@@ -85,6 +85,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvHeaderTotalAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -114,6 +115,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tvTransactionCodeDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/payment_bill_oct_code"
@@ -136,6 +138,7 @@
                     app:layout_constraintTop_toBottomOf="@id/lblCode" />
 
                 <TextView
+                    android:id="@+id/tvTransactionDateDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/payment_bill_oct_date"
@@ -158,6 +161,7 @@
                     app:layout_constraintTop_toBottomOf="@id/lblDate" />
 
                 <TextView
+                    android:id="@+id/tvPaymentMethodDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/payment_bill_oct_method"
@@ -180,6 +184,7 @@
                     app:layout_constraintTop_toBottomOf="@id/lblMethod" />
 
                 <TextView
+                    android:id="@+id/tvApartmentNameDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/payment_apartment_name"
@@ -233,6 +238,7 @@
                     app:layout_constraintTop_toTopOf="@id/icElectric" />
 
                 <TextView
+                    android:id="@+id/tvElectricAmountDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -279,6 +285,7 @@
                     app:layout_constraintTop_toTopOf="@id/icWater" />
 
                 <TextView
+                    android:id="@+id/tvWaterAmountDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -325,6 +332,7 @@
                     app:layout_constraintTop_toTopOf="@id/icParking" />
 
                 <TextView
+                    android:id="@+id/tvParkingAmountDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -371,6 +379,7 @@
                     app:layout_constraintTop_toTopOf="@id/icInternet" />
 
                 <TextView
+                    android:id="@+id/tvInternetAmountDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -414,6 +423,7 @@
                         android:textStyle="bold" />
                         
                     <TextView
+                        android:id="@+id/tvFooterTotalAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/payment_bill_oct_amount"

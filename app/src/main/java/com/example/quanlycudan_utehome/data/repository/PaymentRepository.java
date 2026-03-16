@@ -35,10 +35,14 @@ public class PaymentRepository {
         return paymentDao.getInvoiceItemsDetails(invoiceId);
     }
 
-    // 4. Khi nhấn Xác nhận ở bước thanh toán MoMo:
+    // 4. Lấy thông tin hóa đơn theo ID
+    public LiveData<Invoice> getInvoiceById(String invoiceId) {
+        return paymentDao.getInvoiceById(invoiceId);
+    }
+
+    // 5. Khi nhấn Xác nhận ở bước thanh toán MoMo:
     public void confirmSuccessfulPayment(TransactionHistory transaction) {
         // Room bắt buộc các thao tác Lưu/Cập nhật (Insert/Update) phải dùng Luồng phụ
-        // (AsyncTask/Thread/Executors)
         new Thread(() -> {
             // Bước 1: Insert vô bảng Lịch sử (Transactions)
             paymentDao.insertTransaction(transaction);

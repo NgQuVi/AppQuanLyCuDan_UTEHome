@@ -40,6 +40,9 @@
         <activity
             android:name=".feature.auth.reset.PasswordSuccessActivity"
             android:exported="false" />
+        <!--        <activity-->
+        <!--            android:name=".feature.apartment.ApartmentInfoActivity"-->
+        <!--            android:exported="false" />-->
         <activity
             android:name=".feature.member.MemberDetailActivity"
             android:exported="false" />
