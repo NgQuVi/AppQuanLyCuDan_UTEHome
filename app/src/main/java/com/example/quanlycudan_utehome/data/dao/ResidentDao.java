@@ -13,7 +13,7 @@ import java.util.List;
 public interface ResidentDao {
 
     @Insert
-    void insert(Resident resident);
+    long insert(Resident resident);
 
     @Update
     void update(Resident resident);
