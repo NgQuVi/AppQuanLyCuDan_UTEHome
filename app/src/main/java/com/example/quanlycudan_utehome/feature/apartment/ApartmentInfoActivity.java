@@ -79,7 +79,7 @@ public class ApartmentInfoActivity extends AppCompatActivity {
         TextView tvMainBuilding = findViewById(R.id.tvMainBuilding);
 
         tvMainApartmentCode.setText(apartment.apartmentCode);
-        tvMainBuilding.setText("Toa " + apartment.buildingCode);
+        tvMainBuilding.setText("Toà" + apartment.buildingCode);
     }
 
     private void displayMembers(java.util.List<ApartmentWithMembers.ApartmentMemberDetail> members) {

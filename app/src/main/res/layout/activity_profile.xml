@@ -114,44 +114,7 @@
                     android:background="#F0F2F5"
                     android:layout_marginBottom="16dp"/>
 
-                <!-- Row 1: Resident Code -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="24dp">
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/bg_icon_orange"
-                        android:src="@drawable/ic_fingerprint_orange"
-                        android:padding="10dp"/>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="16dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/profile_code_label"
-                            android:textSize="12sp"
-                            android:textColor="@color/home_text_secondary"/>
-                        <TextView
-                            android:id="@+id/tvResidentCode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="RES12345"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/home_text_primary"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Row 2: Name -->
+                <!-- Row 1: Name -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
