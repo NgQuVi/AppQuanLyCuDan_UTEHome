@@ -34,7 +34,10 @@ public class MemberDetailActivity extends AppCompatActivity {
 
         findViewById(R.id.btnEdit).setOnClickListener(v -> {
             Intent intent = new Intent(this, EditMemberActivity.class);
-            intent.putExtras(getIntent());
+            int residentId = getIntent().getIntExtra("RESIDENT_ID", -1);
+            String memberRole = getIntent().getStringExtra("MEMBER_ROLE");
+            intent.putExtra("MEMBER_ID", residentId);
+            intent.putExtra("MEMBER_ROLE", memberRole);
             startActivity(intent);
         });
 

@@ -3,6 +3,7 @@ package com.example.quanlycudan_utehome.feature.member;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,8 @@ import java.util.concurrent.Executors;
 
 public class EditMemberActivity extends AppCompatActivity {
 
+    private static final String TAG = "EditMemberActivity";
+
     private EditText etFullName, etIdNumber, etRelationship, etPhone;
     private TextView tvGender, tvDob, tvTitle;
     private FrameLayout dobContainer;
@@ -46,6 +49,8 @@ public class EditMemberActivity extends AppCompatActivity {
 
         memberId    = getIntent().getIntExtra("MEMBER_ID", -1);
         originalRole = getIntent().getStringExtra("MEMBER_ROLE");
+
+        Log.d(TAG, "onCreate: memberId = " + memberId + ", originalRole = " + originalRole);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.headerLayout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -87,44 +92,60 @@ public class EditMemberActivity extends AppCompatActivity {
     }
 
     private void loadExistingData() {
-        Executors.newSingleThreadExecutor().execute(() -> {
-            AppDatabase db = AppDatabase.getInstance(this);
-            Resident resident = db.residentDao().getResidentById(memberId);
+        new Thread(() -> {
+            try {
+                Log.d(TAG, "loadExistingData: Starting to load data for memberId = " + memberId);
+                AppDatabase db = AppDatabase.getInstance(this);
+                Resident resident = db.residentDao().getResidentById(memberId);
 
-            if (resident != null) {
-                runOnUiThread(() -> {
-                    etFullName.setText(resident.fullName != null ? resident.fullName : "");
-                    etIdNumber.setText(resident.idNum != null ? resident.idNum : "");
-                    
-                    // Pre-fill relationship/role
-                    if (originalRole != null && !originalRole.isEmpty()) {
-                        etRelationship.setText(originalRole);
-                    }
-                    
-                    // Phone: strip the +84 prefix if present
-                    if (resident.phone != null) {
-                        String phone = resident.phone;
-                        if (phone.startsWith("+84")) {
-                            phone = phone.substring(3);
+                Log.d(TAG, "loadExistingData: resident = " + (resident != null ? resident.fullName : "NULL"));
+
+                if (resident != null) {
+                    runOnUiThread(() -> {
+                        Log.d(TAG, "loadExistingData: Setting UI fields");
+                        // Full Name
+                        etFullName.setText(resident.fullName != null ? resident.fullName : "");
+
+                        // ID Number
+                        etIdNumber.setText(resident.idNum != null ? resident.idNum : "");
+
+                        // Relationship/Role
+                        if (originalRole != null && !originalRole.isEmpty()) {
+                            etRelationship.setText(originalRole);
                         }
-                        etPhone.setText(phone.trim());
-                    }
-                    
-                    // DOB
-                    if (resident.dob != null && !resident.dob.isEmpty()) {
-                        tvDob.setText(resident.dob);
-                        tvDob.setTextColor(getColor(R.color.home_text_primary));
-                    }
-                    
-                    // Gender
-                    if (resident.gender != null && !resident.gender.isEmpty()) {
-                        selectedGender = resident.gender;
-                        tvGender.setText(resident.gender);
-                        tvGender.setTextColor(getColor(R.color.home_text_primary));
-                    }
-                });
+
+                        // Phone: strip the +84 prefix if present
+                        if (resident.phone != null) {
+                            String phone = resident.phone;
+                            if (phone.startsWith("+84")) {
+                                phone = phone.substring(3);
+                            }
+                            etPhone.setText(phone.trim());
+                        }
+
+                        // Date of Birth
+                        if (resident.dob != null && !resident.dob.isEmpty()) {
+                            tvDob.setText(resident.dob);
+                            tvDob.setTextColor(getColor(R.color.home_text_primary));
+                        }
+
+                        // Gender
+                        if (resident.gender != null && !resident.gender.isEmpty()) {
+                            selectedGender = resident.gender;
+                            tvGender.setText(resident.gender);
+                            tvGender.setTextColor(getColor(R.color.home_text_primary));
+                        }
+
+                        Log.d(TAG, "loadExistingData: UI fields updated successfully");
+                    });
+                } else {
+                    Log.e(TAG, "loadExistingData: Resident is NULL for memberId = " + memberId);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "loadExistingData: Exception = " + e.getMessage(), e);
+                e.printStackTrace();
             }
-        });
+        }).start();
     }
 
     private void showGenderMenu() {
@@ -145,6 +166,21 @@ public class EditMemberActivity extends AppCompatActivity {
         int year  = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day   = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // If there's already a selected date, parse and use it
+        String currentDob = tvDob.getText().toString();
+        if (currentDob != null && !currentDob.isEmpty() && !currentDob.equals("mm/dd/yyyy")) {
+            try {
+                String[] parts = currentDob.split("/");
+                if (parts.length == 3) {
+                    day = Integer.parseInt(parts[0]);
+                    month = Integer.parseInt(parts[1]) - 1;
+                    year = Integer.parseInt(parts[2]);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         DatePickerDialog dialog = new DatePickerDialog(this, (view, y, m, d) -> {
             String date = String.format("%02d/%02d/%d", d, m + 1, y);
