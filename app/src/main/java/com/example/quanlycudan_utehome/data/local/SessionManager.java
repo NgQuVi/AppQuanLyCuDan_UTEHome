@@ -5,7 +5,8 @@ import android.content.SharedPreferences;
 
 public class SessionManager {
     private static final String PREF_NAME = "utehome_session";
-    private static final String KEY_RESIDENT_ID = "resident_id";
+    private static final String KEY_RESIDENT_ID  = "resident_id";
+    private static final String KEY_APARTMENT_ID = "apartment_id"; // ← THÊM MỚI
 
     private static SessionManager instance;
     private final SharedPreferences prefs;
@@ -27,6 +28,15 @@ public class SessionManager {
 
     public int getResidentId() {
         return prefs.getInt(KEY_RESIDENT_ID, -1);
+    }
+
+    // ── Lưu và lấy ID căn hộ (gọi sau khi đăng nhập thành công) ──
+    public void saveApartmentId(String aptId) {
+        prefs.edit().putString(KEY_APARTMENT_ID, aptId).apply();
+    }
+
+    public String getApartmentId() {
+        return prefs.getString(KEY_APARTMENT_ID, ""); // "" nếu chưa lưu
     }
 
     public boolean isLoggedIn() {

@@ -3,7 +3,6 @@ package com.example.quanlycudan_utehome.feature.apartment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,10 +15,17 @@ import java.util.List;
 
 public class ApartmentMemberAdapter extends RecyclerView.Adapter<ApartmentMemberAdapter.ViewHolder> {
 
-    private List<ApartmentWithMembers.ApartmentMemberDetail> members;
+    public interface OnMemberClickListener {
+        void onMemberClick(ApartmentWithMembers.ApartmentMemberDetail detail);
+    }
 
-    public ApartmentMemberAdapter(List<ApartmentWithMembers.ApartmentMemberDetail> members) {
+    private final List<ApartmentWithMembers.ApartmentMemberDetail> members;
+    private final OnMemberClickListener onMemberClickListener;
+
+    public ApartmentMemberAdapter(List<ApartmentWithMembers.ApartmentMemberDetail> members,
+                                  OnMemberClickListener onMemberClickListener) {
         this.members = members;
+        this.onMemberClickListener = onMemberClickListener;
     }
 
     @NonNull
@@ -37,9 +43,13 @@ public class ApartmentMemberAdapter extends RecyclerView.Adapter<ApartmentMember
         holder.tvMemberName.setText(detail.resident.fullName);
         holder.tvMemberRole.setText(detail.apartmentMember.role);
 
-        // Tạo avatar từ chữ cái đầu tiên của tên
         String firstLetter = detail.resident.fullName.substring(0, 1).toUpperCase();
         holder.tvMemberAvatar.setText(firstLetter);
+        holder.itemView.setOnClickListener(v -> {
+            if (onMemberClickListener != null) {
+                onMemberClickListener.onMemberClick(detail);
+            }
+        });
     }
 
     @Override
