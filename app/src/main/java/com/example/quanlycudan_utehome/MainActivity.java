@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.nav_profile) {
                 startActivity(new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.profile.ProfileActivity.class));
                 return true;
+            } else if (item.getItemId() == R.id.nav_utilities) {
+                startActivity(new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.facility.FacilityListActivity.class));
+                return true;
             }
             // Add other navigation logic here if needed
             return true;

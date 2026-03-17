@@ -70,6 +70,12 @@
         <activity
             android:name=".feature.payment.TransactionDetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".feature.facility.FacilityListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.facility.FacilityDetailActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
