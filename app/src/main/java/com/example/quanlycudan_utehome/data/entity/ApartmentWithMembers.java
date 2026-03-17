@@ -1,8 +1,10 @@
 package com.example.quanlycudan_utehome.data.entity;
 
+import java.util.List;
+
 public class ApartmentWithMembers {
     public Apartment apartment;
-    public java.util.List<ApartmentMemberDetail> members;
+    public List<ApartmentMemberDetail> members;
 
     public static class ApartmentMemberDetail {
         public ApartmentMember apartmentMember;

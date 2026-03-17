@@ -1,6 +1,7 @@
 package com.example.quanlycudan_utehome;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.quanlycudan_utehome.data.database.AppDatabase;
 import com.example.quanlycudan_utehome.data.entity.Apartment;
+import com.example.quanlycudan_utehome.data.entity.ApartmentMember;
+import com.example.quanlycudan_utehome.data.entity.Resident;
 import com.example.quanlycudan_utehome.data.repository.ApartmentRepository;
 import com.example.quanlycudan_utehome.feature.apartment.ApartmentInfoActivity;
 
@@ -66,13 +69,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         java.util.concurrent.Executors.newSingleThreadExecutor().execute(() -> {
-            com.example.quanlycudan_utehome.data.entity.Resident user = AppDatabase.getInstance(this).residentDao().getResidentById(residentId);
+            Resident user = AppDatabase.getInstance(this).residentDao().getResidentById(residentId);
+
+            int apartmentId = AppDatabase.getInstance(this).apartmentMemberDao().getApartmentIdByResidentId(residentId);
+            Apartment apartment = AppDatabase.getInstance(this).apartmentDao().getApartmentById(apartmentId);
             if (user != null) {
                 runOnUiThread(() -> {
-                    android.widget.TextView tvUserName = findViewById(R.id.tvUserName);
+                    TextView tvUserName = findViewById(R.id.tvUserName);
                     if (tvUserName != null) {
                         tvUserName.setText(user.fullName);
                     }
+                    TextView tvApartmentName = findViewById(R.id.tvApartmentName);
+                    if (tvApartmentName != null) {
+                        tvApartmentName.setText(apartment != null ? apartment.apartmentCode + ", Tòa " + apartment.buildingCode : "No Apartment");
+                    }
+
+
+
                 });
             }
         });
