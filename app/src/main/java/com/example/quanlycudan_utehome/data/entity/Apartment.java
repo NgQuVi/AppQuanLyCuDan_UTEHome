@@ -8,7 +8,6 @@ public class Apartment {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
-
     public String apartmentCode;
     public String buildingCode;
     public int floor;
