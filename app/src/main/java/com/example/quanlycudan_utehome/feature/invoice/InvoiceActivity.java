@@ -186,7 +186,7 @@ public class InvoiceActivity extends AppCompatActivity {
                         // Hiển thị: "Số mới: 1.380 kWh"
                         tvElecNew.setText("Số mới: " + fmt(item.newIndex) + " kWh");
                         // Hiển thị: "Tiêu thụ: 135 kWh"
-                        tvElecConsumed.setText("Tiêu thụ: " + fmt(item.consumption) + " kWh");
+                        tvElecConsumed.setText("Tiêu thụ: " + fmt(item.newIndex - item.oldIndex) + " kWh");
                         // Hiển thị: "Đơn giá: 3.500đ/kWh"
                         tvElecPrice.setText("Đơn giá: " + fmt(item.unitPrice) + "đ/kWh");
                         // Hiển thị tổng: "472.500đ"
@@ -198,7 +198,7 @@ public class InvoiceActivity extends AppCompatActivity {
                         priceWater = item.amount;
                         tvWaterOld.setText("Số cũ: " + fmt(item.oldIndex) + " m³");
                         tvWaterNew.setText("Số mới: " + fmt(item.newIndex) + " m³");
-                        tvWaterConsumed.setText("Tiêu thụ: " + fmt(item.consumption) + " m³");
+                        tvWaterConsumed.setText("Tiêu thụ: " + fmt(item.newIndex - item.oldIndex) + " m³");
                         tvWaterPrice.setText("Đơn giá: " + fmt(item.unitPrice) + "đ/m³");
                         tvWaterTotal.setText(fmt(item.amount) + "đ");
                         break;
@@ -206,21 +206,10 @@ public class InvoiceActivity extends AppCompatActivity {
                     // ── GỬI XE ──────────────────────────────────────────
                     case "PARKING":
                         pricePark = item.amount;
-                        // Hiển thị: "01 Ô tô × 800.000đ/tháng"
-                        tvParkCar.setText(
-                                String.format("%02d Ô tô", item.carCount));
-                        tvParkCarPrice.setText(
-                                fmt(item.carUnitPrice) + "đ/tháng");
-                        // Hiển thị: "02 Xe máy × 350.000đ/tháng" (hoặc ẩn nếu 0)
-                        if (item.motoCount > 0) {
-                            tvParkMoto.setText(
-                                    String.format("%02d Xe máy", item.motoCount));
-                            tvParkMotoPrice.setText(
-                                    fmt(item.motoUnitPrice) + "đ/tháng");
-                        } else {
-                            tvParkMoto.setText("Không có xe máy");
-                            tvParkMotoPrice.setText("0đ");
-                        }
+                        tvParkCar.setText(item.description != null ? item.description : "Khu vực để xe");
+                        tvParkCarPrice.setText(fmt(item.amount) + "đ/tháng");
+                        tvParkMoto.setText("");
+                        tvParkMotoPrice.setText("");
                         tvParkTotal.setText(fmt(item.amount) + "đ");
                         break;
 

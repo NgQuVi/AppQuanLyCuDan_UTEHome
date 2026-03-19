@@ -32,13 +32,7 @@ public class DatabaseInitializer {
         new Thread(() -> {
             if (db.residentDao().getAllResidents().isEmpty()) {
                 Resident r1 = new Resident();
-                r1.residentCode = "RES12345";
-                r1.fullName     = "Nguyễn Văn An";
-                r1.phone        = "0901234567";
-                r1.email        = "an.nguyen@email.com";
-                r1.dob          = "15/05/1990";
                 r1.gender       = "Nam";
-                r1.idType       = "CCCD / CMND";
                 r1.idNum        = "012345678910";
                 r1.avatarUrl    = "https://via.placeholder.com/150?text=An";
 
@@ -74,7 +68,7 @@ public class DatabaseInitializer {
         new Thread(() -> {
             if (db.accountDao().checkPhoneExists("0901234567") == 0) {
                 // residentId = 1 tương ứng resident1 (Nguyễn Văn An)
-                Account account1 = new Account(1, "0901234567", "12345678");
+                Account account1 = new Account("0901234567", "12345678", "Chủ hộ");
                 db.accountDao().insert(account1);
             }
         }).start();
@@ -186,7 +180,6 @@ public class DatabaseInitializer {
             electric.serviceType = "ELECTRIC";
             electric.oldIndex   = 1245;
             electric.newIndex   = 1380;
-            electric.consumption = 135;          // = newIndex - oldIndex
             electric.unitPrice  = 3500;           // đồng / kWh
             electric.amount     = 472500;         // = consumption × unitPrice
             unpaidItems.add(electric);
@@ -199,7 +192,6 @@ public class DatabaseInitializer {
             water.serviceType = "WATER";
             water.oldIndex    = 120;
             water.newIndex    = 135;
-            water.consumption = 15;               // = newIndex - oldIndex
             water.unitPrice   = 18000;            // đồng / m³
             water.amount      = 270000;           // = consumption × unitPrice
             unpaidItems.add(water);
@@ -214,13 +206,9 @@ public class DatabaseInitializer {
             InvoiceItem parking = new InvoiceItem();
             parking.invoiceId    = inv_unpaid.id;
             parking.serviceType  = "PARKING";
-            parking.carCount     = 1;             // 1 ô tô
-            parking.carUnitPrice = 800000;        // 800.000đ / ô tô / tháng
-            parking.motoCount    = 2;             // 2 xe máy
-            parking.motoUnitPrice = 350000;       // 350.000đ / xe máy / tháng
-            // Tổng gửi xe = 1×800.000 + 2×350.000 = 1.500.000đ
-            parking.amount       = parking.carCount  * parking.carUnitPrice
-                                 + parking.motoCount * parking.motoUnitPrice; // = 1.500.000
+            parking.quantity     = 1;
+            parking.unitPrice    = 1500000;
+            parking.amount       = 1500000;
             parking.description  = "01 Ô tô, 02 Xe máy";
             unpaidItems.add(parking);
 
@@ -260,7 +248,6 @@ public class DatabaseInitializer {
             paidElec.serviceType = "ELECTRIC";
             paidElec.oldIndex    = 1110;
             paidElec.newIndex    = 1245;
-            paidElec.consumption = 135;
             paidElec.unitPrice   = 3500;
             paidElec.amount      = 472500;
             paidItems.add(paidElec);
@@ -270,7 +257,6 @@ public class DatabaseInitializer {
             paidWater.serviceType = "WATER";
             paidWater.oldIndex    = 105;
             paidWater.newIndex    = 120;
-            paidWater.consumption = 15;
             paidWater.unitPrice   = 18000;
             paidWater.amount      = 270000;
             paidItems.add(paidWater);
@@ -278,10 +264,8 @@ public class DatabaseInitializer {
             InvoiceItem paidParking = new InvoiceItem();
             paidParking.invoiceId     = inv_paid.id;
             paidParking.serviceType   = "PARKING";
-            paidParking.carCount      = 1;
-            paidParking.carUnitPrice  = 800000;
-            paidParking.motoCount     = 0;
-            paidParking.motoUnitPrice = 350000;
+            paidParking.quantity      = 1;
+            paidParking.unitPrice  = 800000;
             paidParking.amount        = 800000; // Chỉ 1 ô tô
             paidParking.description   = "01 Ô tô";
             paidItems.add(paidParking);

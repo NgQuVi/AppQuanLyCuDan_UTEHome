@@ -60,7 +60,7 @@ public class ProfileActivity extends AppCompatActivity {
                     tvResidentEmail.setText(user.email != null ? user.email : "--");
                     tvResidentDob.setText(user.dob != null ? user.dob : "--");
                     tvResidentGender.setText(user.gender != null ? user.gender : "--");
-                    tvResidentIdType.setText(user.idType != null ? user.idType : "--");
+                    tvResidentIdType.setText("CCCD");
                     tvResidentIdNum.setText(user.idNum != null ? user.idNum : "--");
                 });
             }

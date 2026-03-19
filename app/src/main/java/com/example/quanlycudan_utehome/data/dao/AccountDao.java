@@ -19,7 +19,7 @@ public interface AccountDao {
     @Query("SELECT * FROM accounts WHERE phone = :phone LIMIT 1")
     Account getAccountByPhone(String phone);
 
-    @Query("SELECT * FROM accounts WHERE residentId = :residentId LIMIT 1")
+    @Query("SELECT accounts.* FROM accounts INNER JOIN residents ON accounts.id = residents.accountId WHERE residents.id = :residentId LIMIT 1")
     Account getAccountByResidentId(int residentId);
 
     @Query("UPDATE accounts SET password = :newPassword WHERE phone = :phone")

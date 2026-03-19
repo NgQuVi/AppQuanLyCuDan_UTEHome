@@ -28,9 +28,9 @@ public class FacilityListActivity extends AppCompatActivity {
 
         // Initialize Data
         facilityList = new ArrayList<>();
-        facilityList.add(new Facility(1, "Sân bóng đá", "Khu thể thao ngoài trời", "Thể thao", R.drawable.img_football_field, 22, "06:00 - 22:00", true, "Sân bóng đá cỏ nhân tạo đạt chuẩn phục vụ cư dân."));
-        facilityList.add(new Facility(2, "Sân bóng chuyền", "Khu thể thao ngoài trời", "Thể thao", R.drawable.img_volleyball_court, 12, "06:00 - 22:00", true, "Sân cát ngoài trời tiêu chuẩn cho hoạt động thể thao bóng chuyền."));
-        facilityList.add(new Facility(3, "Sân cầu lông", "Tầng thượng Tòa S2", "Thể thao", R.drawable.img_badminton_court, 4, "06:00 - 22:00", true, "Sân cầu lông trong nhà với hệ thống ánh sáng chống chói."));
+        facilityList.add(new Facility(1, "Sân bóng đá", "Khu thể thao ngoài trời", R.drawable.img_football_field, 22, "06:00", "22:00", true, "Sân bóng đá cỏ nhân tạo đạt chuẩn phục vụ cư dân."));
+        facilityList.add(new Facility(2, "Sân bóng chuyền", "Khu thể thao ngoài trời", R.drawable.img_volleyball_court, 12, "06:00", "22:00", true, "Sân cát ngoài trời tiêu chuẩn cho hoạt động thể thao bóng chuyền."));
+        facilityList.add(new Facility(3, "Sân cầu lông", "Tầng thượng Tòa S2", R.drawable.img_badminton_court, 4, "06:00", "22:00", true, "Sân cầu lông trong nhà với hệ thống ánh sáng chống chói."));
 
         rvFacilities = findViewById(R.id.rvFacilities);
         rvFacilities.setLayoutManager(new LinearLayoutManager(this));

@@ -135,7 +135,6 @@ public class AddMemberActivity extends AppCompatActivity {
             resident.gender      = selectedGender;
             resident.phone       = phone.isEmpty() ? null : ("+84" + phone);
             resident.dob         = finalDob;
-            resident.residentCode = "RES" + System.currentTimeMillis();
 
             long residentId = db.residentDao().insert(resident);
 

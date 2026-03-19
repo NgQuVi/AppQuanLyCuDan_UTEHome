@@ -80,11 +80,10 @@ public class ApartmentInfoActivity extends AppCompatActivity {
         TextView tvMainBuilding = findViewById(R.id.tvMainBuilding);
 
         tvMainApartmentCode.setText(apartment.apartmentCode);
-<<<<<<< HEAD
-        tvMainBuilding.setText("Tòa " + apartment.buildingCode);
-=======
+
+
         tvMainBuilding.setText("Toà" + apartment.buildingCode);
->>>>>>> 902197a5a05f943d9b46de8f50a8ff23416bcd5f
+
     }
 
     private void displayMembers(java.util.List<ApartmentWithMembers.ApartmentMemberDetail> members) {
