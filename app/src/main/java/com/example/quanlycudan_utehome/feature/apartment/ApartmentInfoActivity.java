@@ -1,6 +1,7 @@
 package com.example.quanlycudan_utehome.feature.apartment;
 
 import android.content.Intent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -79,7 +80,10 @@ public class ApartmentInfoActivity extends AppCompatActivity {
         TextView tvMainBuilding = findViewById(R.id.tvMainBuilding);
 
         tvMainApartmentCode.setText(apartment.apartmentCode);
+
+
         tvMainBuilding.setText("Toà" + apartment.buildingCode);
+
     }
 
     private void displayMembers(java.util.List<ApartmentWithMembers.ApartmentMemberDetail> members) {
@@ -92,6 +96,9 @@ public class ApartmentInfoActivity extends AppCompatActivity {
                 intent.putExtra("MEMBER_ROLE", detail.apartmentMember.role);
                 startActivity(intent);
             });
+
+        apartmentId = getIntent().getIntExtra("APARTMENT_ID", 1);
+
             recyclerViewMembers.setAdapter(memberAdapter);
         }
     }

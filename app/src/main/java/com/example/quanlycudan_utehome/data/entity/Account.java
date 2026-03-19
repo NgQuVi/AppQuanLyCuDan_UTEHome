@@ -1,34 +1,27 @@
 package com.example.quanlycudan_utehome.data.entity;
 
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(
     tableName = "accounts",
-    foreignKeys = @ForeignKey(
-        entity = Resident.class,
-        parentColumns = "id",
-        childColumns = "residentId",
-        onDelete = ForeignKey.CASCADE
-    ),
-    indices = {@Index(value = "phone", unique = true), @Index("residentId")}
+    indices = {@Index(value = "phone", unique = true)}
 )
 public class Account {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
 
-    public int residentId;
     public String phone;
     public String password;
+    public String role;
     public boolean isActive = true;
 
-    public Account(int residentId, String phone, String password) {
-        this.residentId = residentId;
+    public Account(String phone, String password, String role) {
         this.phone = phone;
         this.password = password;
+        this.role = role;
         this.isActive = true;
     }
 }

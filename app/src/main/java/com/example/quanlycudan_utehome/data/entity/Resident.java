@@ -9,13 +9,12 @@ public class Resident {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
-    public String residentCode;
+    public int accountId;
     public String fullName;
     public String phone;
     public String email;
     public String dob;
     public String gender;
-    public String idType;
     public String idNum;
     public String avatarUrl;
 }

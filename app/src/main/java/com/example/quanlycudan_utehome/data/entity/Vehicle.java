@@ -3,16 +3,13 @@ package com.example.quanlycudan_utehome.data.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "apartments")
-public class Apartment {
-
+@Entity(tableName = "vehicles")
+public class Vehicle {
     @PrimaryKey(autoGenerate = true)
     public int id;
-    
-    public int accountId;
-    public String apartmentCode;
-    public String buildingCode;
-    public int floor;
-    public float area;
+    public int apartmentId;
+    public int residentId;
+    public String vehicleType;
+    public String licensePlate;
     public String status;
 }

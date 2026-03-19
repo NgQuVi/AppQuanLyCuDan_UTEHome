@@ -19,6 +19,8 @@ public class TransactionDetailActivity extends AppCompatActivity {
     private TextView tvHeaderTotalAmount, tvFooterTotalAmount;
     private TextView tvTransactionCodeDetail, tvTransactionDateDetail, tvPaymentMethodDetail;
     private TextView tvElectricAmountDetail, tvWaterAmountDetail;
+    private TextView tvParkingAmountDetail, tvInternetAmountDetail; // ← THÊM
+    private TextView tvApartmentNameDetail;                         // ← THÊM
 
     // 2. Khai báo biến dữ liệu
     private TransactionHistory transaction;
@@ -50,14 +52,16 @@ public class TransactionDetailActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        // Ánh xạ các TextView bằng ID bạn đã thêm vào file XML
-        tvHeaderTotalAmount = findViewById(R.id.tvHeaderTotalAmount);
-        tvFooterTotalAmount = findViewById(R.id.tvFooterTotalAmount);
+        tvHeaderTotalAmount     = findViewById(R.id.tvHeaderTotalAmount);
+        tvFooterTotalAmount     = findViewById(R.id.tvFooterTotalAmount);
         tvTransactionCodeDetail = findViewById(R.id.tvTransactionCodeDetail);
         tvTransactionDateDetail = findViewById(R.id.tvTransactionDateDetail);
-        tvPaymentMethodDetail = findViewById(R.id.tvPaymentMethodDetail);
-        tvElectricAmountDetail = findViewById(R.id.tvElectricAmountDetail);
-        tvWaterAmountDetail = findViewById(R.id.tvWaterAmountDetail);
+        tvPaymentMethodDetail   = findViewById(R.id.tvPaymentMethodDetail);
+        tvElectricAmountDetail  = findViewById(R.id.tvElectricAmountDetail);
+        tvWaterAmountDetail     = findViewById(R.id.tvWaterAmountDetail);
+        tvParkingAmountDetail   = findViewById(R.id.tvParkingAmountDetail);  // ← THÊM
+        tvInternetAmountDetail  = findViewById(R.id.tvInternetAmountDetail); // ← THÊM
+        tvApartmentNameDetail   = findViewById(R.id.tvApartmentNameDetail);  // ← THÊM
     }
 
     private void displayBasicInfo() {
@@ -70,19 +74,32 @@ public class TransactionDetailActivity extends AppCompatActivity {
     }
 
     private void fetchAndDisplayDetails() {
-        // Dùng invoiceId để đi tìm chi tiết tiền điện, tiền nước trong bảng invoice_items
         repository.getInvoiceItemsDetails(transaction.invoiceId).observe(this, items -> {
-            if (items != null) {
-                for (InvoiceItem item : items) {
-                    // Nếu là Tiền điện
-                    if (item.serviceType.equals("ELECTRIC")) {
+            if (items == null) return;
+            for (InvoiceItem item : items) {
+                switch (item.serviceType) {
+                    case "ELECTRIC":
                         tvElectricAmountDetail.setText(df.format(item.amount) + "đ");
-                    }
-                    // Nếu là Tiền nước
-                    if (item.serviceType.equals("WATER")) {
+                        break;
+                    case "WATER":
                         tvWaterAmountDetail.setText(df.format(item.amount) + "đ");
-                    }
+                        break;
+                    case "PARKING":
+                        tvParkingAmountDetail.setText(df.format(item.amount) + "đ");
+                        break;
+                    case "INTERNET":
+                        tvInternetAmountDetail.setText(df.format(item.amount) + "đ");
+                        break;
                 }
+            }
+        });
+
+        // Hiển thị tên căn hộ dựa vào invoiceId → lấy invoice → lấy apartmentId
+        repository.getInvoiceById(transaction.invoiceId).observe(this, invoice -> {
+            if (invoice != null && tvApartmentNameDetail != null) {
+                // apartmentId = "1" → hiển thị "Căn hộ #1 (P.1205)"
+                // Nếu muốn tên đẹp hơn, cần thêm query join apartments
+                tvApartmentNameDetail.setText("Căn hộ #" + invoice.apartmentId);
             }
         });
     }

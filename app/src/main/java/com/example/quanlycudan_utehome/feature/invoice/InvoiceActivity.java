@@ -8,49 +8,92 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quanlycudan_utehome.R;
+import com.example.quanlycudan_utehome.data.entity.Invoice;
+import com.example.quanlycudan_utehome.data.entity.InvoiceItem;
+import com.example.quanlycudan_utehome.data.local.SessionManager;
+import com.example.quanlycudan_utehome.data.repository.PaymentRepository;
+import com.example.quanlycudan_utehome.feature.payment.PaymentConfirmationActivity;
 import com.example.quanlycudan_utehome.feature.payment.PaymentHistoryActivity;
+
+import java.text.DecimalFormat;
+import java.util.List;
 
 public class InvoiceActivity extends AppCompatActivity {
 
-    private CheckBox cbElec, cbWater, cbPark, cbInternet;
-    private TextView tvSumValue;
-    
-    // Hardcoded prices matching the UI design for simplicity
-    private final int PRICE_ELEC = 472500;
-    private final int PRICE_WATER = 270000;
-    private final int PRICE_PARK = 1200000;
-    private final int PRICE_INTERNET = 350000;
+    // ═══════════════════════════════════════════════════════════════
+    // 1. KHAI BÁO BIẾN
+    // ═══════════════════════════════════════════════════════════════
 
+    // CheckBoxes – người dùng chọn/bỏ chọn loại phí
+    private CheckBox cbElec, cbWater, cbPark, cbInternet;
+
+    // TextView tổng tiền dưới cùng + tháng hiển thị
+    private TextView tvSumValue, tvMonth;
+
+    // TextViews thẻ ĐIỆN
+    private TextView tvElecOld, tvElecNew, tvElecConsumed, tvElecPrice, tvElecTotal;
+
+    // TextViews thẻ NƯỚC
+    private TextView tvWaterOld, tvWaterNew, tvWaterConsumed, tvWaterPrice, tvWaterTotal;
+
+    // TextViews thẻ GỬI XE
+    private TextView tvParkCar, tvParkCarPrice, tvParkMoto, tvParkMotoPrice, tvParkTotal;
+
+    // TextViews thẻ INTERNET
+    private TextView tvIntPkg, tvIntSpeed, tvIntTotal;
+
+    // Giá trị thực lấy từ DB (mặc định 0, sẽ được cập nhật sau khi observe)
+    private long priceElec = 0, priceWater = 0, pricePark = 0, priceInternet = 0;
+
+    // ID hóa đơn hiện tại – dùng khi bấm nút Thanh Toán
+    private String currentInvoiceId = "";
+
+    // Repository kết nối tới Room Database
+    private PaymentRepository paymentRepository;
+
+    // Bộ định dạng tiền: 472500 → "472,500" rồi ta đổi dấu phẩy → chấm
+    private final DecimalFormat df = new DecimalFormat("#,###");
+
+    // ═══════════════════════════════════════════════════════════════
+    // 2. onCreate
+    // ═══════════════════════════════════════════════════════════════
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoice);
 
-        // Bind views
+        // ── Bước 1: Ánh xạ View ─────────────────────────────────
+        bindViews();
+
+        // ── Bước 2: Nút Back & Lịch sử ──────────────────────────
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
-        
-        // Nút lịch sử chuyển sang PaymentHistoryActivity
-        findViewById(R.id.btnHistory).setOnClickListener(v -> {
-            Intent intent = new Intent(InvoiceActivity.this, PaymentHistoryActivity.class);
-            startActivity(intent);
-        });
+        findViewById(R.id.btnHistory).setOnClickListener(v ->
+                startActivity(new Intent(this, PaymentHistoryActivity.class)));
 
-        cbElec = findViewById(R.id.cbElec);
-        cbWater = findViewById(R.id.cbWater);
-        cbPark = findViewById(R.id.cbPark);
-        cbInternet = findViewById(R.id.cbInternet);
-        tvSumValue = findViewById(R.id.tvSumValue);
+        // ── Bước 3: CheckBox listener – tính lại tổng khi tick/bỏ tick ──
+        cbElec.setOnCheckedChangeListener((b, c) -> calculateTotal());
+        cbWater.setOnCheckedChangeListener((b, c) -> calculateTotal());
+        cbPark.setOnCheckedChangeListener((b, c) -> calculateTotal());
+        cbInternet.setOnCheckedChangeListener((b, c) -> calculateTotal());
 
-        // Setup CheckBox Listeners
-        cbElec.setOnCheckedChangeListener((buttonView, isChecked) -> calculateTotal());
-        cbWater.setOnCheckedChangeListener((buttonView, isChecked) -> calculateTotal());
-        cbPark.setOnCheckedChangeListener((buttonView, isChecked) -> calculateTotal());
-        cbInternet.setOnCheckedChangeListener((buttonView, isChecked) -> calculateTotal());
+        // ── Bước 4: Khởi tạo Repository ─────────────────────────
+        paymentRepository = new PaymentRepository(getApplication());
 
-        // Setup Pay Button
+        // ── Bước 5: Lấy aptId từ SessionManager rồi load hóa đơn ─
+        // SessionManager lưu aptId dạng String (VD: "1") khi đăng nhập thành công
+        String aptId = SessionManager.getInstance(this).getApartmentId();
+        if (aptId != null && !aptId.isEmpty()) {
+            loadInvoices(aptId);
+        } else {
+            // Chưa có aptId → dùng giá trị mặc định "1" để demo
+            // (Cần lưu aptId vào SessionManager ở màn đăng nhập)
+            loadInvoices("1");
+        }
+
+        // ── Bước 6: Nút Thanh Toán ──────────────────────────────
         findViewById(R.id.btnPay).setOnClickListener(v -> {
-            Intent intent = new Intent(InvoiceActivity.this, PaymentConfirmationActivity.class);
-            // Optionally pass the total sum to the next screen if needed
+            Intent intent = new Intent(this, PaymentConfirmationActivity.class);
+            intent.putExtra("INVOICE_ID", currentInvoiceId);
             intent.putExtra("TOTAL_SUM", calculateCurrentTotal());
             intent.putExtra("HAS_ELEC", cbElec.isChecked());
             intent.putExtra("HAS_WATER", cbWater.isChecked());
@@ -58,23 +101,158 @@ public class InvoiceActivity extends AppCompatActivity {
             intent.putExtra("HAS_INTERNET", cbInternet.isChecked());
             startActivity(intent);
         });
-
-        // Initial calculation
-        calculateTotal();
     }
 
-    private int calculateCurrentTotal() {
-        int total = 0;
-        if (cbElec.isChecked()) total += PRICE_ELEC;
-        if (cbWater.isChecked()) total += PRICE_WATER;
-        if (cbPark.isChecked()) total += PRICE_PARK;
-        if (cbInternet.isChecked()) total += PRICE_INTERNET;
+    // ═══════════════════════════════════════════════════════════════
+    // 3. ÁNH XẠ VIEW (findViewById)
+    // ═══════════════════════════════════════════════════════════════
+    private void bindViews() {
+        cbElec     = findViewById(R.id.cbElec);
+        cbWater    = findViewById(R.id.cbWater);
+        cbPark     = findViewById(R.id.cbPark);
+        cbInternet = findViewById(R.id.cbInternet);
+        tvSumValue = findViewById(R.id.tvSumValue);
+        tvMonth    = findViewById(R.id.tvMonth);
+
+        // Thẻ Điện
+        tvElecOld      = findViewById(R.id.tvElecOld);
+        tvElecNew      = findViewById(R.id.tvElecNew);
+        tvElecConsumed = findViewById(R.id.tvElecConsumed);
+        tvElecPrice    = findViewById(R.id.tvElecPrice);
+        tvElecTotal    = findViewById(R.id.tvElecTotal);
+
+        // Thẻ Nước
+        tvWaterOld      = findViewById(R.id.tvWaterOld);
+        tvWaterNew      = findViewById(R.id.tvWaterNew);
+        tvWaterConsumed = findViewById(R.id.tvWaterConsumed);
+        tvWaterPrice    = findViewById(R.id.tvWaterPrice);
+        tvWaterTotal    = findViewById(R.id.tvWaterTotal);
+
+        // Thẻ Gửi xe
+        tvParkCar      = findViewById(R.id.tvParkCar);
+        tvParkCarPrice = findViewById(R.id.tvParkCarPrice);
+        tvParkMoto     = findViewById(R.id.tvParkMoto);
+        tvParkMotoPrice= findViewById(R.id.tvParkMotoPrice);
+        tvParkTotal    = findViewById(R.id.tvParkTotal);
+
+        // Thẻ Internet
+        tvIntPkg   = findViewById(R.id.tvIntPkg);
+        tvIntSpeed = findViewById(R.id.tvIntSpeed);
+        tvIntTotal = findViewById(R.id.tvIntTotal);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // 4. LOAD HÓA ĐƠN CHƯA THANH TOÁN
+    // ═══════════════════════════════════════════════════════════════
+    private void loadInvoices(String aptId) {
+        // SQL tương đương: SELECT * FROM invoices WHERE apartmentId = aptId AND status = 'UNPAID'
+        // observe() tự chạy khi DB có dữ liệu, không cần gọi thủ công
+        paymentRepository.getUnpaidInvoices(aptId).observe(this, invoiceList -> {
+
+            if (invoiceList == null || invoiceList.isEmpty()) {
+                // Không có hóa đơn chưa trả
+                tvSumValue.setText("Đã thanh toán");
+                return;
+            }
+
+            // Lấy hóa đơn đầu tiên (tháng gần nhất chưa trả)
+            Invoice invoice = invoiceList.get(0);
+            currentInvoiceId = invoice.id;     // Lưu lại để truyền sang màn thanh toán
+
+            // Hiển thị tháng (VD: "Tháng 03/2026")
+            tvMonth.setText("Tháng " + invoice.billingMonth);
+
+            // Tiếp tục load chi tiết từng mục
+            loadInvoiceItems(invoice.id);
+        });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // 5. LOAD CHI TIẾT TỪNG KHOẢN PHÍ
+    // ═══════════════════════════════════════════════════════════════
+    private void loadInvoiceItems(String invoiceId) {
+        // SQL: SELECT * FROM invoice_items WHERE invoiceId = invoiceId
+        paymentRepository.getInvoiceItemsDetails(invoiceId).observe(this, items -> {
+            if (items == null) return;
+
+            for (InvoiceItem item : items) {
+                switch (item.serviceType) {
+
+                    // ── ĐIỆN ────────────────────────────────────────────
+                    case "ELECTRIC":
+                        priceElec = item.amount;
+                        // Hiển thị: "Số cũ: 1.245 kWh"
+                        tvElecOld.setText("Số cũ: " + fmt(item.oldIndex) + " kWh");
+                        // Hiển thị: "Số mới: 1.380 kWh"
+                        tvElecNew.setText("Số mới: " + fmt(item.newIndex) + " kWh");
+                        // Hiển thị: "Tiêu thụ: 135 kWh"
+                        tvElecConsumed.setText("Tiêu thụ: " + fmt(item.newIndex - item.oldIndex) + " kWh");
+                        // Hiển thị: "Đơn giá: 3.500đ/kWh"
+                        tvElecPrice.setText("Đơn giá: " + fmt(item.unitPrice) + "đ/kWh");
+                        // Hiển thị tổng: "472.500đ"
+                        tvElecTotal.setText(fmt(item.amount) + "đ");
+                        break;
+
+                    // ── NƯỚC ────────────────────────────────────────────
+                    case "WATER":
+                        priceWater = item.amount;
+                        tvWaterOld.setText("Số cũ: " + fmt(item.oldIndex) + " m³");
+                        tvWaterNew.setText("Số mới: " + fmt(item.newIndex) + " m³");
+                        tvWaterConsumed.setText("Tiêu thụ: " + fmt(item.newIndex - item.oldIndex) + " m³");
+                        tvWaterPrice.setText("Đơn giá: " + fmt(item.unitPrice) + "đ/m³");
+                        tvWaterTotal.setText(fmt(item.amount) + "đ");
+                        break;
+
+                    // ── GỬI XE ──────────────────────────────────────────
+                    case "PARKING":
+                        pricePark = item.amount;
+                        tvParkCar.setText(item.description != null ? item.description : "Khu vực để xe");
+                        tvParkCarPrice.setText(fmt(item.amount) + "đ/tháng");
+                        tvParkMoto.setText("");
+                        tvParkMotoPrice.setText("");
+                        tvParkTotal.setText(fmt(item.amount) + "đ");
+                        break;
+
+                    // ── INTERNET ─────────────────────────────────────────
+                    case "INTERNET":
+                        priceInternet = item.amount;
+                        // description = "Gói Tiêu chuẩn – 100 Mbps"
+                        tvIntPkg.setText(item.description);
+                        // Hiển thị: "Tốc độ: 100 Mbps" (tách từ description nếu cần)
+                        // Hoặc hiển thị thẳng tiền:
+                        tvIntSpeed.setText(fmt(item.amount) + "đ/tháng");
+                        tvIntTotal.setText(fmt(item.amount) + "đ");
+                        break;
+                }
+            }
+
+            // Tính và hiển thị tổng sau khi có đủ dữ liệu thật
+            calculateTotal();
+        });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // 6. TÍNH TỔNG TIỀN
+    // ═══════════════════════════════════════════════════════════════
+    private long calculateCurrentTotal() {
+        long total = 0;
+        if (cbElec.isChecked())     total += priceElec;
+        if (cbWater.isChecked())    total += priceWater;
+        if (cbPark.isChecked())     total += pricePark;
+        if (cbInternet.isChecked()) total += priceInternet;
         return total;
     }
 
     private void calculateTotal() {
-        int total = calculateCurrentTotal();
-        // Format as VNĐ currency style, e.g. 2.292.500đ
-        tvSumValue.setText(String.format("%,dđ", total).replace(',', '.'));
+        // fmt(2642500) → "2,642,500" → sau replace → "2.642.500"
+        tvSumValue.setText(fmt(calculateCurrentTotal()) + "đ");
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // 7. HELPER: Định dạng số kiểu Việt Nam (dấu chấm phân cách)
+    // ═══════════════════════════════════════════════════════════════
+    private String fmt(long number) {
+        // DecimalFormat dùng dấu phẩy mặc định → đổi thành dấu chấm
+        return df.format(number).replace(',', '.');
     }
 }

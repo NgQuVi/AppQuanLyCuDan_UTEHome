@@ -40,9 +40,6 @@
         <activity
             android:name=".feature.auth.reset.PasswordSuccessActivity"
             android:exported="false" />
-        <!--        <activity-->
-        <!--            android:name=".feature.apartment.ApartmentInfoActivity"-->
-        <!--            android:exported="false" />-->
         <activity
             android:name=".feature.member.MemberDetailActivity"
             android:exported="false" />
@@ -56,7 +53,7 @@
             android:name=".feature.invoice.InvoiceActivity"
             android:exported="false" />
         <activity
-            android:name=".feature.invoice.PaymentConfirmationActivity"
+            android:name=".feature.payment.PaymentConfirmationActivity"
             android:exported="false" />
         <activity
             android:name=".feature.invoice.PaymentSuccessActivity"

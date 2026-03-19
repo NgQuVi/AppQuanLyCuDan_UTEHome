@@ -23,4 +23,7 @@ public interface ResidentDao {
 
     @Query("SELECT * FROM residents WHERE id = :id LIMIT 1")
     Resident getResidentById(int id);
+
+    @Query("SELECT * FROM residents WHERE accountId = :accountId LIMIT 1")
+    Resident getResidentByAccountId(int accountId);
 }

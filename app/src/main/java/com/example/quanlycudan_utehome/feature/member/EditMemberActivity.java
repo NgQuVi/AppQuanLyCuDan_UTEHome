@@ -1,5 +1,7 @@
 package com.example.quanlycudan_utehome.feature.member;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,8 +31,6 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 public class EditMemberActivity extends AppCompatActivity {
-
-    private static final String TAG = "EditMemberActivity";
 
     private EditText etFullName, etIdNumber, etRelationship, etPhone;
     private TextView tvGender, tvDob, tvTitle;

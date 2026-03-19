@@ -6,6 +6,7 @@ import android.os.Looper;
 
 import com.example.quanlycudan_utehome.data.database.AppDatabase;
 import com.example.quanlycudan_utehome.data.entity.Account;
+import com.example.quanlycudan_utehome.data.entity.Resident;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,7 +44,13 @@ public class AuthService {
             if (account != null && account.password != null) {
                 // In a real app we would use hashed password verification (e.g. BCrypt)
                 if (account.password.equals(password)) {
-                    loggedInId = account.residentId;
+                    Resident resident = db.residentDao().getResidentByAccountId(account.id);
+                    if (resident != null) {
+                        loggedInId = resident.id;
+                    } else {
+                        // Fallback to 1 if no resident linked for demo or error state
+                        loggedInId = 1;
+                    }
                 }
             }
             int finalId = loggedInId;

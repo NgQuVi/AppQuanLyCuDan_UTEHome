@@ -209,10 +209,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
+                    android:layout_marginStart="52dp"
                     android:text="@string/invoice_electric_old"
                     android:textColor="@color/home_text_secondary"
                     android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="@id/tvElecTitle"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tvElecNew"
                     app:layout_constraintTop_toBottomOf="@id/tvElecStatus" />
 
@@ -233,10 +234,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:layout_marginStart="52dp"
                     android:text="@string/invoice_electric_consumed"
                     android:textColor="@color/home_text_secondary"
                     android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="@id/tvElecTitle"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tvElecPrice"
                     app:layout_constraintTop_toBottomOf="@id/tvElecOld" />
 
@@ -271,6 +273,7 @@
                     app:layout_constraintTop_toBottomOf="@id/divElec" />
 
                 <TextView
+                    android:id="@+id/tvElecTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -402,6 +405,7 @@
                     app:layout_constraintTop_toBottomOf="@id/divWater" />
 
                 <TextView
+                    android:id="@+id/tvWaterTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -477,6 +481,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tvParkStatus" />
 
                 <TextView
+                    android:id="@+id/tvParkCarPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -498,6 +503,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tvParkCar" />
 
                 <TextView
+                    android:id="@+id/tvParkMotoPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -526,6 +532,7 @@
                     app:layout_constraintTop_toBottomOf="@id/divPark" />
 
                 <TextView
+                    android:id="@+id/tvParkTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -619,6 +626,7 @@
                     app:layout_constraintTop_toBottomOf="@id/divInt" />
 
                 <TextView
+                    android:id="@+id/tvIntTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
