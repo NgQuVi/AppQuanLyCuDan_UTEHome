@@ -40,11 +40,23 @@ public class ApartmentMemberAdapter extends RecyclerView.Adapter<ApartmentMember
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ApartmentWithMembers.ApartmentMemberDetail detail = members.get(position);
 
-        holder.tvMemberName.setText(detail.resident.fullName);
-        holder.tvMemberRole.setText(detail.apartmentMember.role);
+        if (detail.resident != null && detail.resident.fullName != null) {
+            holder.tvMemberName.setText(detail.resident.fullName);
+            if (!detail.resident.fullName.isEmpty()) {
+                String firstLetter = detail.resident.fullName.substring(0, 1).toUpperCase();
+                holder.tvMemberAvatar.setText(firstLetter);
+            }
+        } else {
+            holder.tvMemberName.setText("Không xác định");
+            holder.tvMemberAvatar.setText("?");
+        }
+        
+        if (detail.apartmentMember != null && detail.apartmentMember.role != null) {
+            holder.tvMemberRole.setText(detail.apartmentMember.role);
+        } else {
+            holder.tvMemberRole.setText("");
+        }
 
-        String firstLetter = detail.resident.fullName.substring(0, 1).toUpperCase();
-        holder.tvMemberAvatar.setText(firstLetter);
         holder.itemView.setOnClickListener(v -> {
             if (onMemberClickListener != null) {
                 onMemberClickListener.onMemberClick(detail);
