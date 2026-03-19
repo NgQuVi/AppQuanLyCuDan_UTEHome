@@ -8,7 +8,6 @@ public class Resident {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
-
     public int accountId;
     public String fullName;
     public String phone;

@@ -60,7 +60,6 @@ public class MemberDetailActivity extends AppCompatActivity {
 
                 ((TextView) findViewById(R.id.tvMemberName)).setText(safeText(resident.fullName));
                 ((TextView) findViewById(R.id.tvMemberRole)).setText(safeText(memberRole));
-                ((TextView) findViewById(R.id.tvResidentId)).setText(String.valueOf(resident.id));
                 ((TextView) findViewById(R.id.tvBirthDate)).setText(safeText(resident.dob));
                 ((TextView) findViewById(R.id.tvGender)).setText(safeText(resident.gender));
                 ((TextView) findViewById(R.id.tvDocumentType)).setText("CCCD");

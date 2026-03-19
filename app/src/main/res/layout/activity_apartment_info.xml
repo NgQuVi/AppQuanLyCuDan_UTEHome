@@ -102,17 +102,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvMainApartmentCode" />
 
-                <ImageView
-                    android:id="@+id/ivApartmentPhoto"
-                    android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:layout_marginTop="16dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/photo_login_buildings"
-                    android:clipToOutline="true"
-                    android:background="@drawable/bg_card_white"
-                    app:layout_constraintTop_toBottomOf="@id/tvMainBuilding" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Section: CHI TIẾT CĂN HỘ -->
