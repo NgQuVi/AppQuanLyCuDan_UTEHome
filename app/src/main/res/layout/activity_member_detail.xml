@@ -134,31 +134,6 @@
 
                 </LinearLayout>
 
-                <!-- Row 1: Mã cư dân -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Mã cư dân"
-                        android:textColor="@color/home_text_secondary"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tvResidentId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="RES882910"
-                        android:textColor="@color/home_text_primary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
