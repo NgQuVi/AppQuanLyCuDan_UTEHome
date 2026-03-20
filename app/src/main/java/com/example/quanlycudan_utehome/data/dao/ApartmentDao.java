@@ -1,5 +1,6 @@
 package com.example.quanlycudan_utehome.data.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -17,4 +18,9 @@ public interface ApartmentDao {
 
     @Query("SELECT * FROM apartments")
     java.util.List<Apartment> getAllApartments();
+
+    @Query("SELECT id FROM apartments WHERE accountId = :accountId")
+    Integer getApartmentIdByAccountId(int accountId);
+
+
 }

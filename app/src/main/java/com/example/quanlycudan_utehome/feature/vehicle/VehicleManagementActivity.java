@@ -19,9 +19,9 @@ public class VehicleManagementActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_management);
-
+        int accountID = getIntent().getIntExtra("accountId", 1);
         initView();
-        loadVehicleList();
+        loadVehicleList(accountID);
     }
 
     private void initView() {
@@ -32,11 +32,19 @@ public class VehicleManagementActivity extends AppCompatActivity {
         rvVehicles.setAdapter(adapter);
     }
 
-    private void loadVehicleList() {
+    private void loadVehicleList(int accountID) {
+        // in ra log để kiểm tra accountID
+        android.util.Log.d("VehicleManagement", "Loading vehicles for accountID: " + accountID);
         AppDatabase db = AppDatabase.getInstance(this);
 
-        db.vehicleDao().getAllVehicles().observe(this, vehicles -> {
-            adapter.setData(vehicles);
-        });
+        db.vehicleDao()
+                .getVehiclesWithOwnerByAccountId(accountID)
+                .observe(this, vehiclesWithOwner -> {
+                    if (vehiclesWithOwner == null) {
+                        adapter.setData(java.util.Collections.emptyList());
+                    } else {
+                        adapter.setData(vehiclesWithOwner);
+                    }
+                });
     }
 }
