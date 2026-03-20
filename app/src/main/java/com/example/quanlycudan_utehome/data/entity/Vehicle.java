@@ -9,6 +9,8 @@ public class Vehicle {
     public int id;
     public int apartmentId;
     public int residentId;
+    public String brand;
+    public String color;
     public String vehicleType;
     public String licensePlate;
     public String status;

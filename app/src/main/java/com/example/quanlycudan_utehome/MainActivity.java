@@ -15,6 +15,7 @@ import com.example.quanlycudan_utehome.data.entity.ApartmentMember;
 import com.example.quanlycudan_utehome.data.entity.Resident;
 import com.example.quanlycudan_utehome.data.repository.ApartmentRepository;
 import com.example.quanlycudan_utehome.feature.apartment.ApartmentInfoActivity;
+import com.example.quanlycudan_utehome.feature.vehicle.VehicleManagementActivity;
 
 public class MainActivity extends AppCompatActivity {
     private int currentApartmentId = -1;
@@ -70,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.guest.GuestQrActivity.class));
         });
         findViewById(R.id.layoutVehicle).setOnClickListener(v -> {
-            android.widget.Toast.makeText(this, "Tính năng đang tải...", android.widget.Toast.LENGTH_SHORT).show();
+            android.content.Intent intent = new android.content.Intent(MainActivity.this, VehicleManagementActivity.class);
+            startActivity(intent);
         });
         findViewById(R.id.layoutFeedback).setOnClickListener(v -> {
             startActivity(new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.feedback.FeedbackActivity.class));

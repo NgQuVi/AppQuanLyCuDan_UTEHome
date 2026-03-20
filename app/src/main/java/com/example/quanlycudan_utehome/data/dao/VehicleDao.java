@@ -1,0 +1,52 @@
+package com.example.quanlycudan_utehome.data.dao;
+
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.Update;
+
+import com.example.quanlycudan_utehome.data.entity.Vehicle;
+
+import java.util.List;
+
+@Dao
+public interface VehicleDao {
+
+    // Insert
+    @Insert
+    long insertVehicle(Vehicle vehicle);
+
+    // Update
+    @Update
+    void updateVehicle(Vehicle vehicle);
+
+    // Delete
+    @Delete
+    void deleteVehicle(Vehicle vehicle);
+
+    // Get all vehicles
+    @Query("SELECT * FROM vehicles")
+    LiveData<List<Vehicle>> getAllVehicles();
+
+    // Get vehicle by id
+    @Query("SELECT * FROM vehicles WHERE id = :id")
+    LiveData<Vehicle> getVehicleById(int id);
+
+    // Get vehicles by apartment
+    @Query("SELECT * FROM vehicles WHERE apartmentId = :apartmentId")
+    LiveData<List<Vehicle>> getVehiclesByApartment(int apartmentId);
+
+    // Get vehicles by resident
+    @Query("SELECT * FROM vehicles WHERE residentId = :residentId")
+    LiveData<List<Vehicle>> getVehiclesByResident(int residentId);
+
+    // Search by license plate
+    @Query("SELECT * FROM vehicles WHERE licensePlate LIKE '%' || :plate || '%'")
+    LiveData<List<Vehicle>> searchByLicensePlate(String plate);
+
+    // Delete by id
+    @Query("DELETE FROM vehicles WHERE id = :id")
+    void deleteById(int id);
+}
