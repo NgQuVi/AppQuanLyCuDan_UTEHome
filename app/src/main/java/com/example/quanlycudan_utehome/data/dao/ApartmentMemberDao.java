@@ -24,6 +24,9 @@ public interface ApartmentMemberDao {
     @Query("SELECT apartmentId FROM apartment_members WHERE residentId = :id LIMIT 1")
     Integer getApartmentIdByResidentId(int id);
 
+    @Query("SELECT apartmentId FROM apartment_members WHERE residentId = :id")
+    List<Integer> getApartmentIdsByResidentId(int id);
+
 
     @Update
     void update(ApartmentMember member);

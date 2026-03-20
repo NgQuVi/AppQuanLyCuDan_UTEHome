@@ -76,6 +76,12 @@
         <activity
             android:name=".feature.facility.FacilityDetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".feature.guest.GuestQrActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.feedback.FeedbackActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
