@@ -32,4 +32,7 @@
     <color name="payment_apartment_bg">#FFF5F0</color>
     <color name="payment_apartment_title">#FF784A</color>
     <color name="payment_section_title">#7A87A0</color>
+
+    <!-- Vehicle register primary button -->
+    <color name="orange">#FF784A</color>
 </resources>

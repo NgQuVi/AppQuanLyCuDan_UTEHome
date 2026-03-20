@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         // Phương tiện
         findViewById(R.id.layoutVehicle).setOnClickListener(v -> {
             android.content.Intent intent = new android.content.Intent(MainActivity.this, VehicleManagementActivity.class);
-            intent.putExtra("accountId", 1); // Thay 1 bằng accountId thực tế nếu cần
+            intent.putExtra("accountId", 1);
             startActivity(intent);
         });
         findViewById(R.id.layoutFeedback).setOnClickListener(v -> {
@@ -159,4 +159,3 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
-

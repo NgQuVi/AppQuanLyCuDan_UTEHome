@@ -1,5 +1,6 @@
 package com.example.quanlycudan_utehome.feature.vehicle;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -14,14 +15,18 @@ public class VehicleManagementActivity extends AppCompatActivity {
 
     private RecyclerView rvVehicles;
     private VehicleAdapter adapter;
+    private int accountId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_management);
-        int accountID = getIntent().getIntExtra("accountId", 1);
+
+        accountId = getIntent().getIntExtra("accountId", -1);
+
         initView();
-        loadVehicleList(accountID);
+        initActions();
+        loadVehicleList(accountId);
     }
 
     private void initView() {
@@ -32,13 +37,36 @@ public class VehicleManagementActivity extends AppCompatActivity {
         rvVehicles.setAdapter(adapter);
     }
 
-    private void loadVehicleList(int accountID) {
-        // in ra log để kiểm tra accountID
-        android.util.Log.d("VehicleManagement", "Loading vehicles for accountID: " + accountID);
+    private void initActions() {
+        findViewById(R.id.btnRegister).setOnClickListener(v -> {
+            Intent intent = new Intent(VehicleManagementActivity.this, VehicleRegisterActivity.class);
+            // nếu cần truyền thêm accountId hoặc apartmentId thì có thể putExtra ở đây
+            startActivity(intent);
+        });
+
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+    }
+
+    private void loadVehicleList(int accountId) {
         AppDatabase db = AppDatabase.getInstance(this);
 
+        if (accountId == -1) {
+            // nếu không truyền được accountId thì tạm thời hiển thị tất cả như cũ
+            db.vehicleDao()
+                    .getVehiclesWithOwner()
+                    .observe(this, vehiclesWithOwner -> {
+                        if (vehiclesWithOwner == null) {
+                            adapter.setData(java.util.Collections.emptyList());
+                        } else {
+                            adapter.setData(vehiclesWithOwner);
+                        }
+                    });
+            return;
+        }
+
+        // Lọc theo accountId => chỉ các xe thuộc căn hộ của tài khoản hiện tại
         db.vehicleDao()
-                .getVehiclesWithOwnerByAccountId(accountID)
+                .getVehiclesWithOwnerByAccountId(accountId)
                 .observe(this, vehiclesWithOwner -> {
                     if (vehiclesWithOwner == null) {
                         adapter.setData(java.util.Collections.emptyList());
