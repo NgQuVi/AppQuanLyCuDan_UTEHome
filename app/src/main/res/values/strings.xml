@@ -232,4 +232,16 @@
     <string name="edit_profile_security_note">Thông tin của quý cư dân được bảo mật tuyệt đối theo tiêu chuẩn quốc tế và chỉ sử dụng cho mục đích quản lý vận hành toà nhà.</string>
     <string name="edit_profile_btn_save">Lưu thay đổi</string>
 
+
+
+
+    <string name="vehicle_back">Quay lại</string>
+    <string name="vehicle_title">Quản lý phương tiện</string>
+
+    <string name="vehicle_filter_all">Tất cả</string>
+    <string name="vehicle_filter_car">Ô tô</string>
+    <string name="vehicle_filter_motor">Xe máy</string>
+    <string name="vehicle_filter_electric">Xe điện</string>
+
+    <string name="vehicle_register">Đăng ký xe</string>
 </resources>

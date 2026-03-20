@@ -11,6 +11,7 @@ import com.example.quanlycudan_utehome.data.dao.ApartmentMemberDao;
 import com.example.quanlycudan_utehome.data.dao.PaymentDao;
 import com.example.quanlycudan_utehome.data.dao.ResidentDao;
 import com.example.quanlycudan_utehome.data.dao.AccountDao;
+import com.example.quanlycudan_utehome.data.dao.VehicleDao;
 import com.example.quanlycudan_utehome.data.entity.Apartment;
 import com.example.quanlycudan_utehome.data.entity.ApartmentMember;
 import com.example.quanlycudan_utehome.data.entity.Account;
@@ -18,6 +19,7 @@ import com.example.quanlycudan_utehome.data.entity.Invoice;
 import com.example.quanlycudan_utehome.data.entity.InvoiceItem;
 import com.example.quanlycudan_utehome.data.entity.Resident;
 import com.example.quanlycudan_utehome.data.entity.TransactionHistory;
+import com.example.quanlycudan_utehome.data.entity.Vehicle;
 
 @Database(entities = { Apartment.class,
         Resident.class,
@@ -25,8 +27,9 @@ import com.example.quanlycudan_utehome.data.entity.TransactionHistory;
         ApartmentMember.class,
         Invoice.class,
         InvoiceItem.class,
-        TransactionHistory.class
-}, version = 7, exportSchema = false)
+        TransactionHistory.class,
+        Vehicle.class
+}, version = 8, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ApartmentDao apartmentDao();
@@ -34,6 +37,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract AccountDao accountDao();
     public abstract ApartmentMemberDao apartmentMemberDao();
     public abstract PaymentDao paymentDao();
+    public abstract VehicleDao vehicleDao();
     private static AppDatabase instance;
 
     public static synchronized AppDatabase getInstance(Context context){

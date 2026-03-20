@@ -82,6 +82,9 @@
         <activity
             android:name=".feature.feedback.FeedbackActivity"
             android:exported="false" />
+        <activity
+            android:name=".feature.vehicle.VehicleManagementActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
