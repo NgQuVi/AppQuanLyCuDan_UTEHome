@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.quanlycudan_utehome.data.entity.Vehicle;
+import com.example.quanlycudan_utehome.feature.vehicle.VehicleWithOwner;
 
 import java.util.List;
 
@@ -46,6 +47,26 @@ public interface VehicleDao {
     @Query("SELECT * FROM vehicles WHERE licensePlate LIKE '%' || :plate || '%'")
     LiveData<List<Vehicle>> searchByLicensePlate(String plate);
 
+
+    @Query("SELECT * FROM vehicles WHERE residentId IN (:residentIds)")
+    LiveData<List<Vehicle>> getVehiclesByResidentIds(List<Integer> residentIds);
+
+
+    @Query("SELECT v.*, r.fullName AS ownerName " +
+            "FROM vehicles v " +
+            "INNER JOIN residents r ON v.residentId = r.id")
+    LiveData<List<VehicleWithOwner>> getVehiclesWithOwner();
+
+    @Query("SELECT v.*, r.fullName AS ownerName " +
+            "FROM vehicles v " +
+            "INNER JOIN residents r ON v.residentId = r.id " +
+            "WHERE v.residentId IN (" +
+            "   SELECT am.residentId FROM apartment_members am " +
+            "   WHERE am.apartmentId IN (" +
+            "       SELECT a.id FROM apartments a WHERE a.accountId = :accountId" +
+            "   )" +
+            ")")
+    LiveData<List<VehicleWithOwner>> getVehiclesWithOwnerByAccountId(int accountId);
     // Delete by id
     @Query("DELETE FROM vehicles WHERE id = :id")
     void deleteById(int id);

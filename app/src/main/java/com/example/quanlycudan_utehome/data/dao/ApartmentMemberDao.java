@@ -1,5 +1,6 @@
 package com.example.quanlycudan_utehome.data.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -28,6 +29,16 @@ public interface ApartmentMemberDao {
     List<Integer> getApartmentIdsByResidentId(int id);
 
 
+    @Query("SELECT residentId FROM apartment_members WHERE apartmentId = :apartmentId")
+    LiveData<List<Integer>> getResidentIdsByApartmentId(int apartmentId);
+
+
+    @Query("SELECT am.residentId " +
+            "FROM apartment_members am " +
+            "WHERE am.apartmentId IN (" +
+            " SELECT a.id FROM apartments a WHERE a.accountId = :accountId" +
+            ")")
+    List<Integer> getResidentIdsByAccountId(int accountId);
     @Update
     void update(ApartmentMember member);
 }

@@ -17,9 +17,9 @@ import java.util.List;
 
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleViewHolder> {
 
-    private List<Vehicle> vehicleList = new ArrayList<>();
+    private List<VehicleWithOwner> vehicleList = new ArrayList<>();
 
-    public void setData(List<Vehicle> list) {
+    public void setData(List<VehicleWithOwner> list) {
         if (list != null) {
             this.vehicleList = list;
         } else {
@@ -38,13 +38,20 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
 
     @Override
     public void onBindViewHolder(@NonNull VehicleViewHolder holder, int position) {
-        Vehicle v = vehicleList.get(position);
+        VehicleWithOwner v = vehicleList.get(position);
 
         // tránh null crash
         holder.tvLicensePlate.setText(v.licensePlate != null ? v.licensePlate : "");
         holder.tvStatus.setText(v.status != null ? v.status : "");
         holder.tvBrandColor.setText(v.brand != null ? v.brand : "");
         holder.tvBrandColor2.setText("• Màu " + (v.color != null ? v.color : ""));
+
+        // hiển thị tên chủ sở hữu (nếu layout có TextView tương ứng)
+        if (holder.tvOwnerName != null) {
+            holder.tvOwnerName.setText(
+                    v.ownerName != null ? v.ownerName : "Không rõ"
+            );
+        }
 
         // icon theo loại xe
         if (v.vehicleType != null) {
@@ -53,12 +60,14 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
                     holder.ivVehicleType.setImageResource(R.drawable.ic_car_orange);
                     break;
                 case "Xe máy":
-                    holder.ivVehicleType.setImageResource(R.drawable.ic_car_orange);
+                    holder.ivVehicleType.setImageResource(R.drawable.ic_car_orange); // nên dùng icon khác
                     break;
                 default:
                     holder.ivVehicleType.setImageResource(R.drawable.ic_car_orange);
                     break;
             }
+        } else {
+            holder.ivVehicleType.setImageResource(R.drawable.ic_car_orange);
         }
     }
 
@@ -70,6 +79,8 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
     static class VehicleViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvLicensePlate, tvStatus, tvBrandColor, tvBrandColor2;
+        // TextView hiển thị tên chủ sở hữu (nếu có trong layout)
+        TextView tvOwnerName;
         ImageView ivVehicleType;
 
         public VehicleViewHolder(@NonNull View itemView) {
@@ -80,6 +91,12 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
             tvBrandColor = itemView.findViewById(R.id.tvBrandColor);
             tvBrandColor2 = itemView.findViewById(R.id.tvBrandColor2);
             ivVehicleType = itemView.findViewById(R.id.ivVehicleType);
+            // nếu layout có TextView tên chủ xe thì gán id ở đây, ví dụ R.id.tvOwnerName
+            try {
+                tvOwnerName = itemView.findViewById(R.id.tvOwnerName);
+            } catch (Exception e) {
+                tvOwnerName = null; // tránh crash nếu chưa thêm vào layout
+            }
         }
     }
 }
