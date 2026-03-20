@@ -68,6 +68,10 @@
     <string name="home_service_history">Lịch sử TT</string>
     <string name="home_service_vehicle">Phương tiện</string>
     <string name="home_service_access_card">Thẻ ra vào</string>
+    <string name="home_service_guest_qr">QR khách</string>
+    <string name="home_service_feedback">Phản ánh</string>
+    <string name="title_guest_qr">Mã QR Khách</string>
+    <string name="title_feedback">Phản ánh &amp; Góp ý</string>
     <string name="home_offers_events">Ưu đãi &amp; Sự kiện</string>
     <string name="home_tag_event">SỰ KIỆN</string>
     <string name="home_event_title">Lễ hội mùa hè 2024</string>

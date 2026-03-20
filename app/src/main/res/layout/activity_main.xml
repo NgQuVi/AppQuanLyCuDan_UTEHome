@@ -114,17 +114,33 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/ivBuilding" />
 
-                <TextView
-                    android:id="@+id/tvApartmentName"
+                <LinearLayout
+                    android:id="@+id/layoutApartmentName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="@string/home_apartment_name"
-                    android:textColor="@color/home_text_primary"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ivBuilding" />
+                    app:layout_constraintTop_toBottomOf="@id/ivBuilding">
+
+                    <TextView
+                        android:id="@+id/tvApartmentName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_apartment_name"
+                        android:textColor="@color/home_text_primary"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/ivDropdownArrow"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="4dp"
+                        android:src="@drawable/ic_arrow_drop_down"
+                        app:tint="@color/home_text_primary" />
+                </LinearLayout>
 
                 <View
                     android:id="@+id/dotStatus"
@@ -147,7 +163,7 @@
                     android:textColor="@color/home_text_secondary"
                     android:textSize="12sp"
                     app:layout_constraintStart_toEndOf="@id/dotStatus"
-                    app:layout_constraintTop_toBottomOf="@id/tvApartmentName" />
+                    app:layout_constraintTop_toBottomOf="@id/layoutApartmentName" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -243,6 +259,7 @@
 
                     <!-- Access Card -->
                     <LinearLayout
+                        android:id="@+id/layoutAccessCard"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -264,8 +281,9 @@
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <!-- Repair -->
+                    <!-- Guest QR -->
                     <LinearLayout
+                        android:id="@+id/layoutGuestQr"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -277,19 +295,20 @@
                             android:layout_height="64dp"
                             android:background="@drawable/bg_service_icon"
                             android:padding="16dp"
-                            android:src="@drawable/ic_repair" />
+                            android:src="@drawable/ic_qr_code_orange" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="@string/home_service_repair"
+                            android:text="@string/home_service_guest_qr"
                             android:textColor="@color/home_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
 
                     <!-- Vehicle -->
                     <LinearLayout
+                        android:id="@+id/layoutVehicle"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -312,32 +331,9 @@
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <!-- History -->
+                    <!-- Feedback -->
                     <LinearLayout
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:background="@drawable/bg_service_icon"
-                            android:padding="16dp"
-                            android:src="@drawable/ic_history" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="@string/home_service_history"
-                            android:textColor="@color/home_text_secondary"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <!-- Cleaning / Moving -->
-                    <LinearLayout
+                        android:id="@+id/layoutFeedback"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -350,13 +346,13 @@
                             android:layout_height="64dp"
                             android:background="@drawable/bg_service_icon"
                             android:padding="16dp"
-                            android:src="@drawable/ic_cleanup" />
+                            android:src="@drawable/ic_feedback_orange" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="@string/home_service_cleaning"
+                            android:text="@string/home_service_feedback"
                             android:textColor="@color/home_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
