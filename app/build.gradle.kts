@@ -44,6 +44,9 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     // RecyclerView
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    // ZXing for QR code
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("com.google.zxing:core:3.5.3")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

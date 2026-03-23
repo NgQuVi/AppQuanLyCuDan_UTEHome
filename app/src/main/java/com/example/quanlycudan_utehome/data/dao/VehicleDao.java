@@ -51,6 +51,10 @@ public interface VehicleDao {
     @Query("SELECT * FROM vehicles WHERE residentId IN (:residentIds)")
     LiveData<List<Vehicle>> getVehiclesByResidentIds(List<Integer> residentIds);
 
+    // Phiên bản đồng bộ (dùng trên background thread, không cần LiveData)
+    @Query("SELECT * FROM vehicles WHERE residentId IN (:residentIds)")
+    List<Vehicle> getVehiclesByResidentIdsSync(List<Integer> residentIds);
+
 
     @Query("SELECT v.*, r.fullName AS ownerName " +
             "FROM vehicles v " +
