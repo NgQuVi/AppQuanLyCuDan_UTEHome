@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlycudan_utehome.R;
 import com.example.quanlycudan_utehome.data.database.AppDatabase;
+import com.example.quanlycudan_utehome.feature.accesscard.AccessCardActivity;
 
 public class VehicleManagementActivity extends AppCompatActivity {
 
@@ -35,6 +36,26 @@ public class VehicleManagementActivity extends AppCompatActivity {
         adapter = new VehicleAdapter();
         rvVehicles.setLayoutManager(new LinearLayoutManager(this));
         rvVehicles.setAdapter(adapter);
+
+        // Mở AccessCardActivity với dữ liệu xe khi người dùng nhấn vào item
+        adapter.setOnItemClickListener(vehicle -> {
+            Intent intent = new Intent(VehicleManagementActivity.this, AccessCardActivity.class);
+            intent.putExtra(AccessCardActivity.EXTRA_PLATE_NUMBER,
+                    vehicle.licensePlate != null ? vehicle.licensePlate : "");
+            intent.putExtra(AccessCardActivity.EXTRA_VEHICLE_INFO,
+                    (vehicle.vehicleType != null ? vehicle.vehicleType : "")
+                    + (vehicle.brand != null ? " • " + vehicle.brand : ""));
+            intent.putExtra(AccessCardActivity.EXTRA_VEHICLE_COLOR,
+                    vehicle.color != null ? vehicle.color : "");
+            intent.putExtra(AccessCardActivity.EXTRA_RESIDENT_NAME,
+                    vehicle.ownerName != null ? vehicle.ownerName : "");
+            intent.putExtra(AccessCardActivity.EXTRA_APARTMENT_LABEL,
+                    "Căn hộ #" + vehicle.apartmentId);
+            intent.putExtra(AccessCardActivity.EXTRA_EXPIRED_DATE, "");
+            intent.putExtra(AccessCardActivity.EXTRA_QR_CONTENT,
+                    "Plate=" + vehicle.licensePlate + ";Owner=" + vehicle.ownerName);
+            startActivity(intent);
+        });
     }
 
     private void initActions() {

@@ -6,6 +6,7 @@ import com.example.quanlycudan_utehome.data.entity.Apartment;
 import com.example.quanlycudan_utehome.data.entity.ApartmentMember;
 import com.example.quanlycudan_utehome.data.entity.Resident;
 import com.example.quanlycudan_utehome.data.entity.Account;
+import com.example.quanlycudan_utehome.data.entity.GuestPass;
 import com.example.quanlycudan_utehome.data.entity.Invoice;
 import com.example.quanlycudan_utehome.data.entity.InvoiceItem;
 import com.example.quanlycudan_utehome.data.entity.TransactionHistory;
@@ -23,6 +24,34 @@ public class DatabaseInitializer {
         insertSampleApartments(db);
         insertSampleApartmentMembers(db);
         insertSampleInvoices(db);
+        insertSampleGuestPasses(db);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // GUEST PASSES
+    // ══════════════════════════════════════════════════════════════════════════
+    private static void insertSampleGuestPasses(AppDatabase db) {
+        new Thread(() -> {
+            if (db.guestPassDao().getGuestPassesByApartmentIdSync(1).isEmpty()) {
+                insertGuest(db, 1, "QR88291", "10/10/2023", "10/10/2023 08:00", "20/10/2023 22:00", "ACTIVE");
+                insertGuest(db, 1, "QR88290", "05/10/2023", "05/10/2023 08:00", "15/10/2023 22:00", "ACTIVE");
+                insertGuest(db, 1, "QR88285", "20/09/2023", "20/09/2023 08:00", "30/09/2023 22:00", "EXPIRED");
+                insertGuest(db, 1, "QR88275", "15/09/2023", "15/09/2023 08:00", "25/09/2023 22:00", "CANCELLED");
+                insertGuest(db, 1, "QR88270", "01/09/2023", "01/09/2023 08:00", "10/09/2023 22:00", "EXPIRED");
+            }
+        }).start();
+    }
+
+    private static void insertGuest(AppDatabase db, int aptId, String code,
+                                     String created, String from, String to, String status) {
+        GuestPass gp = new GuestPass();
+        gp.apartmentId = aptId;
+        gp.code = code;
+        gp.createdDate = created;
+        gp.fromDateTime = from;
+        gp.toDateTime = to;
+        gp.status = status;
+        db.guestPassDao().insertGuestPass(gp);
     }
 
     // ══════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kích thước QR code cho màn Access Card -->
+    <dimen name="qr_code_size">200dp</dimen>
+    <!-- ...existing dimens nếu có... -->
+</resources>

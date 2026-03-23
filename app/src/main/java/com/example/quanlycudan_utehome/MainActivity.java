@@ -16,9 +16,10 @@ import com.example.quanlycudan_utehome.data.entity.Resident;
 import com.example.quanlycudan_utehome.data.repository.ApartmentRepository;
 import com.example.quanlycudan_utehome.feature.apartment.ApartmentInfoActivity;
 import com.example.quanlycudan_utehome.feature.vehicle.VehicleManagementActivity;
+import com.example.quanlycudan_utehome.feature.accesscard.AccessCardMemberListActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private int currentApartmentId = -1;
+    private int currentApartmentId = 1;
     private java.util.List<Apartment> userApartments = new java.util.ArrayList<>();
 
     @Override
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.cardApartment).setOnClickListener(v -> {
             if (currentApartmentId != -1) {
-                android.content.Intent intent = new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.apartment.ApartmentInfoActivity.class);
+                android.content.Intent intent = new android.content.Intent(MainActivity.this, ApartmentInfoActivity.class);
                 intent.putExtra("APARTMENT_ID", currentApartmentId);
                 startActivity(intent);
             } else {
@@ -64,8 +65,15 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+        // Thẻ cư dân: mở màn danh sách thành viên có thẻ ra vào
         findViewById(R.id.layoutAccessCard).setOnClickListener(v -> {
-            android.widget.Toast.makeText(this, "Tính năng đang tải...", android.widget.Toast.LENGTH_SHORT).show();
+            android.content.Intent intent = new android.content.Intent(MainActivity.this, AccessCardMemberListActivity.class);
+            if (currentApartmentId != -1) {
+                intent.putExtra("APARTMENT_ID", currentApartmentId);
+                // in ra log để debug
+                android.util.Log.d("MainActivity", "Opening AccessCardMemberListActivity with APARTMENT_ID: " + currentApartmentId);
+            }
+            startActivity(intent);
         });
         findViewById(R.id.layoutGuestQr).setOnClickListener(v -> {
             startActivity(new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.guest.GuestQrActivity.class));

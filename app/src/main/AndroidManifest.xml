@@ -88,6 +88,12 @@
         <activity
             android:name=".feature.vehicle.VehicleRegisterActivity"
             android:exported="false" />
+        <activity
+            android:name=".feature.accesscard.AccessCardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.accesscard.AccessCardMemberListActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

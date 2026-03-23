@@ -17,7 +17,16 @@ import java.util.List;
 
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleViewHolder> {
 
+    public interface OnItemClickListener {
+        void onItemClick(VehicleWithOwner vehicle);
+    }
+
     private List<VehicleWithOwner> vehicleList = new ArrayList<>();
+    private OnItemClickListener listener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public void setData(List<VehicleWithOwner> list) {
         if (list != null) {
@@ -52,6 +61,11 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
                     v.ownerName != null ? v.ownerName : "Không rõ"
             );
         }
+
+        // click mở thẻ ra vào
+        holder.itemView.setOnClickListener(view -> {
+            if (listener != null) listener.onItemClick(v);
+        });
 
         // icon theo loại xe
         if (v.vehicleType != null) {

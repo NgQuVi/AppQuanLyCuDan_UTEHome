@@ -1,7 +1,6 @@
 package com.example.quanlycudan_utehome.feature.apartment;
 
 import android.content.Intent;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +27,7 @@ public class ApartmentInfoActivity extends AppCompatActivity {
     private RecyclerView recyclerViewMembers;
     private ApartmentMemberAdapter memberAdapter;
     private int apartmentId = 1;
+    private String apartmentDisplayLabel = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +80,9 @@ public class ApartmentInfoActivity extends AppCompatActivity {
         TextView tvMainBuilding = findViewById(R.id.tvMainBuilding);
 
         tvMainApartmentCode.setText(apartment.apartmentCode);
-
-
         tvMainBuilding.setText("Toà" + apartment.buildingCode);
 
+        apartmentDisplayLabel = apartment.apartmentCode + ", Tòa " + apartment.buildingCode;
     }
 
     private void displayMembers(java.util.List<ApartmentWithMembers.ApartmentMemberDetail> members) {
@@ -91,13 +90,16 @@ public class ApartmentInfoActivity extends AppCompatActivity {
         if (recyclerViewMembers != null) {
             recyclerViewMembers.setLayoutManager(new LinearLayoutManager(this));
             memberAdapter = new ApartmentMemberAdapter(members, detail -> {
+                // Khi bấm vào từng thành viên, mở màn hình chi tiết thành viên
                 Intent intent = new Intent(this, MemberDetailActivity.class);
-                intent.putExtra("RESIDENT_ID", detail.resident.id);
-                intent.putExtra("MEMBER_ROLE", detail.apartmentMember.role);
+                if (detail.resident != null) {
+                    intent.putExtra("RESIDENT_ID", detail.resident.id);
+                }
+                if (detail.apartmentMember != null && detail.apartmentMember.role != null) {
+                    intent.putExtra("MEMBER_ROLE", detail.apartmentMember.role);
+                }
                 startActivity(intent);
             });
-
-        apartmentId = getIntent().getIntExtra("APARTMENT_ID", 1);
 
             recyclerViewMembers.setAdapter(memberAdapter);
         }
