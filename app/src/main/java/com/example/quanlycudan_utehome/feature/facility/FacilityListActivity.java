@@ -25,6 +25,11 @@ public class FacilityListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_facility_list);
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+        
+        findViewById(R.id.btnHistory).setOnClickListener(v -> {
+            Intent intent = new Intent(FacilityListActivity.this, FacilityHistoryActivity.class);
+            startActivity(intent);
+        });
 
         // Initialize Data
         facilityList = new ArrayList<>();

@@ -10,6 +10,7 @@ import com.example.quanlycudan_utehome.data.entity.GuestPass;
 import com.example.quanlycudan_utehome.data.entity.Invoice;
 import com.example.quanlycudan_utehome.data.entity.InvoiceItem;
 import com.example.quanlycudan_utehome.data.entity.TransactionHistory;
+import com.example.quanlycudan_utehome.data.entity.AppNotification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class DatabaseInitializer {
         insertSampleApartmentMembers(db);
         insertSampleInvoices(db);
         insertSampleGuestPasses(db);
+        insertSampleNotifications(db);
     }
 
     // ══════════════════════════════════════════════════════════════════════════
@@ -314,6 +316,60 @@ public class DatabaseInitializer {
             );
             db.paymentDao().insertTransaction(history);
 
+        }).start();
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // NOTIFICATIONS
+    // ══════════════════════════════════════════════════════════════════════════
+    private static void insertSampleNotifications(AppDatabase db) {
+        new Thread(() -> {
+            if (db.appNotificationDao().getAllNotifications().isEmpty()) {
+                AppNotification n1 = new AppNotification();
+                n1.type = "MAINTENANCE";
+                n1.title = "Thông báo bảo trì hệ thống thang máy tòa S1";
+                n1.shortDescription = "Kế hoạch bảo trì định kỳ thang máy từ 09:00 - 11:00 ngày hôm nay tại...";
+                n1.dateStr = "15/10/2023";
+                n1.timeStr = "10:30 AM";
+                n1.isRead = false;
+                n1.timestamp = System.currentTimeMillis() - 10 * 60 * 1000;
+                n1.affectedScope = "Toàn bộ cư dân đang sinh sống tại tòa S1 và khách vãng lai.";
+                n1.fullContent = "Kính gửi Quý cư dân tòa S1, Ban Quản lý Tòa nhà xin thông báo về kế hoạch bảo trì định kỳ hệ thống thang máy nhằm đảm bảo an toàn vận hành. Chi tiết lịch trình cụ thể như sau:\n\n* Lưu ý: Trong thời gian bảo trì, các thang máy còn lại vẫn hoạt động bình thường. Tuy nhiên, thời gian chờ đợi có thể lâu hơn so với dự kiến.\n\nBan Quản lý rất mong nhận được sự thông cảm và hợp tác của Quý cư dân để công tác bảo trì diễn ra thuận lợi. Mọi thắc mắc xin vui lòng liên hệ Hotline: 1900 xxxx.";
+                n1.eventStepsJson = "[{\"title\":\"Đợt 1: Thang máy 1, 2 & 3\",\"time\":\"Thời gian: 08:00 - 12:00, ngày 16/10/2023\"},{\"title\":\"Đợt 2: Thang máy 4, 5 & 6\",\"time\":\"Thời gian: 13:30 - 17:30, ngày 16/10/2023\"}]";
+                // Fake imageResId for demo: R.drawable.img_elevator (we'll implement this soon)
+
+                AppNotification n2 = new AppNotification();
+                n2.type = "IMPORTANT";
+                n2.title = "Thông báo tạm ngắt điện";
+                n2.shortDescription = "Tòa nhà S1 sẽ tạm ngừng cung cấp điện để đấu nối hệ thống kỹ thuật...";
+                n2.dateStr = "14/10/2023";
+                n2.timeStr = "08:00 AM";
+                n2.isRead = false;
+                n2.timestamp = System.currentTimeMillis() - 24 * 60 * 60 * 1000;
+                
+                AppNotification n3 = new AppNotification();
+                n3.type = "MEETING";
+                n3.title = "Họp cư dân định kỳ Q3";
+                n3.shortDescription = "Kính mời quý cư dân tham dự buổi họp tổng kết hoạt động quý 3 tại phòng...";
+                n3.dateStr = "13/10/2023";
+                n3.timeStr = "14:00 PM";
+                n3.isRead = true;
+                n3.timestamp = System.currentTimeMillis() - 2 * 24 * 60 * 60 * 1000;
+
+                AppNotification n4 = new AppNotification();
+                n4.type = "UTILITY";
+                n4.title = "Hóa đơn tiền nước tháng 10";
+                n4.shortDescription = "Hóa đơn tiền nước kỳ tháng 10/2023 đã được cập nhật. Quý cư dân vui lòn...";
+                n4.dateStr = "12/10/2023";
+                n4.timeStr = "09:00 AM";
+                n4.isRead = true;
+                n4.timestamp = System.currentTimeMillis() - 3 * 24 * 60 * 60 * 1000;
+
+                db.appNotificationDao().insertNotification(n1);
+                db.appNotificationDao().insertNotification(n2);
+                db.appNotificationDao().insertNotification(n3);
+                db.appNotificationDao().insertNotification(n4);
+            }
         }).start();
     }
 }

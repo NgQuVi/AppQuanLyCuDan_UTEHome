@@ -365,7 +365,7 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:background="@drawable/bg_card_white"
+                    android:background="@drawable/bg_time_slot_available"
                     android:gravity="center"
                     android:paddingVertical="12dp"
                     android:text="08:00"
@@ -377,7 +377,7 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:background="@drawable/bg_card_white"
+                    android:background="@drawable/bg_time_slot_available"
                     android:gravity="center"
                     android:paddingVertical="12dp"
                     android:text="09:00"
@@ -403,7 +403,7 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:background="@drawable/bg_card_white"
+                    android:background="@drawable/bg_time_slot_available"
                     android:gravity="center"
                     android:paddingVertical="12dp"
                     android:text="11:00"
@@ -434,7 +434,7 @@
                 <View
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:background="@drawable/bg_card_white" />
+                    android:background="@drawable/bg_time_slot_available" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
