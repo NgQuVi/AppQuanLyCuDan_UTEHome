@@ -13,15 +13,19 @@ import com.example.quanlycudan_utehome.data.dao.PaymentDao;
 import com.example.quanlycudan_utehome.data.dao.ResidentDao;
 import com.example.quanlycudan_utehome.data.dao.AccountDao;
 import com.example.quanlycudan_utehome.data.dao.VehicleDao;
+import com.example.quanlycudan_utehome.data.dao.FacilityBookingDao;
 import com.example.quanlycudan_utehome.data.entity.Apartment;
 import com.example.quanlycudan_utehome.data.entity.ApartmentMember;
 import com.example.quanlycudan_utehome.data.entity.Account;
 import com.example.quanlycudan_utehome.data.entity.Invoice;
 import com.example.quanlycudan_utehome.data.entity.InvoiceItem;
+import com.example.quanlycudan_utehome.data.entity.FacilityBooking;
 import com.example.quanlycudan_utehome.data.entity.GuestPass;
 import com.example.quanlycudan_utehome.data.entity.Resident;
 import com.example.quanlycudan_utehome.data.entity.TransactionHistory;
 import com.example.quanlycudan_utehome.data.entity.Vehicle;
+import com.example.quanlycudan_utehome.data.entity.AppNotification;
+import com.example.quanlycudan_utehome.data.dao.AppNotificationDao;
 
 @Database(entities = { Apartment.class,
         Resident.class,
@@ -31,8 +35,10 @@ import com.example.quanlycudan_utehome.data.entity.Vehicle;
         InvoiceItem.class,
         TransactionHistory.class,
         Vehicle.class,
-        GuestPass.class
-}, version = 9, exportSchema = false)
+        GuestPass.class,
+        FacilityBooking.class,
+        AppNotification.class
+}, version = 12, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ApartmentDao apartmentDao();
@@ -42,6 +48,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract PaymentDao paymentDao();
     public abstract VehicleDao vehicleDao();
     public abstract GuestPassDao guestPassDao();
+    public abstract FacilityBookingDao facilityBookingDao();
+    public abstract AppNotificationDao appNotificationDao();
     private static AppDatabase instance;
 
     public static synchronized AppDatabase getInstance(Context context){

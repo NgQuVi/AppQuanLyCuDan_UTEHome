@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_utilities) {
                 startActivity(new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.facility.FacilityListActivity.class));
                 return true;
+            } else if (item.getItemId() == R.id.nav_notification) {
+                startActivity(new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.notification.NotificationListActivity.class));
+                return true;
             }
             // Add other navigation logic here if needed
             return true;

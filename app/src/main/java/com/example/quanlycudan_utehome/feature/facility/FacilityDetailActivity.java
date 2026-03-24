@@ -9,7 +9,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quanlycudan_utehome.R;
+import com.example.quanlycudan_utehome.data.database.AppDatabase;
 import com.example.quanlycudan_utehome.data.entity.Facility;
+import com.example.quanlycudan_utehome.data.entity.FacilityBooking;
+import com.example.quanlycudan_utehome.data.local.SessionManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FacilityDetailActivity extends AppCompatActivity {
 
@@ -24,27 +30,56 @@ public class FacilityDetailActivity extends AppCompatActivity {
 
     private final String[] DATES = {"Thứ 2, 15/10", "Thứ 3, 16/10", "Thứ 4, 17/10"};
     private final String[] TIMES = {"08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00", "14:00 - 15:00"};
+    
+    private AppDatabase db;
+    private int currentResidentId;
+    private Facility currentFacility;
+    private List<String> bookedTimes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facility_detail);
 
+        db = AppDatabase.getInstance(this);
+        currentResidentId = SessionManager.getInstance(this).getResidentId();
+
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
-        Facility facility = (Facility) getIntent().getSerializableExtra("facility");
-        if (facility != null) {
-            setupViews(facility);
+        currentFacility = (Facility) getIntent().getSerializableExtra("facility");
+        if (currentFacility != null) {
+            setupViews(currentFacility);
         }
 
         setupInteractions();
 
         findViewById(R.id.btnBook).setOnClickListener(v -> {
+            if (currentResidentId == -1) {
+                Toast.makeText(this, "Vui lòng đăng nhập để đặt lịch!", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (selectedTimeIndex == -1) {
                 Toast.makeText(this, "Vui lòng chọn khung giờ!", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Đặt lịch thành công!", Toast.LENGTH_SHORT).show();
-                finish();
+                new Thread(() -> {
+                    FacilityBooking booking = new FacilityBooking();
+                    booking.facilityId = currentFacility.id;
+                    booking.residentId = currentResidentId;
+                    booking.bookingDate = DATES[selectedDateIndex];
+                    booking.DayBooking = DATES[selectedDateIndex].split(",")[0];
+                    String[] timeParts = TIMES[selectedTimeIndex].split(" - ");
+                    booking.startTime = timeParts[0];
+                    booking.endTime = timeParts[1];
+                    booking.status = "BOOKED";
+                    booking.cancelReason = "";
+                    
+                    db.facilityBookingDao().insertBooking(booking);
+                    
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "Đặt lịch thành công!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    });
+                }).start();
             }
         });
     }
@@ -83,23 +118,29 @@ public class FacilityDetailActivity extends AppCompatActivity {
             dates[i].setOnClickListener(v -> selectDate(index));
         }
 
-        for (int i = 0; i < times.length; i++) {
-            final int index = i;
-            // E.g. make time 5 (14:00) disabled
-            if (i == 4) {
-                times[i].setOnClickListener(v -> Toast.makeText(this, "Khung giờ này đã đầy", Toast.LENGTH_SHORT).show());
-                continue;
+        fetchBookingsForSelectedDate();
+    }
+    
+    private void fetchBookingsForSelectedDate() {
+        if (currentFacility == null) return;
+        new Thread(() -> {
+            String date = DATES[selectedDateIndex];
+            List<FacilityBooking> bookings = db.facilityBookingDao().getBookingsByFacilityAndDate(currentFacility.id, date);
+            
+            bookedTimes.clear();
+            for (FacilityBooking b : bookings) {
+                if ("BOOKED".equals(b.status)) {
+                    bookedTimes.add(b.startTime + " - " + b.endTime);
+                }
             }
-            times[i].setOnClickListener(v -> selectTime(index));
-        }
-
-        updateSelectionUI();
+            runOnUiThread(() -> updateSelectionUI());
+        }).start();
     }
 
     private void selectDate(int index) {
         selectedDateIndex = index;
         selectedTimeIndex = -1; // Reset time when date changes
-        updateSelectionUI();
+        fetchBookingsForSelectedDate(); // Also updates UI
     }
 
     private void selectTime(int index) {
@@ -123,16 +164,27 @@ public class FacilityDetailActivity extends AppCompatActivity {
 
         // Update Times
         for (int i = 0; i < times.length; i++) {
-            if (i == 4) continue; // Disabled time
-
-            if (i == selectedTimeIndex) {
+            boolean isBooked = bookedTimes.contains(TIMES[i]);
+            
+            if (isBooked) {
+                times[i].setBackgroundResource(R.drawable.bg_card_white);
+                times[i].setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#F5F5F5")));
+                times[i].setTextColor(android.graphics.Color.parseColor("#BDBDBD"));
+                times[i].setTypeface(null, android.graphics.Typeface.NORMAL);
+                times[i].setOnClickListener(v -> Toast.makeText(this, "Khung giờ này đã đầy", Toast.LENGTH_SHORT).show());
+            } else if (i == selectedTimeIndex) {
+                times[i].setBackgroundResource(R.drawable.bg_card_white);
                 times[i].setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#FFF3E0")));
                 times[i].setTextColor(getResources().getColor(R.color.home_primary_orange));
                 times[i].setTypeface(null, android.graphics.Typeface.BOLD);
+                times[i].setOnClickListener(v -> { /* nothing */ });
             } else {
+                times[i].setBackgroundResource(R.drawable.bg_time_slot_available);
                 times[i].setBackgroundTintList(null);
                 times[i].setTextColor(getResources().getColor(R.color.home_text_secondary));
                 times[i].setTypeface(null, android.graphics.Typeface.NORMAL);
+                int finalI = i;
+                times[i].setOnClickListener(v -> selectTime(finalI));
             }
         }
 

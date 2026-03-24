@@ -379,7 +379,6 @@
 
             </LinearLayout>
 
-            <!-- Edit Button -->
             <Button
                 android:id="@+id/btnEditProfile"
                 android:layout_width="match_parent"
@@ -390,6 +389,21 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:cornerRadius="8dp" />
+
+            <!-- Facility History Button -->
+            <Button
+                android:id="@+id/btnFacilityHistory"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#FFFFFF"
+                android:text="Lịch sử đặt tiện ích"
+                android:textColor="@color/home_primary_orange"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:strokeColor="@color/home_primary_orange"
+                app:strokeWidth="1dp"
                 app:cornerRadius="8dp" />
 
             <!-- Security Note -->
