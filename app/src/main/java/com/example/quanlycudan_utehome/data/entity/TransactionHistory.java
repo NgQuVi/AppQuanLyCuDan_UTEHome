@@ -2,7 +2,9 @@ package com.example.quanlycudan_utehome.data.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
 
 @Entity(tableName = "transactions")
 public class TransactionHistory implements java.io.Serializable{

@@ -51,4 +51,31 @@ public class PaymentRepository {
             paymentDao.markInvoiceAsPaid(transaction.invoiceId);
         }).start();
     }
+
+    public void processMockPayment(String invoiceId, long totalAmount, String method,
+                                   boolean elec, boolean water, boolean park, boolean internet) {
+        new Thread(() -> {
+            // Cập nhật trạng thái TỪNG ITEM MỘT nếu người dùng có tích chọn
+            if (elec) paymentDao.markInvoiceItemAsPaid(invoiceId, "ELECTRIC");
+            if (water) paymentDao.markInvoiceItemAsPaid(invoiceId, "WATER");
+            if (park) paymentDao.markInvoiceItemAsPaid(invoiceId, "PARKING");
+            if (internet) paymentDao.markInvoiceItemAsPaid(invoiceId, "INTERNET");
+
+            // Kiểm tra xem đã thanh toán hết các mục trong Menu chưa?
+            int unpaidCount = paymentDao.countUnpaidItems(invoiceId);
+            if (unpaidCount == 0) {
+                // Nếu không còn mục nào UNPAID, lúc này mới cập nhật hóa đơn tổng thành PAID
+                paymentDao.markInvoiceAsPaid(invoiceId);
+            }
+
+            // Ghi nhận Lịch sử giao dịch (Giữ nguyên như code cũ)
+            String txCode = "MOCK" + System.currentTimeMillis();
+            String currentTime = new java.text.SimpleDateFormat("dd/MM/yyyy - HH:mm",
+                    java.util.Locale.getDefault()).format(new java.util.Date());
+            TransactionHistory history = new TransactionHistory(txCode, invoiceId, method, currentTime, totalAmount, "SUCCESS");
+            paymentDao.insertTransaction(history);
+        }).start();
+    }
+
+
 }

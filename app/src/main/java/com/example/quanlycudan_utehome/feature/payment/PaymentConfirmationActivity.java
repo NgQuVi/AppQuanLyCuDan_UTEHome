@@ -81,21 +81,9 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
             return;
         }
 
-        String txCode = "#PMH" + new SimpleDateFormat("MMddHHmm", Locale.getDefault())
-                .format(new Date());
+        repository.processMockPayment(invoiceId, totalSum, "Ví MoMo", hasElec, hasWater, hasPark, hasInternet);
 
-        TransactionHistory tx = new TransactionHistory(
-                txCode,
-                invoiceId,
-                "Ví MoMo",
-                new SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault()).format(new Date()),
-                totalSum,
-                "SUCCESS"
-        );
-
-        repository.confirmSuccessfulPayment(tx);
-
-        Toast.makeText(this, "Thanh toán thành công! " + txCode, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Thanh toán thành công!", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(this, PaymentHistoryActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

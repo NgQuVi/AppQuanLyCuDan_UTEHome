@@ -21,7 +21,8 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment_success);
 
         // Get details from Intent
-        int totalSum = getIntent().getIntExtra("TOTAL_SUM", 4380000);
+        long totalSum = getIntent().getLongExtra("TOTAL_SUM", 0L);
+
         String formattedTotal = String.format("%,dđ", totalSum).replace(',', '.');
         String method = getIntent().getStringExtra("METHOD");
         if (method == null) method = "Ví MoMo";

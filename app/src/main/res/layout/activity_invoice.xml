@@ -154,6 +154,7 @@
 
             <!-- Item: Electricity -->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutElec"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_invoice_card"
@@ -288,6 +289,7 @@
 
             <!-- Item: Water -->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutWater"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_invoice_card"
@@ -420,6 +422,7 @@
 
             <!-- Item: Parking -->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutPark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_invoice_card"
@@ -547,6 +550,7 @@
 
             <!-- Item: Internet -->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutInternet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_invoice_card"

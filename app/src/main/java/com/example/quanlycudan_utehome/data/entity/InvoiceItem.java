@@ -18,5 +18,7 @@ public class InvoiceItem {
     public int oldIndex;
     public int newIndex;
 
+    public String status = "UNPAID"; 
+
     public InvoiceItem() {}
 }
