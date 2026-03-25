@@ -10,20 +10,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quanlycudan_utehome.MainActivity;
 import com.example.quanlycudan_utehome.R;
+import com.example.quanlycudan_utehome.data.repository.PaymentRepository;
 
 public class PaymentConfirmationActivity extends AppCompatActivity {
+    private PaymentRepository paymentRepository;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_confirmation);
 
+        paymentRepository = new PaymentRepository(getApplication());
         // Bind back button
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         // Get total sum from Intent
-        int totalSum = getIntent().getIntExtra("TOTAL_SUM", 4380000); // Default to a mocked value if not passed
+        long totalSum = getIntent().getLongExtra("TOTAL_SUM", 0L); // Default to a mocked value if not passed
         String formattedTotal = String.format("%,dđ", totalSum).replace(',', '.');
+
+        String invoiceId = getIntent().getStringExtra("INVOICE_ID");
 
         // Setup Invoice Details Visibility
         boolean hasElec = getIntent().getBooleanExtra("HAS_ELEC", true);
@@ -78,17 +84,24 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
 
         // Setup Confirm Payment Button
         findViewById(R.id.btnConfirm).setOnClickListener(v -> {
-            Intent intent = new Intent(PaymentConfirmationActivity.this, PaymentSuccessActivity.class);
-            intent.putExtra("TOTAL_SUM", totalSum);
-            
             String selectedMethod = "Ví MoMo";
             if (rbBank.isChecked()) selectedMethod = "Thẻ ngân hàng";
             else if (rbTransfer != null && rbTransfer.isChecked()) selectedMethod = "Chuyển khoản";
-            
+
+            // Lấy ID và các biến chọn dịch vụ
+
+            // GỌI REPOSITORY MỚI
+            if (invoiceId != null && !invoiceId.isEmpty()) {
+                paymentRepository.processMockPayment(invoiceId, totalSum, selectedMethod, hasElec, hasWater, hasPark, hasInternet);
+            }
+
+            Intent intent = new Intent(PaymentConfirmationActivity.this, PaymentSuccessActivity.class);
+            // Lưu ý: totalSum ở đây phải lấy bằng getLongExtra như đã nhắc ở phần trước nhé!
+            intent.putExtra("TOTAL_SUM", totalSum);
             intent.putExtra("METHOD", selectedMethod);
             startActivity(intent);
-            // Finish this activity so you can't go back to confirmation from success screen
             finish();
         });
+
     }
 }
