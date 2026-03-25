@@ -77,4 +77,8 @@ public interface VehicleDao {
     // Delete by id
     @Query("DELETE FROM vehicles WHERE id = :id")
     void deleteById(int id);
+
+    // Sync
+    @Query("SELECT * FROM vehicles WHERE id = :id LIMIT 1")
+    Vehicle getVehicleByIdSync(int id);
 }

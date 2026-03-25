@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey;
     indices = {@Index(value = "phone", unique = true)}
 )
 public class Account {
+    public Account() {}
 
     @PrimaryKey(autoGenerate = true)
     public int id;

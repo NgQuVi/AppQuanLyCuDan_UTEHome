@@ -265,4 +265,12 @@ tháng này.</string>
     <string name="guest_qr_generate_now">Tạo mã ngay</string>
     <string name="guest_qr_download">Tải xuống</string>
     <string name="guest_qr_create_new">Tạo mới</string>
+
+    <string name="nav_dashboard">Tổng quan</string>
+    <string name="nav_manage">Quản lý</string>
+    <string name="nav_settings">Cài đặt</string>
+    <string name="avatar_desc">Ảnh đại diện</string>
+    <string name="dashboard_title">Bảng điều khiển</string>
+    <string name="dashboard_admin">Quản trị viên</string>
+    <string name="icon_desc">Biểu tượng</string>
 </resources>

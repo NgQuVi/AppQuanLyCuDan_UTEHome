@@ -23,6 +23,70 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".admin.AdminMainActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ManageActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ResidentListActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ResidentDetailActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AddResidentActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ApartmentListActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ApartmentDetailActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AddApartmentActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.OccupancyListActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.InvoiceManagementActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.InvoiceDetailActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ComposeInvoiceActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.NotificationManagementActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.NotificationDetailAdminActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ComposeNotificationActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.VehicleDetailAdminActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
             android:name=".feature.apartment.ApartmentInfoActivity"
             android:exported="false" />
         <activity

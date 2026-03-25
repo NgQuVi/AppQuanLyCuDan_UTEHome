@@ -44,12 +44,16 @@ public interface PaymentDao {
     @Query("SELECT * FROM transactions WHERE transactionCode = :code")
     LiveData<TransactionHistory> getTransactionByCode(String code);
 
+    @Query("SELECT SUM(paidAmount) FROM transactions WHERE status = 'SUCCESS'")
+    long getTotalPaidAmount();
 
-    @Query("UPDATE invoice_items SET status = 'PAID' WHERE invoiceId = :invId AND serviceType = :type")
-    void markInvoiceItemAsPaid(String invId, String type);
+    @Query("SELECT i.id AS invoiceId, a.apartmentCode, i.dueDate, i.totalAmount, i.status " +
+           "FROM invoices i INNER JOIN apartments a ON CAST(i.apartmentId AS INTEGER) = a.id")
+    List<com.example.quanlycudan_utehome.data.entity.InvoiceItemRow> getInvoiceItemRows();
 
+    @Query("UPDATE invoice_items SET status = 'PAID' WHERE invoiceId = :invoiceId AND serviceType = :serviceType")
+    void markInvoiceItemAsPaid(String invoiceId, String serviceType);
 
-    @Query("SELECT COUNT(*) FROM invoice_items WHERE invoiceId = :invId AND status = 'UNPAID'")
-    int countUnpaidItems(String invId);
-
+    @Query("SELECT COUNT(*) FROM invoice_items WHERE invoiceId = :invoiceId AND status = 'UNPAID'")
+    int countUnpaidItems(String invoiceId);
 }

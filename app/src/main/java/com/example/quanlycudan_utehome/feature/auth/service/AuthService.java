@@ -39,6 +39,12 @@ public class AuthService {
      */
     public void login(String phone, String password, AuthCallback<Integer> callback) {
         executorService.execute(() -> {
+            // Check for admin login directly
+            if ("123456".equals(phone) && "123".equals(password)) {
+                new Handler(Looper.getMainLooper()).post(() -> callback.onResult(-999));
+                return;
+            }
+
             Account account = db.accountDao().getAccountByPhone(phone);
             int loggedInId = -1;
             if (account != null && account.password != null) {

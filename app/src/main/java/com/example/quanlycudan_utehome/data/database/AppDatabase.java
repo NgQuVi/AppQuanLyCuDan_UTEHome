@@ -38,7 +38,7 @@ import com.example.quanlycudan_utehome.data.dao.AppNotificationDao;
         GuestPass.class,
         FacilityBooking.class,
         AppNotification.class
-}, version = 12, exportSchema = false)
+}, version = 14, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ApartmentDao apartmentDao();

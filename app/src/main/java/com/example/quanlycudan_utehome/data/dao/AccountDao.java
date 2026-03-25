@@ -11,7 +11,7 @@ import com.example.quanlycudan_utehome.data.entity.Account;
 public interface AccountDao {
 
     @Insert
-    void insert(Account account);
+    long insert(Account account);
 
     @Update
     void update(Account account);
