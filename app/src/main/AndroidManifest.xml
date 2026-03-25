@@ -80,6 +80,12 @@
             android:name=".feature.guest.GuestQrActivity"
             android:exported="false" />
         <activity
+            android:name=".feature.guest.GuestQrHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.guest.GuestQrDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.feedback.FeedbackActivity"
             android:exported="false" />
         <activity
