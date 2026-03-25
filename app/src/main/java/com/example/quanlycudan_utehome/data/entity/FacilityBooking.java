@@ -14,4 +14,5 @@ public class FacilityBooking {
     public String startTime;
     public String endTime;
     public String status;
+    public String cancelReason;
 }

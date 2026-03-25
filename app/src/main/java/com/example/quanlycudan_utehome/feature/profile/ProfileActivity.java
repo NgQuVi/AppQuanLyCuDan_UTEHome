@@ -37,6 +37,12 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
             startActivity(intent);
         });
+
+        // Facility History Button
+        findViewById(R.id.btnFacilityHistory).setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, com.example.quanlycudan_utehome.feature.facility.FacilityHistoryActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override

@@ -100,6 +100,15 @@
         <activity
             android:name=".feature.accesscard.AccessCardMemberListActivity"
             android:exported="false" />
+        <activity
+            android:name=".feature.facility.FacilityHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.notification.NotificationListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.notification.NotificationDetailActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
