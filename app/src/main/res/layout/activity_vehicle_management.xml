@@ -124,7 +124,7 @@
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/chipBike"
+                android:id="@+id/chipMotor"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_marginEnd="8dp"
@@ -139,9 +139,9 @@
                 android:textColor="@color/color_invoice_chip_text"
                 android:textSize="13sp" />
 
-            <!-- PENDING STATUS FILTER -->
+            <!-- ELECTRIC STATUS FILTER -->
             <TextView
-                android:id="@+id/chipPending"
+                android:id="@+id/chipElectric"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_marginEnd="8dp"
@@ -152,7 +152,7 @@
                 android:gravity="center"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="Chờ duyệt"
+                android:text="Xe điện"
                 android:textColor="@color/color_invoice_chip_text"
                 android:textSize="13sp" />
 

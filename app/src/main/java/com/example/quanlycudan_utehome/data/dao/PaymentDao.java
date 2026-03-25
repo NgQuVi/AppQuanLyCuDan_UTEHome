@@ -50,4 +50,10 @@ public interface PaymentDao {
     @Query("SELECT i.id AS invoiceId, a.apartmentCode, i.dueDate, i.totalAmount, i.status " +
            "FROM invoices i INNER JOIN apartments a ON CAST(i.apartmentId AS INTEGER) = a.id")
     List<com.example.quanlycudan_utehome.data.entity.InvoiceItemRow> getInvoiceItemRows();
+
+    @Query("UPDATE invoice_items SET status = 'PAID' WHERE invoiceId = :invoiceId AND serviceType = :serviceType")
+    void markInvoiceItemAsPaid(String invoiceId, String serviceType);
+
+    @Query("SELECT COUNT(*) FROM invoice_items WHERE invoiceId = :invoiceId AND status = 'UNPAID'")
+    int countUnpaidItems(String invoiceId);
 }
