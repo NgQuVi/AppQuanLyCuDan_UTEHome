@@ -12,10 +12,16 @@ import com.example.quanlycudan_utehome.data.entity.InvoiceItem;
 import com.example.quanlycudan_utehome.data.entity.TransactionHistory;
 import com.example.quanlycudan_utehome.data.entity.AppNotification;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class DatabaseInitializer {
+
+    private static final SimpleDateFormat DATE_ONLY = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    private static final SimpleDateFormat DATE_TIME = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
 
     public static void initializeSampleData(Context context) {
         AppDatabase db = AppDatabase.getInstance(context);
@@ -29,32 +35,6 @@ public class DatabaseInitializer {
         insertSampleNotifications(db);
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // GUEST PASSES
-    // ══════════════════════════════════════════════════════════════════════════
-    private static void insertSampleGuestPasses(AppDatabase db) {
-        new Thread(() -> {
-            if (db.guestPassDao().getGuestPassesByApartmentIdSync(1).isEmpty()) {
-                insertGuest(db, 1, "QR88291", "10/10/2023", "10/10/2023 08:00", "20/10/2023 22:00", "ACTIVE");
-                insertGuest(db, 1, "QR88290", "05/10/2023", "05/10/2023 08:00", "15/10/2023 22:00", "ACTIVE");
-                insertGuest(db, 1, "QR88285", "20/09/2023", "20/09/2023 08:00", "30/09/2023 22:00", "EXPIRED");
-                insertGuest(db, 1, "QR88275", "15/09/2023", "15/09/2023 08:00", "25/09/2023 22:00", "CANCELLED");
-                insertGuest(db, 1, "QR88270", "01/09/2023", "01/09/2023 08:00", "10/09/2023 22:00", "EXPIRED");
-            }
-        }).start();
-    }
-
-    private static void insertGuest(AppDatabase db, int aptId, String code,
-                                     String created, String from, String to, String status) {
-        GuestPass gp = new GuestPass();
-        gp.apartmentId = aptId;
-        gp.code = code;
-        gp.createdDate = created;
-        gp.fromDateTime = from;
-        gp.toDateTime = to;
-        gp.status = status;
-        db.guestPassDao().insertGuestPass(gp);
-    }
 
     // ══════════════════════════════════════════════════════════════════════════
     // RESIDENTS
@@ -346,7 +326,7 @@ public class DatabaseInitializer {
                 n2.timeStr = "08:00 AM";
                 n2.isRead = false;
                 n2.timestamp = System.currentTimeMillis() - 24 * 60 * 60 * 1000;
-                
+
                 AppNotification n3 = new AppNotification();
                 n3.type = "MEETING";
                 n3.title = "Họp cư dân định kỳ Q3";
@@ -371,5 +351,50 @@ public class DatabaseInitializer {
                 db.appNotificationDao().insertNotification(n4);
             }
         }).start();
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // GUEST PASSES
+    // ══════════════════════════════════════════════════════════════════════════
+    private static void insertSampleGuestPasses(AppDatabase db) {
+        new Thread(() -> {
+            if (db.guestPassDao().getGuestPassesByApartmentIdSync(1).isEmpty()) {
+                insertGuest(db, 1, "QR88291", "10/10/2023", "10/10/2023 08:00", "20/10/2023 22:00", "ACTIVE");
+                insertGuest(db, 1, "QR88290", "05/10/2023", "05/10/2023 08:00", "15/10/2023 22:00", "ACTIVE");
+                insertGuest(db, 1, "QR88285", "20/09/2023", "20/09/2023 08:00", "30/09/2023 22:00", "EXPIRED");
+                insertGuest(db, 1, "QR88275", "15/09/2023", "15/09/2023 08:00", "25/09/2023 22:00", "CANCELLED");
+                insertGuest(db, 1, "QR88270", "01/09/2023", "01/09/2023 08:00", "10/09/2023 22:00", "EXPIRED");
+            }
+        }).start();
+    }
+
+    private static void insertGuest(AppDatabase db, int aptId, String code,
+                                    String created, String from, String to, String status) {
+        GuestPass gp = new GuestPass();
+        gp.apartmentId = aptId;
+        gp.code = code;
+        gp.createdAt = parseDateToMillis(created);
+        gp.validFrom = parseDateTimeToMillis(from);
+        gp.validTo = parseDateTimeToMillis(to);
+        gp.status = status;
+        db.guestPassDao().insertGuestPass(gp);
+    }
+
+    private static long parseDateToMillis(String value) {
+        try {
+            if (value == null) return System.currentTimeMillis();
+            return DATE_ONLY.parse(value).getTime();
+        } catch (ParseException | NullPointerException e) {
+            return System.currentTimeMillis();
+        }
+    }
+
+    private static long parseDateTimeToMillis(String value) {
+        try {
+            if (value == null) return System.currentTimeMillis();
+            return DATE_TIME.parse(value).getTime();
+        } catch (ParseException | NullPointerException e) {
+            return System.currentTimeMillis();
+        }
     }
 }
