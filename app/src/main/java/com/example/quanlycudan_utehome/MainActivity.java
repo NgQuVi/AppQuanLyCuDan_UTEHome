@@ -8,7 +8,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.quanlycudan_utehome.data.database.AppDatabase;
+import com.example.quanlycudan_utehome.data.entity.Apartment;
+import com.example.quanlycudan_utehome.data.repository.ApartmentRepository;
+import com.example.quanlycudan_utehome.feature.apartment.ApartmentInfoActivity;
+
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +26,55 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Initialize sample data if empty
+        com.example.quanlycudan_utehome.data.database.DatabaseInitializer.initializeSampleData(this);
+
+        findViewById(R.id.cardApartment).setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.apartment.ApartmentInfoActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.cardFinancial).setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.invoice.InvoiceActivity.class);
+            startActivity(intent);
+        });
+
+        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        bottomNav.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_profile) {
+                startActivity(new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.profile.ProfileActivity.class));
+                return true;
+            }
+            // Add other navigation logic here if needed
+            return true;
+        });
+
+        loadUserData();
     }
+
+    private void loadUserData() {
+        int residentId = com.example.quanlycudan_utehome.data.local.SessionManager.getInstance(this).getResidentId();
+        if (residentId == -1) {
+            // No valid session, redirect to login
+            startActivity(new android.content.Intent(this, com.example.quanlycudan_utehome.feature.auth.login.LoginActivity.class));
+            finish();
+            return;
+        }
+
+        java.util.concurrent.Executors.newSingleThreadExecutor().execute(() -> {
+            com.example.quanlycudan_utehome.data.entity.Resident user = AppDatabase.getInstance(this).residentDao().getResidentById(residentId);
+            if (user != null) {
+                runOnUiThread(() -> {
+                    android.widget.TextView tvUserName = findViewById(R.id.tvUserName);
+                    if (tvUserName != null) {
+                        tvUserName.setText(user.fullName);
+                    }
+                });
+            }
+        });
+    }
+
+
 }
+
