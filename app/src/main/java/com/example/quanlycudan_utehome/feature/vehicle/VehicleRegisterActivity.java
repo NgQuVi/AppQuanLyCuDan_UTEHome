@@ -67,23 +67,41 @@ public class VehicleRegisterActivity extends AppCompatActivity {
     }
 
     private void loadDefaultResident() {
-        // Lấy residentId từ Session, nếu có
-        int residentId = com.example.quanlycudan_utehome.data.local.SessionManager
-                .getInstance(this)
-                .getResidentId();
-
-        if (residentId == -1) return;
-
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase db = AppDatabase.getInstance(this);
-            Resident resident = db.residentDao().getResidentById(residentId);
+            com.example.quanlycudan_utehome.data.local.SessionManager session =
+                    com.example.quanlycudan_utehome.data.local.SessionManager.getInstance(this);
 
-            runOnUiThread(() -> {
-                if (resident != null) {
+            int residentId = session.getResidentId();
+            Resident resident = residentId == -1 ? null : db.residentDao().getResidentById(residentId);
+
+            if (resident != null) {
+                runOnUiThread(() -> {
                     selectedResidentId = resident.id;
                     tvSelectedResident.setText(resident.fullName);
+                });
+                return;
+            }
+
+            Integer apartmentId = resolveCurrentApartmentId(db);
+            if (apartmentId == null) {
+                runOnUiThread(() -> tvSelectedResident.setText("Chọn cư dân"));
+                return;
+            }
+
+            List<ApartmentMember> members = db.apartmentMemberDao().getMembers(apartmentId);
+            for (ApartmentMember m : members) {
+                Resident r = db.residentDao().getResidentById(m.residentId);
+                if (r != null) {
+                    runOnUiThread(() -> {
+                        selectedResidentId = r.id;
+                        tvSelectedResident.setText(r.fullName);
+                    });
+                    return;
                 }
-            });
+            }
+
+            runOnUiThread(() -> tvSelectedResident.setText("Chọn cư dân"));
         });
     }
 
@@ -91,21 +109,10 @@ public class VehicleRegisterActivity extends AppCompatActivity {
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase db = AppDatabase.getInstance(this);
 
-            // Lấy residentId hiện tại từ Session để suy ra apartment
-            int currentResidentId = com.example.quanlycudan_utehome.data.local.SessionManager
-                    .getInstance(this)
-                    .getResidentId();
-
-            if (currentResidentId == -1) {
-                runOnUiThread(() ->
-                        Toast.makeText(this, "Không xác định được cư dân hiện tại", Toast.LENGTH_SHORT).show());
-                return;
-            }
-
-            Integer apartmentId = db.apartmentMemberDao().getApartmentIdByResidentId(currentResidentId);
+            Integer apartmentId = resolveCurrentApartmentId(db);
             if (apartmentId == null) {
                 runOnUiThread(() ->
-                        Toast.makeText(this, "Bạn chưa thuộc căn hộ nào", Toast.LENGTH_SHORT).show());
+                        Toast.makeText(this, "Không xác định được căn hộ hiện tại", Toast.LENGTH_SHORT).show());
                 return;
             }
 
@@ -117,7 +124,11 @@ public class VehicleRegisterActivity extends AppCompatActivity {
                 Resident r = db.residentDao().getResidentById(m.residentId);
                 if (r != null) {
                     residents.add(r);
-                    names.add(r.fullName);
+                    String displayName = r.fullName;
+                    if (displayName == null || displayName.trim().isEmpty()) {
+                        displayName = "Cư dân #" + r.id;
+                    }
+                    names.add(displayName);
                 }
             }
 
@@ -138,12 +149,38 @@ public class VehicleRegisterActivity extends AppCompatActivity {
                         .setAdapter(adapter, (dialog, which) -> {
                             Resident chosen = residents.get(which);
                             selectedResidentId = chosen.id;
-                            tvSelectedResident.setText(chosen.fullName);
+                            String chosenName = chosen.fullName;
+                            if (chosenName == null || chosenName.trim().isEmpty()) {
+                                chosenName = "Cư dân #" + chosen.id;
+                            }
+                            tvSelectedResident.setText(chosenName);
                         })
                         .setNegativeButton("Hủy", null)
                         .show();
             });
         });
+    }
+
+    private Integer resolveCurrentApartmentId(AppDatabase db) {
+        com.example.quanlycudan_utehome.data.local.SessionManager session =
+                com.example.quanlycudan_utehome.data.local.SessionManager.getInstance(this);
+
+        int residentId = session.getResidentId();
+        if (residentId != -1) {
+            Integer byResident = db.apartmentMemberDao().getApartmentIdByResidentId(residentId);
+            if (byResident != null) return byResident;
+        }
+
+        String apartmentIdRaw = session.getApartmentId();
+        if (apartmentIdRaw != null && !apartmentIdRaw.trim().isEmpty()) {
+            try {
+                return Integer.parseInt(apartmentIdRaw.trim());
+            } catch (NumberFormatException ignored) {
+                // fallback under malformed session data
+            }
+        }
+
+        return null;
     }
 
     private void showVehicleTypeDialog() {
