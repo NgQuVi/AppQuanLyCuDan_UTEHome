@@ -43,4 +43,13 @@ public interface PaymentDao {
 
     @Query("SELECT * FROM transactions WHERE transactionCode = :code")
     LiveData<TransactionHistory> getTransactionByCode(String code);
+
+
+    @Query("UPDATE invoice_items SET status = 'PAID' WHERE invoiceId = :invId AND serviceType = :type")
+    void markInvoiceItemAsPaid(String invId, String type);
+
+
+    @Query("SELECT COUNT(*) FROM invoice_items WHERE invoiceId = :invId AND status = 'UNPAID'")
+    int countUnpaidItems(String invId);
+
 }

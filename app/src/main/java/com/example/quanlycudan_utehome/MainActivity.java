@@ -21,6 +21,7 @@ import com.example.quanlycudan_utehome.feature.accesscard.AccessCardMemberListAc
 public class MainActivity extends AppCompatActivity {
     private int currentApartmentId = 1;
     private java.util.List<Apartment> userApartments = new java.util.ArrayList<>();
+    private boolean hasShownInvoiceAlert = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +145,43 @@ public class MainActivity extends AppCompatActivity {
         if (tvApartmentName != null) {
             tvApartmentName.setText(selectedApartment.apartmentCode + ", Tòa " + selectedApartment.buildingCode);
         }
+
+        com.example.quanlycudan_utehome.data.repository.PaymentRepository payRepo =
+                new com.example.quanlycudan_utehome.data.repository.PaymentRepository(getApplication());
+
+        payRepo.getUnpaidInvoices(String.valueOf(currentApartmentId)).observe(this, invoices -> {
+            TextView tvFinancialStatus = findViewById(R.id.tvFinancialStatus);
+            TextView tvFinancialDesc = findViewById(R.id.tvFinancialDesc);
+            android.widget.ImageView ivCheckMark = findViewById(R.id.ivCheckMark);
+
+            if (invoices != null && !invoices.isEmpty()) {
+                // Có hóa đơn nợ
+                tvFinancialStatus.setText("Cần thanh toán");
+                tvFinancialStatus.setTextColor(android.graphics.Color.parseColor("#FFD54F")); // Đổi màu vàng cảnh báo
+                tvFinancialDesc.setText("Bạn đang có hóa đơn phí dịch vụ cần được thanh toán ngay.");
+                ivCheckMark.setImageResource(R.drawable.ic_history_outline); // Đổi icon cảnh báo (có thể dùng icon khác tùy bạn)
+
+                // Show an alert dialog if we haven't shown it yet
+                if (!hasShownInvoiceAlert) {
+                    hasShownInvoiceAlert = true;
+                    new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Thông báo cước phí")
+                        .setMessage("Bạn có hóa đơn cần thanh toán cho căn hộ " + selectedApartment.apartmentCode + ". Vui lòng thanh toán để tránh gián đoạn dịch vụ.")
+                        .setPositiveButton("Đến trang Hóa đơn", (dialog, which) -> {
+                            android.content.Intent intent = new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.invoice.InvoiceActivity.class);
+                            startActivity(intent);
+                        })
+                        .setNegativeButton("Đóng", null)
+                        .show();
+                }
+            } else {
+                // Không có hóa đơn nợ
+                tvFinancialStatus.setText("Không có hóa đơn");
+                tvFinancialStatus.setTextColor(android.graphics.Color.WHITE);
+                tvFinancialDesc.setText("Bạn đã đóng đủ phí tháng hiện tại.");
+                ivCheckMark.setImageResource(R.drawable.ic_check_circle_orange);
+            }
+        });
 
         android.widget.ImageView ivDropdownArrow = findViewById(R.id.ivDropdownArrow);
         if (ivDropdownArrow != null) {
