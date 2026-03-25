@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Top faint line line -->
+    <item>
+        <shape>
+            <solid android:color="#1A000000" />
+        </shape>
+    </item>
+    <!-- Main background covering the rest -->
+    <item android:top="1dp">
+        <shape>
+            <solid android:color="@color/dashboard_nav_bg" />
+        </shape>
+    </item>
+</layer-list>

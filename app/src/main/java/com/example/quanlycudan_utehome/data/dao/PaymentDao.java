@@ -43,4 +43,11 @@ public interface PaymentDao {
 
     @Query("SELECT * FROM transactions WHERE transactionCode = :code")
     LiveData<TransactionHistory> getTransactionByCode(String code);
+
+    @Query("SELECT SUM(paidAmount) FROM transactions WHERE status = 'SUCCESS'")
+    long getTotalPaidAmount();
+
+    @Query("SELECT i.id AS invoiceId, a.apartmentCode, i.dueDate, i.totalAmount, i.status " +
+           "FROM invoices i INNER JOIN apartments a ON CAST(i.apartmentId AS INTEGER) = a.id")
+    List<com.example.quanlycudan_utehome.data.entity.InvoiceItemRow> getInvoiceItemRows();
 }

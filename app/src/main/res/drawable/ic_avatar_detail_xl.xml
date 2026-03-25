@@ -1,0 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp" android:height="96dp" android:viewportWidth="96.0" android:viewportHeight="96.0">
+  <path android:fillColor="#E8F1EB" android:pathData="M48,2c25.405,0 46,20.595 46,46S73.405,94 48,94 2,73.405 2,48 22.595,2 48,2z"/>
+  <!-- Just some abstract plant shapes matching the avatar -->
+  <path android:fillColor="#245A53" android:pathData="M48,64c-8,0 -12,-12 -12,-20 0,-8 12,-16 12,-16s12,8 12,16c0,8 -4,20 -12,20z"/>
+  <path android:fillColor="#468B75" android:pathData="M38,64c-6,0 -10,-8 -10,-14 0,-6 10,-12 10,-12s10,6 10,12c0,6 -4,14 -10,14z"/>
+  <path android:fillColor="#5EA188" android:pathData="M58,64c6,0 10,-8 10,-14 0,-6 -10,-12 -10,-12s-10,6 -10,12c0,6 4,14 10,14z"/>
+  <!-- Outline to give the white stroke effect (done via xml shape normally but this is simpler) -->
+  <path android:strokeColor="#FFFFFF" android:strokeWidth="4" android:pathData="M48,2c25.405,0 46,20.595 46,46S73.405,94 48,94 2,73.405 2,48 22.595,2 48,2z"/>
+</vector>

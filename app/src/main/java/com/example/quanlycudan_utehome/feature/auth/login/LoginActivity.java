@@ -85,7 +85,10 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             com.example.quanlycudan_utehome.feature.auth.service.AuthService.getInstance(this).login(phone, password, loggedInId -> {
-                if (loggedInId != -1) {
+                if (loggedInId == -999) {
+                    startActivity(new Intent(this, com.example.quanlycudan_utehome.admin.AdminMainActivity.class));
+                    finish();
+                } else if (loggedInId != -1) {
                     com.example.quanlycudan_utehome.data.local.SessionManager.getInstance(this).saveResidentId(loggedInId);
                     startActivity(new Intent(this, com.example.quanlycudan_utehome.MainActivity.class));
                     finish();

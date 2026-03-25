@@ -35,4 +35,33 @@
 
     <!-- Vehicle register primary button -->
     <color name="orange">#FF784A</color>
+    
+    <!-- Admin UI Colors -->
+    <color name="color_compose_chip_text">#718096</color>
+    <color name="brand_orange">#FF7A50</color>
+    <color name="text_primary">#1A202C</color>
+    <color name="text_secondary">#718096</color>
+    <color name="text_label">#4A5568</color>
+    <color name="dashboard_icon_muted">#A0AEC0</color>
+
+    <!-- Missing resources found in build -->
+    <color name="hero_start">#FF7A50</color>
+    <color name="hero_end">#FF9F7C</color>
+    <color name="panel_white">#FFFFFF</color>
+    <color name="dashboard_nav_line">#E2E8F0</color>
+    <color name="dashboard_bg">#F7FAFC</color>
+    <color name="input_icon">#A0AEC0</color>
+    <color name="color_invoice_chip_text">#718096</color>
+    <color name="brand_orange_light">#FFF0E6</color>
+    <color name="app_bg">#F8F9FA</color>
+    <color name="text_muted">#A0AEC0</color>
+    <color name="color_status_empty">#8F9BB3</color>
+    <color name="color_status_occupied">#34C759</color>
+    <color name="dashboard_card">#FFFFFF</color>
+    <color name="field_border">#E2E8F0</color>
+    <color name="dashboard_avatar_bg">#FFF0E6</color>
+    <color name="dashboard_avatar_dark">#FF7A50</color>
+    <color name="dashboard_nav_bg">#FFFFFF</color>
+    <color name="field_fill">#F7FAFC</color>
+    <color name="hero_mid">#FF8C66</color>
 </resources>
