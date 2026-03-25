@@ -151,9 +151,17 @@ public class InvoiceActivity extends AppCompatActivity {
 
             if (invoiceList == null || invoiceList.isEmpty()) {
                 // Không có hóa đơn chưa trả
-                tvSumValue.setText("Đã thanh toán");
+                tvSumValue.setText("0đ");
+                tvMonth.setText("Không có hóa đơn");
+                findViewById(R.id.layoutElec).setVisibility(android.view.View.GONE);
+                findViewById(R.id.layoutWater).setVisibility(android.view.View.GONE);
+                findViewById(R.id.layoutPark).setVisibility(android.view.View.GONE);
+                findViewById(R.id.layoutInternet).setVisibility(android.view.View.GONE);
+                findViewById(R.id.btnPay).setEnabled(false);
                 return;
             }
+
+            findViewById(R.id.btnPay).setEnabled(true);
 
             // Lấy hóa đơn đầu tiên (tháng gần nhất chưa trả)
             Invoice invoice = invoiceList.get(0);
@@ -176,26 +184,34 @@ public class InvoiceActivity extends AppCompatActivity {
             if (items == null) return;
 
             for (InvoiceItem item : items) {
-                switch (item.serviceType) {
+                boolean isPaid = "PAID".equals(item.status); // Kiểm tra xem đã thanh toán chưa
 
-                    // ── ĐIỆN ────────────────────────────────────────────
+                switch (item.serviceType) {
                     case "ELECTRIC":
-                        priceElec = item.amount;
-                        // Hiển thị: "Số cũ: 1.245 kWh"
+                        if (isPaid) {
+                            findViewById(R.id.layoutElec).setVisibility(android.view.View.GONE);
+                            cbElec.setChecked(false);
+                            priceElec = 0;
+                        } else {
+                            findViewById(R.id.layoutElec).setVisibility(android.view.View.VISIBLE);
+                            priceElec = item.amount;
+                        }
                         tvElecOld.setText("Số cũ: " + fmt(item.oldIndex) + " kWh");
-                        // Hiển thị: "Số mới: 1.380 kWh"
                         tvElecNew.setText("Số mới: " + fmt(item.newIndex) + " kWh");
-                        // Hiển thị: "Tiêu thụ: 135 kWh"
                         tvElecConsumed.setText("Tiêu thụ: " + fmt(item.newIndex - item.oldIndex) + " kWh");
-                        // Hiển thị: "Đơn giá: 3.500đ/kWh"
                         tvElecPrice.setText("Đơn giá: " + fmt(item.unitPrice) + "đ/kWh");
-                        // Hiển thị tổng: "472.500đ"
                         tvElecTotal.setText(fmt(item.amount) + "đ");
                         break;
 
-                    // ── NƯỚC ────────────────────────────────────────────
                     case "WATER":
-                        priceWater = item.amount;
+                        if (isPaid) {
+                            findViewById(R.id.layoutWater).setVisibility(android.view.View.GONE);
+                            cbWater.setChecked(false);
+                            priceWater = 0;
+                        } else {
+                            findViewById(R.id.layoutWater).setVisibility(android.view.View.VISIBLE);
+                            priceWater = item.amount;
+                        }
                         tvWaterOld.setText("Số cũ: " + fmt(item.oldIndex) + " m³");
                         tvWaterNew.setText("Số mới: " + fmt(item.newIndex) + " m³");
                         tvWaterConsumed.setText("Tiêu thụ: " + fmt(item.newIndex - item.oldIndex) + " m³");
@@ -203,28 +219,36 @@ public class InvoiceActivity extends AppCompatActivity {
                         tvWaterTotal.setText(fmt(item.amount) + "đ");
                         break;
 
-                    // ── GỬI XE ──────────────────────────────────────────
                     case "PARKING":
-                        pricePark = item.amount;
+                        if (isPaid) {
+                            findViewById(R.id.layoutPark).setVisibility(android.view.View.GONE);
+                            cbPark.setChecked(false);
+                            pricePark = 0;
+                        } else {
+                            findViewById(R.id.layoutPark).setVisibility(android.view.View.VISIBLE);
+                            pricePark = item.amount;
+                        }
                         tvParkCar.setText(item.description != null ? item.description : "Khu vực để xe");
                         tvParkCarPrice.setText(fmt(item.amount) + "đ/tháng");
-                        tvParkMoto.setText("");
-                        tvParkMotoPrice.setText("");
                         tvParkTotal.setText(fmt(item.amount) + "đ");
                         break;
 
-                    // ── INTERNET ─────────────────────────────────────────
                     case "INTERNET":
-                        priceInternet = item.amount;
-                        // description = "Gói Tiêu chuẩn – 100 Mbps"
+                        if (isPaid) {
+                            findViewById(R.id.layoutInternet).setVisibility(android.view.View.GONE);
+                            cbInternet.setChecked(false);
+                            priceInternet = 0;
+                        } else {
+                            findViewById(R.id.layoutInternet).setVisibility(android.view.View.VISIBLE);
+                            priceInternet = item.amount;
+                        }
                         tvIntPkg.setText(item.description);
-                        // Hiển thị: "Tốc độ: 100 Mbps" (tách từ description nếu cần)
-                        // Hoặc hiển thị thẳng tiền:
                         tvIntSpeed.setText(fmt(item.amount) + "đ/tháng");
                         tvIntTotal.setText(fmt(item.amount) + "đ");
                         break;
                 }
             }
+
 
             // Tính và hiển thị tổng sau khi có đủ dữ liệu thật
             calculateTotal();

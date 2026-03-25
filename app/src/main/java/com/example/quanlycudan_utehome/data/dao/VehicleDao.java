@@ -56,19 +56,22 @@ public interface VehicleDao {
     List<Vehicle> getVehiclesByResidentIdsSync(List<Integer> residentIds);
 
 
-    @Query("SELECT v.*, r.fullName AS ownerName " +
+    @Query("SELECT v.*, COALESCE(r.fullName, '') AS ownerName " +
             "FROM vehicles v " +
-            "INNER JOIN residents r ON v.residentId = r.id")
+            "LEFT JOIN residents r ON v.residentId = r.id")
     LiveData<List<VehicleWithOwner>> getVehiclesWithOwner();
 
-    @Query("SELECT v.*, r.fullName AS ownerName " +
+    @Query("SELECT v.*, COALESCE(r.fullName, '') AS ownerName " +
             "FROM vehicles v " +
-            "INNER JOIN residents r ON v.residentId = r.id " +
-            "WHERE v.residentId IN (" +
-            "   SELECT am.residentId FROM apartment_members am " +
-            "   WHERE am.apartmentId IN (" +
-            "       SELECT a.id FROM apartments a WHERE a.accountId = :accountId" +
-            "   )" +
+            "LEFT JOIN residents r ON v.residentId = r.id " +
+            "WHERE v.apartmentId = :apartmentId")
+    LiveData<List<VehicleWithOwner>> getVehiclesWithOwnerByApartmentId(int apartmentId);
+
+    @Query("SELECT v.*, COALESCE(r.fullName, '') AS ownerName " +
+            "FROM vehicles v " +
+            "LEFT JOIN residents r ON v.residentId = r.id " +
+            "WHERE v.apartmentId IN (" +
+            "   SELECT a.id FROM apartments a WHERE a.accountId = :accountId" +
             ")")
     LiveData<List<VehicleWithOwner>> getVehiclesWithOwnerByAccountId(int accountId);
     // Delete by id
