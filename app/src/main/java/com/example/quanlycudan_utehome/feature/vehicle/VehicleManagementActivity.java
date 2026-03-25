@@ -2,6 +2,8 @@ package com.example.quanlycudan_utehome.feature.vehicle;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,13 +12,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlycudan_utehome.R;
 import com.example.quanlycudan_utehome.data.database.AppDatabase;
+import com.example.quanlycudan_utehome.data.entity.Apartment;
+import com.example.quanlycudan_utehome.data.local.SessionManager;
 import com.example.quanlycudan_utehome.feature.accesscard.AccessCardActivity;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class VehicleManagementActivity extends AppCompatActivity {
 
     private RecyclerView rvVehicles;
     private VehicleAdapter adapter;
     private int accountId;
+    private int resolvedAccountId = -1;
+    private androidx.lifecycle.LiveData<java.util.List<VehicleWithOwner>> currentVehicleSource;
+    private TextView chipAll, chipCar, chipMotor, chipElectric;
+    private final List<VehicleWithOwner> allVehicles = new ArrayList<>();
+    private String currentFilter = "ALL";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,11 +40,21 @@ public class VehicleManagementActivity extends AppCompatActivity {
 
         initView();
         initActions();
-        loadVehicleList(accountId);
+        subscribeVehicleList();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        subscribeVehicleList();
     }
 
     private void initView() {
         rvVehicles = findViewById(R.id.rvVehicles);
+        chipAll = findViewById(R.id.chipAll);
+        chipCar = findViewById(R.id.chipCar);
+        chipMotor = findViewById(R.id.chipMotor);
+        chipElectric = findViewById(R.id.chipElectric);
 
         adapter = new VehicleAdapter();
         rvVehicles.setLayoutManager(new LinearLayoutManager(this));
@@ -44,7 +67,7 @@ public class VehicleManagementActivity extends AppCompatActivity {
                     vehicle.licensePlate != null ? vehicle.licensePlate : "");
             intent.putExtra(AccessCardActivity.EXTRA_VEHICLE_INFO,
                     (vehicle.vehicleType != null ? vehicle.vehicleType : "")
-                    + (vehicle.brand != null ? " • " + vehicle.brand : ""));
+                            + (vehicle.brand != null ? " • " + vehicle.brand : ""));
             intent.putExtra(AccessCardActivity.EXTRA_VEHICLE_COLOR,
                     vehicle.color != null ? vehicle.color : "");
             intent.putExtra(AccessCardActivity.EXTRA_RESIDENT_NAME,
@@ -55,6 +78,27 @@ public class VehicleManagementActivity extends AppCompatActivity {
             intent.putExtra(AccessCardActivity.EXTRA_QR_CONTENT,
                     "Plate=" + vehicle.licensePlate + ";Owner=" + vehicle.ownerName);
             startActivity(intent);
+        });
+
+        setupFilterChips();
+    }
+
+    private void setupFilterChips() {
+        chipAll.setOnClickListener(v -> {
+            currentFilter = "ALL";
+            applyFilter();
+        });
+        chipCar.setOnClickListener(v -> {
+            currentFilter = "CAR";
+            applyFilter();
+        });
+        chipMotor.setOnClickListener(v -> {
+            currentFilter = "MOTOR";
+            applyFilter();
+        });
+        chipElectric.setOnClickListener(v -> {
+            currentFilter = "ELECTRIC";
+            applyFilter();
         });
     }
 
@@ -68,32 +112,73 @@ public class VehicleManagementActivity extends AppCompatActivity {
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
     }
 
-    private void loadVehicleList(int accountId) {
+    private void subscribeVehicleList() {
         AppDatabase db = AppDatabase.getInstance(this);
 
-        if (accountId == -1) {
-            // nếu không truyền được accountId thì tạm thời hiển thị tất cả như cũ
-            db.vehicleDao()
-                    .getVehiclesWithOwner()
-                    .observe(this, vehiclesWithOwner -> {
-                        if (vehiclesWithOwner == null) {
-                            adapter.setData(java.util.Collections.emptyList());
-                        } else {
-                            adapter.setData(vehiclesWithOwner);
-                        }
-                    });
-            return;
+        if (currentVehicleSource != null) {
+            currentVehicleSource.removeObservers(this);
+            currentVehicleSource = null;
         }
 
-        // Lọc theo accountId => chỉ các xe thuộc căn hộ của tài khoản hiện tại
-        db.vehicleDao()
-                .getVehiclesWithOwnerByAccountId(accountId)
-                .observe(this, vehiclesWithOwner -> {
-                    if (vehiclesWithOwner == null) {
-                        adapter.setData(java.util.Collections.emptyList());
-                    } else {
-                        adapter.setData(vehiclesWithOwner);
-                    }
-                });
+        currentVehicleSource = db.vehicleDao().getVehiclesWithOwner();
+        currentVehicleSource.observe(this, vehiclesWithOwner -> {
+            allVehicles.clear();
+            if (vehiclesWithOwner != null) {
+                allVehicles.addAll(vehiclesWithOwner);
+            }
+            applyFilter();
+            Toast.makeText(this, "Đã tải " + allVehicles.size() + " phương tiện", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void applyFilter() {
+        List<VehicleWithOwner> filtered = new ArrayList<>();
+        for (VehicleWithOwner v : allVehicles) {
+            String type = v.vehicleType == null ? "" : v.vehicleType.toLowerCase(Locale.ROOT);
+            switch (currentFilter) {
+                case "CAR":
+                    if (type.contains("ô tô") || type.contains("oto") || type.contains("car")) filtered.add(v);
+                    break;
+                case "MOTOR":
+                    if (type.contains("xe máy") || type.contains("xemay") || type.contains("motor")) filtered.add(v);
+                    break;
+                case "ELECTRIC":
+                    if (type.contains("điện") || type.contains("dien") || type.contains("electric")) filtered.add(v);
+                    break;
+                default:
+                    filtered.add(v);
+                    break;
+            }
+        }
+
+        adapter.setData(filtered);
+    }
+
+    private int resolveAccountId() {
+        if (accountId != -1) {
+            return accountId;
+        }
+
+        Integer apartmentId = resolveApartmentId();
+        if (apartmentId != null) {
+            Apartment apartment = AppDatabase.getInstance(this).apartmentDao().getApartmentById(apartmentId);
+            if (apartment != null) {
+                return apartment.accountId;
+            }
+        }
+
+        return -1;
+    }
+
+    private Integer resolveApartmentId() {
+        String apartmentIdRaw = SessionManager.getInstance(this).getApartmentId();
+        if (apartmentIdRaw != null && !apartmentIdRaw.trim().isEmpty()) {
+            try {
+                return Integer.parseInt(apartmentIdRaw.trim());
+            } catch (NumberFormatException ignored) {
+                // fall through
+            }
+        }
+        return null;
     }
 }
