@@ -87,6 +87,10 @@
             android:theme="@style/Theme.QuanLyCuDan_UTEHome"
             android:exported="false" />
         <activity
+            android:name=".admin.VehicleApprovalListActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
             android:name=".feature.apartment.ApartmentInfoActivity"
             android:exported="false" />
         <activity

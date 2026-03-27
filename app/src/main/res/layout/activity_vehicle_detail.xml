@@ -389,14 +389,14 @@
                 android:gravity="center">
 
                 <!-- Faking the document image -->
-                 <ImageView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:background="@drawable/bg_card_white_rounded_12"
                     android:scaleType="centerCrop"
                     android:backgroundTint="#A0AEC0" />
-                 
-                 <TextView
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -422,36 +422,62 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/btnReject"
-            android:layout_width="0dp"
+        <!-- For PENDING status: Reject and Approve buttons -->
+        <LinearLayout
+            android:id="@+id/layoutPendingActions"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/bg_btn_outline_gray"
-            android:clickable="true"
-            android:focusable="true"
-            android:fontFamily="sans-serif-medium"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:text="Từ chối"
-            android:textColor="#4A5568"
-            android:textSize="15sp" />
+            android:visibility="gone">
 
+            <TextView
+                android:id="@+id/btnReject"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_btn_outline_gray"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="Từ chối"
+                android:textColor="#4A5568"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/btnApprove"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_btn_light_orange"
+                android:backgroundTint="@color/brand_orange"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="Duyệt phương tiện"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <!-- For ACTIVE status: Cancel button -->
         <TextView
-            android:id="@+id/btnApprove"
-            android:layout_width="0dp"
+            android:id="@+id/btnCancel"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.2"
-            android:layout_marginStart="8dp"
             android:background="@drawable/bg_btn_light_orange"
-            android:backgroundTint="@color/brand_orange"
+            android:backgroundTint="#C62828"
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:text="Duyệt phương tiện"
+            android:text="Hủy xe"
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:visibility="gone" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

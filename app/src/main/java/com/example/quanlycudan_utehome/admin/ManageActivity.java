@@ -33,9 +33,8 @@ public class ManageActivity extends AppCompatActivity {
         LinearLayout cardManageUtilities = findViewById(R.id.cardManageUtilities);
 
         cardManageVehicles.setOnClickListener(v -> {
-            // Using existing VehicleManagementActivity. We assume accountId=1 for Admin demo, or it will handle it.
-            Intent intent = new Intent(this, VehicleManagementActivity.class);
-            intent.putExtra("accountId", 1); 
+            // Open VehicleApprovalListActivity to show pending vehicles with apartment filter
+            Intent intent = new Intent(this, VehicleApprovalListActivity.class);
             startActivity(intent);
         });
 
