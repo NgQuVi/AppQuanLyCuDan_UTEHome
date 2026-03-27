@@ -2,10 +2,12 @@ package com.example.quanlycudan_utehome.admin;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -22,6 +24,7 @@ import java.util.concurrent.Executors;
 public class VehicleDetailAdminActivity extends AppCompatActivity {
 
     private int vehicleId;
+    private Vehicle currentVehicle;
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
@@ -45,24 +48,46 @@ public class VehicleDetailAdminActivity extends AppCompatActivity {
             return;
         }
 
+        setupActionButtons();
+        loadVehicle();
+    }
+
+    private void setupActionButtons() {
+        // Setup for PENDING status buttons (Approve/Reject)
         findViewById(R.id.btnApprove).setOnClickListener(v -> {
-            Toast.makeText(this, "Đã duyệt phương tiện", Toast.LENGTH_SHORT).show();
-            finish();
+            new AlertDialog.Builder(this)
+                    .setTitle("Xác nhận duyệt phương tiện")
+                    .setMessage("Bạn có chắc chắn muốn duyệt phương tiện này?")
+                    .setPositiveButton("Có", (dialog, which) -> approveVehicle())
+                    .setNegativeButton("Không", null)
+                    .show();
         });
 
         findViewById(R.id.btnReject).setOnClickListener(v -> {
-            Toast.makeText(this, "Đã từ chối đăng ký", Toast.LENGTH_SHORT).show();
-            finish();
+            new AlertDialog.Builder(this)
+                    .setTitle("Xác nhận từ chối")
+                    .setMessage("Bạn có chắc chắn muốn từ chối đăng ký này?")
+                    .setPositiveButton("Có", (dialog, which) -> rejectVehicle())
+                    .setNegativeButton("Không", null)
+                    .show();
         });
 
-        loadVehicle();
+        // Setup for ACTIVE status button (Cancel)
+        findViewById(R.id.btnCancel).setOnClickListener(v -> {
+            new AlertDialog.Builder(this)
+                    .setTitle("Xác nhận hủy xe")
+                    .setMessage("Bạn có chắc chắn muốn hủy phương tiện này?")
+                    .setPositiveButton("Có", (dialog, which) -> cancelVehicle())
+                    .setNegativeButton("Không", null)
+                    .show();
+        });
     }
 
     private void loadVehicle() {
         executorService.execute(() -> {
             AppDatabase db = AppDatabase.getInstance(this);
             Vehicle vehicle = db.vehicleDao().getVehicleByIdSync(vehicleId);
-            
+
             if (vehicle == null) {
                 runOnUiThread(() -> {
                     Toast.makeText(this, "Không tìm thấy phương tiện", Toast.LENGTH_SHORT).show();
@@ -70,6 +95,8 @@ public class VehicleDetailAdminActivity extends AppCompatActivity {
                 });
                 return;
             }
+
+            currentVehicle = vehicle;
 
             // Try to load owner info
             Resident owner = db.residentDao().getResidentById(vehicle.residentId);
@@ -84,35 +111,91 @@ public class VehicleDetailAdminActivity extends AppCompatActivity {
         TextView tvDetailDesc = findViewById(R.id.tvDetailDesc);
         TextView tvDetailOwner = findViewById(R.id.tvDetailOwner);
         TextView tvDetailApt = findViewById(R.id.tvDetailApt);
+        TextView tvDetailPhone = findViewById(R.id.tvDetailPhone);
         TextView tvStatusTitle = findViewById(R.id.tvStatusTitle);
+        LinearLayout layoutPendingActions = findViewById(R.id.layoutPendingActions);
+        TextView btnCancel = findViewById(R.id.btnCancel);
 
         String type = vehicle.vehicleType != null ? vehicle.vehicleType : "Không rõ";
         tvDetailType.setText(type);
         tvDetailPlate.setText(vehicle.licensePlate != null ? vehicle.licensePlate : "-");
         tvDetailDesc.setText((vehicle.brand != null ? vehicle.brand : "") + " - " + (vehicle.color != null ? vehicle.color : ""));
-        
+
         if (owner != null) {
             tvDetailOwner.setText(owner.fullName);
+            tvDetailPhone.setText(owner.phone != null ? owner.phone : "-");
         } else {
             tvDetailOwner.setText("Không xác định");
+            tvDetailPhone.setText("-");
         }
-        
-        tvDetailApt.setText("Căn hộ #" + vehicle.apartmentId);
-        
-        // Status display
+
+        tvDetailApt.setText("P." + vehicle.apartmentId);
+
+        // Status display and button visibility
         String status = vehicle.status != null ? vehicle.status : "PENDING";
         switch (status.toUpperCase()) {
             case "APPROVED":
                 tvStatusTitle.setText("Đã được duyệt");
                 tvStatusTitle.setTextColor(android.graphics.Color.parseColor("#1F7343"));
+                layoutPendingActions.setVisibility(View.GONE);
+                btnCancel.setVisibility(View.VISIBLE);
                 break;
             case "REJECTED":
                 tvStatusTitle.setText("Đã từ chối");
                 tvStatusTitle.setTextColor(android.graphics.Color.parseColor("#C62828"));
+                layoutPendingActions.setVisibility(View.GONE);
+                btnCancel.setVisibility(View.GONE);
                 break;
             default:
+                // PENDING status
                 tvStatusTitle.setText("Đang chờ duyệt");
                 tvStatusTitle.setTextColor(getResources().getColor(R.color.brand_orange, null));
+                layoutPendingActions.setVisibility(View.VISIBLE);
+                btnCancel.setVisibility(View.GONE);
         }
+    }
+
+    private void approveVehicle() {
+        if (currentVehicle == null) return;
+
+        executorService.execute(() -> {
+            AppDatabase db = AppDatabase.getInstance(this);
+            currentVehicle.status = "APPROVED";
+            db.vehicleDao().updateVehicle(currentVehicle);
+
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Đã duyệt phương tiện", Toast.LENGTH_SHORT).show();
+                finish();
+            });
+        });
+    }
+
+    private void rejectVehicle() {
+        if (currentVehicle == null) return;
+
+        executorService.execute(() -> {
+            AppDatabase db = AppDatabase.getInstance(this);
+            currentVehicle.status = "REJECTED";
+            db.vehicleDao().updateVehicle(currentVehicle);
+
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Đã từ chối đăng ký", Toast.LENGTH_SHORT).show();
+                finish();
+            });
+        });
+    }
+
+    private void cancelVehicle() {
+        if (currentVehicle == null) return;
+
+        executorService.execute(() -> {
+            AppDatabase db = AppDatabase.getInstance(this);
+//            db.vehicleDao().deleteById(currentVehicle.id);
+
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Đã hủy phương tiện", Toast.LENGTH_SHORT).show();
+                finish();
+            });
+        });
     }
 }

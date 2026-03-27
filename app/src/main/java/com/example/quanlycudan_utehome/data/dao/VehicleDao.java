@@ -56,9 +56,10 @@ public interface VehicleDao {
     List<Vehicle> getVehiclesByResidentIdsSync(List<Integer> residentIds);
 
 
-    @Query("SELECT v.*, COALESCE(r.fullName, '') AS ownerName " +
+    @Query("SELECT v.*, COALESCE(r.fullName, '') AS ownerName, COALESCE(a.apartmentCode, '') AS apartmentCode " +
             "FROM vehicles v " +
-            "LEFT JOIN residents r ON v.residentId = r.id")
+            "LEFT JOIN residents r ON v.residentId = r.id " +
+            "LEFT JOIN apartments a ON v.apartmentId = a.id")
     LiveData<List<VehicleWithOwner>> getVehiclesWithOwner();
 
     @Query("SELECT v.*, COALESCE(r.fullName, '') AS ownerName " +

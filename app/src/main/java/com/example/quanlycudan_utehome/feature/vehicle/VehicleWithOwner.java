@@ -11,4 +11,5 @@ public class VehicleWithOwner {
     public String color;
 
     public String ownerName;
+    public String apartmentCode;
 }

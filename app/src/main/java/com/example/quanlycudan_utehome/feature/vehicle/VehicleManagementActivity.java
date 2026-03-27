@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlycudan_utehome.R;
+import com.example.quanlycudan_utehome.admin.VehicleDetailAdminActivity;
 import com.example.quanlycudan_utehome.data.database.AppDatabase;
 import com.example.quanlycudan_utehome.data.entity.Apartment;
 import com.example.quanlycudan_utehome.data.local.SessionManager;
@@ -30,6 +31,7 @@ public class VehicleManagementActivity extends AppCompatActivity {
     private TextView chipAll, chipCar, chipMotor, chipElectric;
     private final List<VehicleWithOwner> allVehicles = new ArrayList<>();
     private String currentFilter = "ALL";
+    private boolean isAdmin = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class VehicleManagementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vehicle_management);
 
         accountId = getIntent().getIntExtra("accountId", -1);
+        isAdmin = getIntent().getBooleanExtra("isAdmin", false);
 
         initView();
         initActions();
@@ -60,24 +63,32 @@ public class VehicleManagementActivity extends AppCompatActivity {
         rvVehicles.setLayoutManager(new LinearLayoutManager(this));
         rvVehicles.setAdapter(adapter);
 
-        // Mở AccessCardActivity với dữ liệu xe khi người dùng nhấn vào item
+        // Mở Activity khác nhau tùy theo user type (admin hoặc user thường)
         adapter.setOnItemClickListener(vehicle -> {
-            Intent intent = new Intent(VehicleManagementActivity.this, AccessCardActivity.class);
-            intent.putExtra(AccessCardActivity.EXTRA_PLATE_NUMBER,
-                    vehicle.licensePlate != null ? vehicle.licensePlate : "");
-            intent.putExtra(AccessCardActivity.EXTRA_VEHICLE_INFO,
-                    (vehicle.vehicleType != null ? vehicle.vehicleType : "")
-                            + (vehicle.brand != null ? " • " + vehicle.brand : ""));
-            intent.putExtra(AccessCardActivity.EXTRA_VEHICLE_COLOR,
-                    vehicle.color != null ? vehicle.color : "");
-            intent.putExtra(AccessCardActivity.EXTRA_RESIDENT_NAME,
-                    vehicle.ownerName != null ? vehicle.ownerName : "");
-            intent.putExtra(AccessCardActivity.EXTRA_APARTMENT_LABEL,
-                    "Căn hộ #" + vehicle.apartmentId);
-            intent.putExtra(AccessCardActivity.EXTRA_EXPIRED_DATE, "");
-            intent.putExtra(AccessCardActivity.EXTRA_QR_CONTENT,
-                    "Plate=" + vehicle.licensePlate + ";Owner=" + vehicle.ownerName);
-            startActivity(intent);
+            if (isAdmin) {
+                // Mở Activity chi tiết cho admin (với nút duyệt, từ chối, hủy)
+                Intent intent = new Intent(VehicleManagementActivity.this, VehicleDetailAdminActivity.class);
+                intent.putExtra("vehicle_id", vehicle.id);
+                startActivity(intent);
+            } else {
+                // Mở AccessCardActivity cho user thường
+                Intent intent = new Intent(VehicleManagementActivity.this, AccessCardActivity.class);
+                intent.putExtra(AccessCardActivity.EXTRA_PLATE_NUMBER,
+                        vehicle.licensePlate != null ? vehicle.licensePlate : "");
+                intent.putExtra(AccessCardActivity.EXTRA_VEHICLE_INFO,
+                        (vehicle.vehicleType != null ? vehicle.vehicleType : "")
+                                + (vehicle.brand != null ? " • " + vehicle.brand : ""));
+                intent.putExtra(AccessCardActivity.EXTRA_VEHICLE_COLOR,
+                        vehicle.color != null ? vehicle.color : "");
+                intent.putExtra(AccessCardActivity.EXTRA_RESIDENT_NAME,
+                        vehicle.ownerName != null ? vehicle.ownerName : "");
+                intent.putExtra(AccessCardActivity.EXTRA_APARTMENT_LABEL,
+                        "Căn hộ #" + vehicle.apartmentId);
+                intent.putExtra(AccessCardActivity.EXTRA_EXPIRED_DATE, "");
+                intent.putExtra(AccessCardActivity.EXTRA_QR_CONTENT,
+                        "Plate=" + vehicle.licensePlate + ";Owner=" + vehicle.ownerName);
+                startActivity(intent);
+            }
         });
 
         setupFilterChips();
