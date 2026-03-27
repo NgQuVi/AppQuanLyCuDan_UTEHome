@@ -11,6 +11,7 @@ import com.example.quanlycudan_utehome.data.entity.Invoice;
 import com.example.quanlycudan_utehome.data.entity.InvoiceItem;
 import com.example.quanlycudan_utehome.data.entity.TransactionHistory;
 import com.example.quanlycudan_utehome.data.entity.AppNotification;
+import com.example.quanlycudan_utehome.data.entity.Vehicle;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,6 +31,7 @@ public class DatabaseInitializer {
         insertSampleAccounts(db);
         insertSampleApartments(db);
         insertSampleApartmentMembers(db);
+        insertSampleVehicles(db);
         insertSampleInvoices(db);
         insertSampleGuestPasses(db);
         insertSampleNotifications(db);
@@ -154,6 +156,119 @@ public class DatabaseInitializer {
                 db.apartmentMemberDao().insert(m4);
                 db.apartmentMemberDao().insert(m5);
             }
+        }).start();
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // VEHICLES
+    // ══════════════════════════════════════════════════════════════════════════
+    private static void insertSampleVehicles(AppDatabase db) {
+        new Thread(() -> {
+            // Seed once for apartment 1 to avoid duplicate records on next launches.
+            if (!db.vehicleDao().getVehiclesByResidentIdsSync(java.util.Arrays.asList(1, 2, 3, 4, 5)).isEmpty()) {
+                return;
+            }
+
+            Vehicle v1 = new Vehicle();
+            v1.apartmentId = 1;
+            v1.residentId = 1;
+            v1.vehicleType = "Ô tô";
+            v1.brand = "Toyota Vios";
+            v1.color = "Trắng";
+            v1.licensePlate = "51H-123.45";
+            v1.status = "Đã duyệt";
+
+            Vehicle v2 = new Vehicle();
+            v2.apartmentId = 1;
+            v2.residentId = 2;
+            v2.vehicleType = "Xe máy";
+            v2.brand = "Honda Vision";
+            v2.color = "Đỏ";
+            v2.licensePlate = "59X2-456.78";
+            v2.status = "Chưa duyệt";
+
+            Vehicle v3 = new Vehicle();
+            v3.apartmentId = 1;
+            v3.residentId = 3;
+            v3.vehicleType = "Xe máy";
+            v3.brand = "Yamaha Exciter";
+            v3.color = "Đen";
+            v3.licensePlate = "59X3-789.01";
+            v3.status = "Đã duyệt";
+
+            Vehicle v4 = new Vehicle();
+            v4.apartmentId = 2;
+            v4.residentId = 4;
+            v4.vehicleType = "Ô tô";
+            v4.brand = "Mazda CX-5";
+            v4.color = "Xanh";
+            v4.licensePlate = "50H-246.80";
+            v4.status = "Chưa duyệt";
+
+            Vehicle v5 = new Vehicle();
+            v5.apartmentId = 2;
+            v5.residentId = 5;
+            v5.vehicleType = "Xe máy";
+            v5.brand = "Honda SH";
+            v5.color = "Đen";
+            v5.licensePlate = "59S1-111.22";
+            v5.status = "Đã duyệt";
+
+            Vehicle v6 = new Vehicle();
+            v6.apartmentId = 1;
+            v6.residentId = 1;
+            v6.vehicleType = "Xe máy";
+            v6.brand = "Suzuki Raider";
+            v6.color = "Xám";
+            v6.licensePlate = "59K1-333.44";
+            v6.status = "Chưa duyệt";
+
+            Vehicle v7 = new Vehicle();
+            v7.apartmentId = 1;
+            v7.residentId = 2;
+            v7.vehicleType = "Ô tô";
+            v7.brand = "Kia Seltos";
+            v7.color = "Cam";
+            v7.licensePlate = "51K-555.66";
+            v7.status = "Đã duyệt";
+
+            Vehicle v8 = new Vehicle();
+            v8.apartmentId = 2;
+            v8.residentId = 4;
+            v8.vehicleType = "Xe máy";
+            v8.brand = "Piaggio Liberty";
+            v8.color = "Trắng";
+            v8.licensePlate = "59P2-777.88";
+            v8.status = "Chưa duyệt";
+
+            Vehicle v9 = new Vehicle();
+            v9.apartmentId = 2;
+            v9.residentId = 5;
+            v9.vehicleType = "Ô tô";
+            v9.brand = "Hyundai Accent";
+            v9.color = "Bạc";
+            v9.licensePlate = "50A-999.10";
+            v9.status = "Đã duyệt";
+
+            Vehicle v10 = new Vehicle();
+            v10.apartmentId = 1;
+            v10.residentId = 3;
+            v10.vehicleType = "Xe máy";
+            v10.brand = "Honda Air Blade";
+            v10.color = "Xanh đen";
+            v10.licensePlate = "59F1-222.33";
+            v10.status = "Chưa duyệt";
+
+            db.vehicleDao().insertVehicle(v1);
+            db.vehicleDao().insertVehicle(v2);
+            db.vehicleDao().insertVehicle(v3);
+            db.vehicleDao().insertVehicle(v4);
+            db.vehicleDao().insertVehicle(v5);
+            db.vehicleDao().insertVehicle(v6);
+            db.vehicleDao().insertVehicle(v7);
+            db.vehicleDao().insertVehicle(v8);
+            db.vehicleDao().insertVehicle(v9);
+            db.vehicleDao().insertVehicle(v10);
         }).start();
     }
 
