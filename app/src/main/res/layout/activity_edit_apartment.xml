@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA">
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            app:srcCompat="@drawable/ic_arrow_back_24"
+            app:tint="#141414" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-black"
+            android:text="Chỉnh sửa căn hộ"
+            android:textColor="#141414"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btnSave"
+        app:layout_constraintTop_toBottomOf="@id/topBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Owner Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-bold"
+                android:text="CHỦ HỘ"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/layoutSelectOwner"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_form_input"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/ivOwnerAvatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:srcCompat="@drawable/ic_avatar_placeholder" />
+
+                <TextView
+                    android:id="@+id/tvOwnerName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="Chưa có chủ hộ"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thay đổi"
+                    android:textColor="@color/brand_orange"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-medium"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="24dp"/>
+
+            <!-- Building & Floor Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="TÒA NHÀ"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutSelectBuilding"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_form_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:clickable="true"
+                        android:focusable="true">
+                        <TextView
+                            android:id="@+id/tvSelectedBuilding"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="S1"
+                            android:textColor="@color/text_primary"
+                            android:textSize="15sp" />
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" app:srcCompat="@drawable/ic_chevron_right_24" app:tint="#A0A0A0"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="TẦNG"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutSelectFloor"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_form_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:clickable="true"
+                        android:focusable="true">
+                        <TextView
+                            android:id="@+id/tvSelectedFloor"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="12"
+                            android:textColor="@color/text_primary"
+                            android:textSize="15sp" />
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" app:srcCompat="@drawable/ic_chevron_right_24" app:tint="#A0A0A0"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="MÃ CĂN HỘ"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/etApartmentCode"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_form_input"
+                android:inputType="textCapCharacters"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="DIỆN TÍCH (m²)"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/etArea"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_form_input"
+                android:inputType="numberDecimal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="TRẠNG THÁI"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/btnStatusEmpty"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_status_toggle_selected"
+                    android:gravity="center"
+                    android:text="Trống"
+                    android:textColor="#C05030"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/btnStatusOccupied"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_status_toggle_unselected"
+                    android:gravity="center"
+                    android:text="Đang ở"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/btnStatusHandover"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_status_toggle_unselected"
+                    android:gravity="center"
+                    android:text="Bàn giao"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <android.widget.Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/brand_orange"
+        android:fontFamily="sans-serif-bold"
+        android:text="Cập nhật căn hộ"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

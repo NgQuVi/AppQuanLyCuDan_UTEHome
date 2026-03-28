@@ -23,8 +23,12 @@ public class AddApartmentActivity extends AppCompatActivity {
 
     private EditText etApartmentCode, etArea;
     private TextView btnStatusEmpty, btnStatusOccupied, btnStatusHandover;
+    private TextView tvSelectedBuilding, tvSelectedFloor, tvSelectedApartmentType;
+    private android.view.View layoutSelectBuilding, layoutSelectFloor, layoutSelectApartmentType;
     
     private String selectedStatus = "Trống";
+    private String selectedBuilding = "";
+    private int selectedFloor = -1;
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
@@ -47,12 +51,58 @@ public class AddApartmentActivity extends AppCompatActivity {
         btnStatusOccupied = findViewById(R.id.btnStatusOccupied);
         btnStatusHandover = findViewById(R.id.btnStatusHandover);
 
+        tvSelectedBuilding = findViewById(R.id.tvSelectedBuilding);
+        tvSelectedFloor = findViewById(R.id.tvSelectedFloor);
+        tvSelectedApartmentType = findViewById(R.id.tvSelectedApartmentType);
+        layoutSelectBuilding = findViewById(R.id.layoutSelectBuilding);
+        layoutSelectFloor = findViewById(R.id.layoutSelectFloor);
+        layoutSelectApartmentType = findViewById(R.id.layoutSelectApartmentType);
+
+        layoutSelectBuilding.setOnClickListener(v -> showBuildingMenu());
+        layoutSelectFloor.setOnClickListener(v -> showFloorMenu());
+        layoutSelectApartmentType.setOnClickListener(v -> showApartmentTypeMenu());
+
         // Status Toggle Logic
         btnStatusEmpty.setOnClickListener(v -> updateStatus("Trống"));
         btnStatusOccupied.setOnClickListener(v -> updateStatus("Đang sử dụng"));
         btnStatusHandover.setOnClickListener(v -> updateStatus("Bàn giao"));
 
         findViewById(R.id.btnCreateApartment).setOnClickListener(v -> saveApartment());
+    }
+
+    private void showBuildingMenu() {
+        android.widget.PopupMenu popup = new android.widget.PopupMenu(this, layoutSelectBuilding);
+        String[] buildings = {"S1", "S2", "S3", "S5"};
+        for (String b : buildings) popup.getMenu().add(b);
+        popup.setOnMenuItemClickListener(item -> {
+            selectedBuilding = item.getTitle().toString();
+            tvSelectedBuilding.setText(selectedBuilding);
+            return true;
+        });
+        popup.show();
+    }
+
+    private void showFloorMenu() {
+        android.widget.PopupMenu popup = new android.widget.PopupMenu(this, layoutSelectFloor);
+        for (int i = 1; i <= 25; i++) popup.getMenu().add("Tầng " + i);
+        popup.setOnMenuItemClickListener(item -> {
+            String title = item.getTitle().toString();
+            selectedFloor = Integer.parseInt(title.replace("Tầng ", ""));
+            tvSelectedFloor.setText(title);
+            return true;
+        });
+        popup.show();
+    }
+
+    private void showApartmentTypeMenu() {
+        android.widget.PopupMenu popup = new android.widget.PopupMenu(this, layoutSelectApartmentType);
+        String[] types = {"1PN", "2PN", "3PN", "Studio", "Penthouse"};
+        for (String t : types) popup.getMenu().add(t);
+        popup.setOnMenuItemClickListener(item -> {
+            tvSelectedApartmentType.setText(item.getTitle());
+            return true;
+        });
+        popup.show();
     }
 
     private void updateStatus(String status) {
@@ -88,6 +138,16 @@ public class AddApartmentActivity extends AppCompatActivity {
             return;
         }
 
+        if (selectedBuilding.isEmpty()) {
+            Toast.makeText(this, "Vui lòng chọn Tòa nhà", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (selectedFloor == -1) {
+            Toast.makeText(this, "Vui lòng chọn Tầng", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         double area;
         try {
             area = Double.parseDouble(areaStr);
@@ -100,9 +160,8 @@ public class AddApartmentActivity extends AppCompatActivity {
         apt.apartmentCode = code;
         apt.area = (float) area;
         apt.status = selectedStatus;
-        // Defaulting to S1 and floor 12 for demo purposes as drop downs are static in UI
-        apt.buildingCode = "S1"; 
-        apt.floor = 12;
+        apt.buildingCode = selectedBuilding; 
+        apt.floor = selectedFloor;
 
         executorService.execute(() -> {
             AppDatabase.getInstance(this).apartmentDao().insertApartment(apt);
