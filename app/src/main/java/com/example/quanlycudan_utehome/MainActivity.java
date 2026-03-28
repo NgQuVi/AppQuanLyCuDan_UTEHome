@@ -105,13 +105,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         java.util.concurrent.Executors.newSingleThreadExecutor().execute(() -> {
-            Resident user = AppDatabase.getInstance(this).residentDao().getResidentById(residentId);
+            AppDatabase db = AppDatabase.getInstance(this);
+            Resident user = db.residentDao().getResidentById(residentId);
 
-            java.util.List<Integer> apartmentIds = AppDatabase.getInstance(this).apartmentMemberDao().getApartmentIdsByResidentId(residentId);
+            java.util.List<Integer> apartmentIds = db.apartmentMemberDao().getApartmentIdsByResidentId(residentId);
+            if ((apartmentIds == null || apartmentIds.isEmpty()) && user != null && user.accountId > 0) {
+                Integer legacyApartmentId = db.apartmentDao().getApartmentIdByAccountId(user.accountId);
+                if (legacyApartmentId != null) {
+                    apartmentIds = new java.util.ArrayList<>();
+                    apartmentIds.add(legacyApartmentId);
+                }
+            }
             java.util.List<Apartment> apartments = new java.util.ArrayList<>();
             if (apartmentIds != null) {
                 for (int id : apartmentIds) {
-                    Apartment ap = AppDatabase.getInstance(this).apartmentDao().getApartmentById(id);
+                    Apartment ap = db.apartmentDao().getApartmentById(id);
                     if (ap != null) apartments.add(ap);
                 }
             }
@@ -133,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
                         if (tvApartmentName != null) {
                             tvApartmentName.setText("No Apartment");
                         }
+                        com.example.quanlycudan_utehome.data.local.SessionManager.getInstance(this).saveApartmentId("");
                     }
                 });
             }
@@ -141,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupApartmentDropdown(Apartment selectedApartment) {
         currentApartmentId = selectedApartment.id;
+        com.example.quanlycudan_utehome.data.local.SessionManager.getInstance(this)
+                .saveApartmentId(String.valueOf(selectedApartment.id));
         TextView tvApartmentName = findViewById(R.id.tvApartmentName);
         if (tvApartmentName != null) {
             tvApartmentName.setText(selectedApartment.apartmentCode + ", Tòa " + selectedApartment.buildingCode);

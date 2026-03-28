@@ -22,8 +22,14 @@ public interface AccountDao {
     @Query("SELECT accounts.* FROM accounts INNER JOIN residents ON accounts.id = residents.accountId WHERE residents.id = :residentId LIMIT 1")
     Account getAccountByResidentId(int residentId);
 
-    @Query("UPDATE accounts SET password = :newPassword WHERE phone = :phone")
-    void updatePassword(String phone, String newPassword);
+    @Query("UPDATE accounts SET password = :newPassword, mustChangePassword = 0, isActive = 1 WHERE phone = :phone")
+    void updatePasswordAndClearFirstLogin(String phone, String newPassword);
+
+    @Query("UPDATE accounts SET isActive = :isActive WHERE id = :accountId")
+    void updateAccountActive(int accountId, boolean isActive);
+
+    @Query("DELETE FROM accounts WHERE id = :accountId")
+    void deleteById(int accountId);
 
     @Query("SELECT COUNT(*) FROM accounts WHERE phone = :phone")
     int checkPhoneExists(String phone);

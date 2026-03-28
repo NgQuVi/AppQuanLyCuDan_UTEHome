@@ -5,6 +5,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -36,18 +37,16 @@ public class ResidentDetailActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
-        
+
         residentId = getIntent().getIntExtra("resident_id", -1);
         if (residentId != -1) {
             loadResidentDetails();
         } else {
-            Toast.makeText(this, "Không tìm thấy dữ liệu cư dân", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Khong tim thay du lieu cu dan", Toast.LENGTH_SHORT).show();
             finish();
         }
-        
-        findViewById(R.id.btnDelete).setOnClickListener(v -> {
-            Toast.makeText(this, "Chức năng xoá cư dân đang được phát triển...", Toast.LENGTH_SHORT).show();
-        });
+
+        findViewById(R.id.btnDelete).setOnClickListener(v -> showDeleteConfirmation());
     }
 
     private void loadResidentDetails() {
@@ -56,33 +55,75 @@ public class ResidentDetailActivity extends AppCompatActivity {
             Resident resident = db.residentDao().getResidentById(residentId);
             Apartment apartment = null;
             if (resident != null) {
-                apartment = db.apartmentDao().getApartmentByAccountId(resident.accountId);
+                Integer apartmentId = db.apartmentMemberDao().getApartmentIdByResidentId(resident.id);
+                if (apartmentId != null) {
+                    apartment = db.apartmentDao().getApartmentById(apartmentId);
+                } else if (resident.accountId > 0) {
+                    apartment = db.apartmentDao().getApartmentByAccountId(resident.accountId);
+                }
             }
-            
+
             Resident finalResident = resident;
             Apartment finalApartment = apartment;
 
             runOnUiThread(() -> {
-                if (finalResident != null) {
-                    ((TextView) findViewById(R.id.tvName)).setText(finalResident.fullName);
-                    
-                    String resIdPadded = String.valueOf(finalResident.id);
-                    ((TextView) findViewById(R.id.tvResidentCode)).setText("RES000" + resIdPadded);
-                    
-                    ((TextView) findViewById(R.id.tvDob)).setText(finalResident.dob != null ? finalResident.dob : "N/A");
-                    ((TextView) findViewById(R.id.tvGender)).setText(finalResident.gender != null ? finalResident.gender : "N/A");
-                    
-                    if (finalApartment != null) {
-                        ((TextView) findViewById(R.id.tvApartment)).setText("P." + finalApartment.apartmentCode + " - Tòa " + finalApartment.buildingCode);
-                    } else {
-                        ((TextView) findViewById(R.id.tvApartment)).setText("Chưa phân bổ căn hộ");
-                    }
+                if (finalResident == null) {
+                    Toast.makeText(this, "Khong tim thay cu dan", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
 
-                    ((TextView) findViewById(R.id.tvIdType)).setText("CCCD");
-                    ((TextView) findViewById(R.id.tvIdNumber)).setText(finalResident.idNum != null ? finalResident.idNum : "N/A");
-                    ((TextView) findViewById(R.id.tvPhone)).setText(finalResident.phone != null ? finalResident.phone : "N/A");
+                ((TextView) findViewById(R.id.tvName)).setText(safeText(finalResident.fullName, "--"));
+                ((TextView) findViewById(R.id.tvResidentCode)).setText("RES" + String.format("%04d", finalResident.id));
+                ((TextView) findViewById(R.id.tvDob)).setText(safeText(finalResident.dob, "N/A"));
+                ((TextView) findViewById(R.id.tvGender)).setText(safeText(finalResident.gender, "N/A"));
+                ((TextView) findViewById(R.id.tvIdType)).setText("CCCD");
+                ((TextView) findViewById(R.id.tvIdNumber)).setText(safeText(finalResident.idNum, "N/A"));
+                ((TextView) findViewById(R.id.tvPhone)).setText(safeText(finalResident.phone, "N/A"));
+
+                TextView tvApartment = findViewById(R.id.tvApartment);
+                if (finalApartment != null) {
+                    tvApartment.setText(finalApartment.apartmentCode + " - Toa " + finalApartment.buildingCode);
+                } else {
+                    tvApartment.setText("Chua phan bo can ho");
                 }
             });
         });
+    }
+
+    private void showDeleteConfirmation() {
+        new AlertDialog.Builder(this)
+                .setTitle("Xoa cu dan")
+                .setMessage("Ban co chac chan muon xoa cu dan nay khong?")
+                .setNegativeButton("Huy", null)
+                .setPositiveButton("Xoa", (dialog, which) -> deleteResident())
+                .show();
+    }
+
+    private void deleteResident() {
+        findViewById(R.id.btnDelete).setEnabled(false);
+        executorService.execute(() -> {
+            try {
+                new ResidentDeletionService(this).deleteResident(residentId);
+                runOnUiThread(() -> {
+                    Toast.makeText(this, "Da xoa cu dan thanh cong", Toast.LENGTH_SHORT).show();
+                    finish();
+                });
+            } catch (IllegalStateException ex) {
+                runOnUiThread(() -> {
+                    findViewById(R.id.btnDelete).setEnabled(true);
+                    Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+                });
+            } catch (Exception ex) {
+                runOnUiThread(() -> {
+                    findViewById(R.id.btnDelete).setEnabled(true);
+                    Toast.makeText(this, "Khong the xoa cu dan luc nay", Toast.LENGTH_LONG).show();
+                });
+            }
+        });
+    }
+
+    private String safeText(String value, String fallback) {
+        return value == null || value.trim().isEmpty() ? fallback : value;
     }
 }

@@ -26,4 +26,7 @@ public interface FacilityBookingDao {
 
     @Query("UPDATE facility_bookings SET status = :status, cancelReason = :reason WHERE id = :bookingId")
     void updateBookingStatus(int bookingId, String status, String reason);
+
+    @Query("DELETE FROM facility_bookings WHERE residentId = :residentId")
+    void deleteByResidentId(int residentId);
 }
