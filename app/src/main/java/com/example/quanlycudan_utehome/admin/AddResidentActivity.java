@@ -1,9 +1,9 @@
 package com.example.quanlycudan_utehome.admin;
 
 import android.os.Bundle;
-import android.text.InputType;
+import android.util.Patterns;
+import android.util.Log;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,21 +17,23 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.quanlycudan_utehome.R;
 import com.example.quanlycudan_utehome.data.database.AppDatabase;
-import com.example.quanlycudan_utehome.data.entity.Account;
 import com.example.quanlycudan_utehome.data.entity.Apartment;
-import com.example.quanlycudan_utehome.data.entity.Resident;
+import com.example.quanlycudan_utehome.util.SmtpEmailService;
 
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class AddResidentActivity extends AppCompatActivity {
 
-    private EditText etFullName, etPhone, etEmail, etIdCard, etPassword;
+    private static final String TAG = "AddResidentActivity";
+
+    private EditText etFullName;
+    private EditText etPhone;
+    private EditText etEmail;
+    private EditText etIdCard;
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
-    private boolean isPasswordVisible = false;
-    private Apartment selectedApartment = null;
+    private Apartment selectedApartment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,122 +53,144 @@ public class AddResidentActivity extends AppCompatActivity {
         etPhone = findViewById(R.id.etPhone);
         etEmail = findViewById(R.id.etEmail);
         etIdCard = findViewById(R.id.etIdCard);
-        etPassword = findViewById(R.id.etPassword);
 
-        // Password Toggle
-        ImageView btnTogglePwd = findViewById(R.id.btnTogglePwd);
-        btnTogglePwd.setOnClickListener(v -> {
-            isPasswordVisible = !isPasswordVisible;
-            if (isPasswordVisible) {
-                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                btnTogglePwd.setImageResource(R.drawable.ic_eye_outline); // or eye_off
-            } else {
-                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                btnTogglePwd.setImageResource(R.drawable.ic_eye_outline); 
-            }
-            etPassword.setSelection(etPassword.getText().length());
-        });
-
-        // Generate Password
-        LinearLayout btnGeneratePwd = findViewById(R.id.btnGeneratePwd);
-        btnGeneratePwd.setOnClickListener(v -> {
-            String randomPwd = generateRandomPassword(6);
-            etPassword.setText(randomPwd);
-        });
-
-        // Select Apartment
         LinearLayout btnSelectApartment = findViewById(R.id.btnSelectApartment);
         btnSelectApartment.setOnClickListener(v -> loadAndShowApartmentDialog());
 
-        // Create Account
         findViewById(R.id.btnCreateAccount).setOnClickListener(v -> createResident());
     }
 
     private void loadAndShowApartmentDialog() {
         executorService.execute(() -> {
             AppDatabase db = AppDatabase.getInstance(this);
-            // Could load only vacant, but let's load all for now
-            List<Apartment> apartments = db.apartmentDao().getAllApartments();
+            List<Apartment> apartments = db.apartmentDao().getAvailableApartments();
             String[] names = new String[apartments.size()];
             for (int i = 0; i < apartments.size(); i++) {
-                names[i] = "P." + apartments.get(i).apartmentCode + " - Tòa " + apartments.get(i).buildingCode;
+                Apartment apartment = apartments.get(i);
+                names[i] = apartment.apartmentCode + " - Toa " + apartment.buildingCode;
             }
 
             runOnUiThread(() -> {
                 if (apartments.isEmpty()) {
-                    Toast.makeText(this, "Không có căn hộ nào trong danh sách", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Khong con can ho trong de phan bo", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 new AlertDialog.Builder(this)
-                        .setTitle("Chọn căn hộ")
+                        .setTitle("Chon can ho")
                         .setItems(names, (dialog, which) -> {
                             selectedApartment = apartments.get(which);
-                            TextView tvSelect = ((LinearLayout) findViewById(R.id.btnSelectApartment)).findViewById(android.R.id.text1);
-                            if (tvSelect != null) {
-                                tvSelect.setText(names[which]);
-                            } else {
-                                // Specific handling due to lack of ID inside LinearLayout
-                                LinearLayout linear = findViewById(R.id.btnSelectApartment);
-                                if (linear.getChildAt(0) instanceof TextView) {
-                                    ((TextView) linear.getChildAt(0)).setText(names[which]);
-                                }
-                            }
-                        }).show();
+                            updateSelectedApartmentLabel(names[which]);
+                        })
+                        .show();
             });
         });
+    }
+
+    private void updateSelectedApartmentLabel(String selectedLabel) {
+        LinearLayout apartmentSelector = findViewById(R.id.btnSelectApartment);
+        if (apartmentSelector.getChildCount() > 0 && apartmentSelector.getChildAt(0) instanceof TextView) {
+            ((TextView) apartmentSelector.getChildAt(0)).setText(selectedLabel);
+        }
     }
 
     private void createResident() {
+        String fullName = etFullName.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
-        String pass = etPassword.getText().toString().trim();
-        String name = etFullName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String idCard = etIdCard.getText().toString().trim();
 
-        if (phone.isEmpty() || pass.isEmpty() || name.isEmpty()) {
-            Toast.makeText(this, "Vui lòng nhập đủ các thông tin bắt buộc (*)", Toast.LENGTH_SHORT).show();
+        if (!validateForm(fullName, phone, email)) {
+            return;
+        }
+        if (!SmtpEmailService.isConfigured()) {
+            Toast.makeText(
+                    this,
+                    "Chua cau hinh SMTP trong local.properties nen chua the gui email tu dong",
+                    Toast.LENGTH_LONG
+            ).show();
+            return;
+        }
+        String configHint = SmtpEmailService.getConfigurationHint();
+        if (!configHint.isEmpty()) {
+            Toast.makeText(this, configHint, Toast.LENGTH_LONG).show();
             return;
         }
 
+        findViewById(R.id.btnCreateAccount).setEnabled(false);
         executorService.execute(() -> {
-            AppDatabase db = AppDatabase.getInstance(this);
-            
-            // 1. Create Account
-            Account newAcc = new Account();
-            newAcc.phone = phone;
-            newAcc.password = pass;
-            newAcc.role = "User"; // default
-            long accId = db.accountDao().insert(newAcc);
+            ResidentOnboardingService onboardingService = new ResidentOnboardingService(this);
+            ResidentOnboardingService.OnboardingResult result = null;
+            try {
+                result = onboardingService.createResident(fullName, phone, email, idCard, selectedApartment);
+                SmtpEmailService.sendResidentOnboardingEmail(
+                        result.resident.email,
+                        result.resident.fullName,
+                        result.resident.phone,
+                        result.temporaryPassword
+                );
+                onboardingService.activateAccount(result.resident.accountId);
 
-            // 2. Create Resident
-            Resident res = new Resident();
-            res.accountId = (int) accId;
-            res.fullName = name;
-            res.phone = phone;
-            res.email = email;
-            res.idNum = idCard;
-            db.residentDao().insert(res);
-
-            // 3. Update Apartment if selected
-            if (selectedApartment != null) {
-                selectedApartment.accountId = (int) accId;
-                selectedApartment.status = "Đang sử dụng";
-                db.apartmentDao().update(selectedApartment);
+                runOnUiThread(() -> {
+                    findViewById(R.id.btnCreateAccount).setEnabled(true);
+                    Toast.makeText(this, "Da tao cu dan va gui email tu dong thanh cong", Toast.LENGTH_LONG).show();
+                    finish();
+                });
+            } catch (IllegalArgumentException | IllegalStateException ex) {
+                runOnUiThread(() -> {
+                    findViewById(R.id.btnCreateAccount).setEnabled(true);
+                    Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+                });
+            } catch (Exception ex) {
+                ResidentOnboardingService.OnboardingResult finalResult = result;
+                Log.e(TAG, "Send onboarding email failed", ex);
+                runOnUiThread(() -> {
+                    findViewById(R.id.btnCreateAccount).setEnabled(true);
+                    String message = finalResult == null
+                            ? "Khong the tao cu dan luc nay"
+                            : "Da tao tai khoan nhung gui email that bai. " + readableEmailError(ex)
+                            + ". Tai khoan dang tam khoa cho den khi gui mail thanh cong.";
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                });
             }
-
-            runOnUiThread(() -> {
-                Toast.makeText(this, "Thêm cư dân thành công!", Toast.LENGTH_SHORT).show();
-                finish();
-            });
         });
     }
 
-    private String generateRandomPassword(int length) {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        Random rnd = new Random();
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++)
-            sb.append(chars.charAt(rnd.nextInt(chars.length())));
-        return sb.toString();
+    private boolean validateForm(String fullName, String phone, String email) {
+        if (fullName.isEmpty()) {
+            etFullName.setError("Vui long nhap ho va ten");
+            etFullName.requestFocus();
+            return false;
+        }
+        if (phone.isEmpty()) {
+            etPhone.setError("Vui long nhap so dien thoai");
+            etPhone.requestFocus();
+            return false;
+        }
+        if (email.isEmpty()) {
+            etEmail.setError("Email la thong tin bat buoc");
+            etEmail.requestFocus();
+            return false;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            etEmail.setError("Email chua dung dinh dang");
+            etEmail.requestFocus();
+            return false;
+        }
+        if (selectedApartment == null) {
+            Toast.makeText(this, "Vui long chon can ho", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private String readableEmailError(Exception ex) {
+        String message = ex.getMessage();
+        if (message == null || message.trim().isEmpty()) {
+            return "Loi SMTP";
+        }
+        if (message.toLowerCase().contains("app password")) {
+            return "Gmail can App Password 16 ky tu";
+        }
+        return message;
     }
 }

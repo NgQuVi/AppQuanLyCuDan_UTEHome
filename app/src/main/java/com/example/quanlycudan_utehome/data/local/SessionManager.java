@@ -32,7 +32,7 @@ public class SessionManager {
 
     // ── Lưu và lấy ID căn hộ (gọi sau khi đăng nhập thành công) ──
     public void saveApartmentId(String aptId) {
-        prefs.edit().putString(KEY_APARTMENT_ID, aptId).apply();
+        prefs.edit().putString(KEY_APARTMENT_ID, aptId == null ? "" : aptId).apply();
     }
 
     public String getApartmentId() {

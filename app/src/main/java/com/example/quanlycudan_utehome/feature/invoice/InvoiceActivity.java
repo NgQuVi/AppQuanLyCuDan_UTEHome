@@ -87,7 +87,7 @@ public class InvoiceActivity extends AppCompatActivity {
         } else {
             // Chưa có aptId → dùng giá trị mặc định "1" để demo
             // (Cần lưu aptId vào SessionManager ở màn đăng nhập)
-            loadInvoices("1");
+            showMissingApartmentState();
         }
 
         // ── Bước 6: Nút Thanh Toán ──────────────────────────────
@@ -178,6 +178,16 @@ public class InvoiceActivity extends AppCompatActivity {
     // ═══════════════════════════════════════════════════════════════
     // 5. LOAD CHI TIẾT TỪNG KHOẢN PHÍ
     // ═══════════════════════════════════════════════════════════════
+    private void showMissingApartmentState() {
+        tvSumValue.setText("0d");
+        tvMonth.setText("Chua co can ho");
+        findViewById(R.id.layoutElec).setVisibility(android.view.View.GONE);
+        findViewById(R.id.layoutWater).setVisibility(android.view.View.GONE);
+        findViewById(R.id.layoutPark).setVisibility(android.view.View.GONE);
+        findViewById(R.id.layoutInternet).setVisibility(android.view.View.GONE);
+        findViewById(R.id.btnPay).setEnabled(false);
+    }
+
     private void loadInvoiceItems(String invoiceId) {
         // SQL: SELECT * FROM invoice_items WHERE invoiceId = invoiceId
         paymentRepository.getInvoiceItemsDetails(invoiceId).observe(this, items -> {

@@ -13,6 +13,48 @@ import java.util.concurrent.Executors;
 
 public class AuthService {
 
+    public static class LoginResult {
+        public enum Status {
+            ADMIN_SUCCESS,
+            RESIDENT_SUCCESS,
+            MUST_CHANGE_PASSWORD,
+            INACTIVE_ACCOUNT,
+            INVALID_CREDENTIALS
+        }
+
+        public final Status status;
+        public final int residentId;
+        public final String apartmentId;
+        public final String phone;
+
+        private LoginResult(Status status, int residentId, String apartmentId, String phone) {
+            this.status = status;
+            this.residentId = residentId;
+            this.apartmentId = apartmentId == null ? "" : apartmentId;
+            this.phone = phone == null ? "" : phone;
+        }
+
+        public static LoginResult adminSuccess() {
+            return new LoginResult(Status.ADMIN_SUCCESS, -1, "", "");
+        }
+
+        public static LoginResult residentSuccess(int residentId, String apartmentId, String phone) {
+            return new LoginResult(Status.RESIDENT_SUCCESS, residentId, apartmentId, phone);
+        }
+
+        public static LoginResult mustChangePassword(int residentId, String apartmentId, String phone) {
+            return new LoginResult(Status.MUST_CHANGE_PASSWORD, residentId, apartmentId, phone);
+        }
+
+        public static LoginResult inactiveAccount(String phone) {
+            return new LoginResult(Status.INACTIVE_ACCOUNT, -1, "", phone);
+        }
+
+        public static LoginResult invalidCredentials() {
+            return new LoginResult(Status.INVALID_CREDENTIALS, -1, "", "");
+        }
+    }
+
     private static AuthService instance;
     private final AppDatabase db;
     private final ExecutorService executorService;
@@ -33,62 +75,60 @@ public class AuthService {
         return instance;
     }
 
-    /**
-     * Attempts to log in with a phone number and password.
-     * Returns the resident's ID upon success, or -1 if failed.
-     */
-    public void login(String phone, String password, AuthCallback<Integer> callback) {
+    public void login(String phone, String password, AuthCallback<LoginResult> callback) {
         executorService.execute(() -> {
-            // Check for admin login directly
             if ("123456".equals(phone) && "123".equals(password)) {
-                new Handler(Looper.getMainLooper()).post(() -> callback.onResult(-999));
+                postResult(callback, LoginResult.adminSuccess());
                 return;
             }
 
             Account account = db.accountDao().getAccountByPhone(phone);
-            int loggedInId = -1;
-            if (account != null && account.password != null) {
-                // In a real app we would use hashed password verification (e.g. BCrypt)
-                if (account.password.equals(password)) {
+            LoginResult result = LoginResult.invalidCredentials();
+
+            if (account != null && account.password != null && account.password.equals(password)) {
+                if (!account.isActive) {
+                    result = LoginResult.inactiveAccount(phone);
+                } else {
                     Resident resident = db.residentDao().getResidentByAccountId(account.id);
                     if (resident != null) {
-                        loggedInId = resident.id;
-                    } else {
-                        // Fallback to 1 if no resident linked for demo or error state
-                        loggedInId = 1;
+                        Integer apartmentId = db.apartmentMemberDao().getApartmentIdByResidentId(resident.id);
+                        if (apartmentId == null) {
+                            apartmentId = db.apartmentDao().getApartmentIdByAccountId(account.id);
+                        }
+                        String apartmentIdValue = apartmentId == null ? "" : String.valueOf(apartmentId);
+                        if (account.mustChangePassword) {
+                            result = LoginResult.mustChangePassword(resident.id, apartmentIdValue, phone);
+                        } else {
+                            result = LoginResult.residentSuccess(resident.id, apartmentIdValue, phone);
+                        }
                     }
                 }
             }
-            int finalId = loggedInId;
-            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(finalId));
+
+            postResult(callback, result);
         });
     }
 
-    /**
-     * Checks if a phone number exists in our Room database.
-     * Useful for the "Forgot Password" flow.
-     */
     public void checkPhoneExists(String phone, AuthCallback<Boolean> callback) {
         executorService.execute(() -> {
             int count = db.accountDao().checkPhoneExists(phone);
-            boolean exists = count > 0;
-            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(exists));
+            postResult(callback, count > 0);
         });
     }
 
-    /**
-     * Updates the password for a given phone number in DB.
-     */
     public void updatePassword(String phone, String newPassword, AuthCallback<Boolean> callback) {
         executorService.execute(() -> {
             int count = db.accountDao().checkPhoneExists(phone);
             boolean success = false;
             if (count > 0) {
-                db.accountDao().updatePassword(phone, newPassword);
+                db.accountDao().updatePasswordAndClearFirstLogin(phone, newPassword);
                 success = true;
             }
-            boolean finalSuccess = success;
-            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(finalSuccess));
+            postResult(callback, success);
         });
+    }
+
+    private <T> void postResult(AuthCallback<T> callback, T result) {
+        new Handler(Looper.getMainLooper()).post(() -> callback.onResult(result));
     }
 }

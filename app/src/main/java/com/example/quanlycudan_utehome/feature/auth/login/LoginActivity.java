@@ -20,8 +20,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.quanlycudan_utehome.R;
+import com.example.quanlycudan_utehome.data.local.SessionManager;
 import com.example.quanlycudan_utehome.feature.auth.forgotpassword.ForgotPasswordActivity;
 import com.example.quanlycudan_utehome.feature.auth.register.RegisterActivity;
+import com.example.quanlycudan_utehome.feature.auth.reset.ResetPasswordActivity;
+import com.example.quanlycudan_utehome.feature.auth.service.AuthService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        // Build "Bạn chưa có tài khoản cư dân? Đăng ký" with colored link
         TextView tvSignUp = findViewById(R.id.tvSignUp);
         String prefix = getString(R.string.login_sign_up_prefix);
         String link = getString(R.string.login_sign_up_link);
@@ -44,15 +46,11 @@ public class LoginActivity extends AppCompatActivity {
         spannable.setSpan(new ForegroundColorSpan(orange), linkStart, linkEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannable.setSpan(new StyleSpan(Typeface.BOLD), linkStart, linkEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvSignUp.setText(spannable);
-
-        // Navigate to RegisterActivity when "Đăng ký" is tapped
         tvSignUp.setOnClickListener(v -> startActivity(new Intent(this, RegisterActivity.class)));
 
-        // Navigate to ForgotPasswordActivity when "Quên mật khẩu?" is tapped
         findViewById(R.id.tvForgotPassword)
                 .setOnClickListener(v -> startActivity(new Intent(this, ForgotPasswordActivity.class)));
 
-        // Password visibility toggle
         EditText edtPassword = findViewById(R.id.edtPassword);
         ImageView ivTogglePassword = findViewById(R.id.ivTogglePassword);
         ivTogglePassword.setOnClickListener(v -> {
@@ -66,9 +64,8 @@ public class LoginActivity extends AppCompatActivity {
             }
             edtPassword.setSelection(edtPassword.length());
         });
-        EditText edtPhone = findViewById(R.id.edtPhone);
 
-        // Navigate to MainActivity when Login button is tapped
+        EditText edtPhone = findViewById(R.id.edtPhone);
         findViewById(R.id.btnLogin).setOnClickListener(v -> {
             String phone = edtPhone.getText().toString().trim();
             String password = edtPassword.getText().toString().trim();
@@ -84,28 +81,46 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            com.example.quanlycudan_utehome.feature.auth.service.AuthService.getInstance(this).login(phone, password, loggedInId -> {
-                if (loggedInId == -999) {
-                    startActivity(new Intent(this, com.example.quanlycudan_utehome.admin.AdminMainActivity.class));
-                    finish();
-                } else if (loggedInId != -1) {
-                    com.example.quanlycudan_utehome.data.local.SessionManager.getInstance(this).saveResidentId(loggedInId);
-                    startActivity(new Intent(this, com.example.quanlycudan_utehome.MainActivity.class));
-                    finish();
-                } else {
-                    android.widget.Toast.makeText(this, "Thông tin đăng nhập không hợp lệ", android.widget.Toast.LENGTH_SHORT).show();
+            AuthService.getInstance(this).login(phone, password, loginResult -> {
+                switch (loginResult.status) {
+                    case ADMIN_SUCCESS:
+                        startActivity(new Intent(this, com.example.quanlycudan_utehome.admin.AdminMainActivity.class));
+                        finish();
+                        break;
+                    case RESIDENT_SUCCESS:
+                        saveResidentSession(loginResult.residentId, loginResult.apartmentId);
+                        startActivity(new Intent(this, com.example.quanlycudan_utehome.MainActivity.class));
+                        finish();
+                        break;
+                    case MUST_CHANGE_PASSWORD:
+                        Intent resetIntent = new Intent(this, ResetPasswordActivity.class);
+                        resetIntent.putExtra("PHONE", loginResult.phone);
+                        resetIntent.putExtra("FORCE_FIRST_LOGIN", true);
+                        startActivity(resetIntent);
+                        break;
+                    case INACTIVE_ACCOUNT:
+                        android.widget.Toast.makeText(this, "Tài khoản đang bị vô hiệu hóa", android.widget.Toast.LENGTH_SHORT).show();
+                        break;
+                    case INVALID_CREDENTIALS:
+                    default:
+                        android.widget.Toast.makeText(this, "Thông tin đăng nhập không hợp lệ", android.widget.Toast.LENGTH_SHORT).show();
+                        break;
                 }
             });
         });
 
-        // Edge-to-edge window insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.loginRoot), (view, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Initialize sample data if empty
         com.example.quanlycudan_utehome.data.database.DatabaseInitializer.initializeSampleData(this);
+    }
+
+    private void saveResidentSession(int residentId, String apartmentId) {
+        SessionManager sessionManager = SessionManager.getInstance(this);
+        sessionManager.saveResidentId(residentId);
+        sessionManager.saveApartmentId(apartmentId);
     }
 }

@@ -33,6 +33,9 @@ public interface ResidentDao {
     @Query("SELECT * FROM residents WHERE accountId = :accountId LIMIT 1")
     Resident getResidentByAccountId(int accountId);
 
+    @Query("DELETE FROM residents WHERE id = :residentId")
+    void deleteById(int residentId);
+
     @Query("SELECT COUNT(*) FROM residents")
     int getResidentCount();
 }
