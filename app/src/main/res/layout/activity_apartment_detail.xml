@@ -38,6 +38,16 @@
             android:text="Chi tiết căn hộ"
             android:textColor="#141414"
             android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/btnEdit"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            app:srcCompat="@drawable/ic_edit_24"
+            app:tint="#141414" />
     </LinearLayout>
 
     <ScrollView
@@ -76,6 +86,7 @@
 
                 <!-- Status Pill -->
                 <TextView
+                    android:id="@+id/tvStatusPill"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -287,9 +298,10 @@
                         android:textSize="15sp" />
 
                     <TextView
+                        android:id="@+id/tvOwnerId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ID: 0012938475"
+                        android:text="ID: --"
                         android:textColor="#8E8E8E"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -313,11 +325,12 @@
                 android:gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/tvMemberCount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="sans-serif-bold"
-                    android:text="THÀNH VIÊN (02)"
+                    android:text="THÀNH VIÊN (0)"
                     android:textColor="#6b7a90"
                     android:textSize="13sp" />
 
@@ -331,116 +344,15 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
-            <!-- Members List Card -->
-            <LinearLayout
+            <!-- Members List RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMembers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:nestedScrollingEnabled="false"
                 android:background="@drawable/bg_card_white_rounded_12"
-                android:orientation="vertical"
-                android:elevation="1dp">
-
-                <!-- Member 1 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:srcCompat="@drawable/ic_avatar_placeholder" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="12dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-bold"
-                            android:text="Lê Thị Mai"
-                            android:textColor="#141414"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Vợ"
-                            android:textColor="#8E8E8E"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@drawable/ic_chevron_right_24"
-                        app:tint="#A0A0A0" />
-                </LinearLayout>
-
-                <!-- Divider -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="68dp"
-                    android:background="#F0F0F0" />
-
-                <!-- Member 2 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/bg_quick_icon_circle">
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_person_tiny"
-                            app:tint="#6C85A3"/>
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="12dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-bold"
-                            android:text="Nguyễn Minh Khôi"
-                            android:textColor="#141414"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Con"
-                            android:textColor="#8E8E8E"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@drawable/ic_chevron_right_24"
-                        app:tint="#A0A0A0" />
-                </LinearLayout>
-
-            </LinearLayout>
+                android:elevation="1dp" />
 
             <!-- Bottom Stats -->
             <LinearLayout
@@ -474,11 +386,12 @@
                     </FrameLayout>
 
                     <TextView
+                        android:id="@+id/tvVehicleCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:fontFamily="sans-serif-black"
-                        android:text="02"
+                        android:text="00"
                         android:textColor="#141414"
                         android:textSize="22sp" />
 
@@ -514,11 +427,12 @@
                     </FrameLayout>
 
                     <TextView
+                        android:id="@+id/tvUnpaidFee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:fontFamily="sans-serif-bold"
-                        android:text="3.450.000đ"
+                        android:text="0đ"
                         android:textColor="#FF7A50"
                         android:textSize="18sp" />
 

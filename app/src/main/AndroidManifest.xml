@@ -61,6 +61,14 @@
             android:theme="@style/Theme.QuanLyCuDan_UTEHome"
             android:exported="false" />
         <activity
+            android:name=".admin.EditApartmentActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ResidentPickerActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
             android:name=".admin.InvoiceManagementActivity"
             android:theme="@style/Theme.QuanLyCuDan_UTEHome"
             android:exported="false" />
