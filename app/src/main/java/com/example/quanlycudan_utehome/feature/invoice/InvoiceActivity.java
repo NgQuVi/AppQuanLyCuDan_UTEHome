@@ -17,6 +17,7 @@ import com.example.quanlycudan_utehome.feature.payment.PaymentHistoryActivity;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import android.app.AlertDialog;
 
 public class InvoiceActivity extends AppCompatActivity {
 
@@ -41,6 +42,9 @@ public class InvoiceActivity extends AppCompatActivity {
 
     // TextViews thẻ INTERNET
     private TextView tvIntPkg, tvIntSpeed, tvIntTotal;
+
+    private List<Invoice> unpaidInvoiceList;
+    private int selectedInvoiceIndex = 0;
 
     // Giá trị thực lấy từ DB (mặc định 0, sẽ được cập nhật sau khi observe)
     private long priceElec = 0, priceWater = 0, pricePark = 0, priceInternet = 0;
@@ -75,6 +79,8 @@ public class InvoiceActivity extends AppCompatActivity {
         cbWater.setOnCheckedChangeListener((b, c) -> calculateTotal());
         cbPark.setOnCheckedChangeListener((b, c) -> calculateTotal());
         cbInternet.setOnCheckedChangeListener((b, c) -> calculateTotal());
+
+        findViewById(R.id.layoutMonthSelector).setOnClickListener(v -> showInvoicePicker());
 
         // ── Bước 4: Khởi tạo Repository ─────────────────────────
         paymentRepository = new PaymentRepository(getApplication());
@@ -150,6 +156,7 @@ public class InvoiceActivity extends AppCompatActivity {
         paymentRepository.getUnpaidInvoices(aptId).observe(this, invoiceList -> {
 
             if (invoiceList == null || invoiceList.isEmpty()) {
+                unpaidInvoiceList = null;
                 // Không có hóa đơn chưa trả
                 tvSumValue.setText("0đ");
                 tvMonth.setText("Không có hóa đơn");
@@ -161,18 +168,49 @@ public class InvoiceActivity extends AppCompatActivity {
                 return;
             }
 
+            unpaidInvoiceList = invoiceList;
             findViewById(R.id.btnPay).setEnabled(true);
 
-            // Lấy hóa đơn đầu tiên (tháng gần nhất chưa trả)
-            Invoice invoice = invoiceList.get(0);
-            currentInvoiceId = invoice.id;     // Lưu lại để truyền sang màn thanh toán
+            // Kiểm tra list nhỏ hơn index đã chọn
+            if (selectedInvoiceIndex >= unpaidInvoiceList.size()) {
+                selectedInvoiceIndex = 0;
+            }
 
-            // Hiển thị tháng (VD: "Tháng 03/2026")
-            tvMonth.setText("Tháng " + invoice.billingMonth);
+            Invoice invoice = unpaidInvoiceList.get(selectedInvoiceIndex);
+            currentInvoiceId = invoice.id;
 
-            // Tiếp tục load chi tiết từng mục
+            if (unpaidInvoiceList.size() > 1) {
+                tvMonth.setText("Tháng " + invoice.billingMonth + " (Chọn)");
+            } else {
+                tvMonth.setText("Tháng " + invoice.billingMonth);
+            }
+
             loadInvoiceItems(invoice.id);
         });
+    }
+
+    private void showInvoicePicker() {
+        if (unpaidInvoiceList == null || unpaidInvoiceList.size() <= 1) return;
+
+        String[] options = new String[unpaidInvoiceList.size()];
+        for (int i = 0; i < unpaidInvoiceList.size(); i++) {
+            Invoice inv = unpaidInvoiceList.get(i);
+            String status = "PARTIALLY_PAID".equals(inv.status) ? " (Đóng 1 phần)" : " (Chưa đóng)";
+            options[i] = "Tháng " + inv.billingMonth + status;
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Chọn hóa đơn cần thanh toán")
+                .setSingleChoiceItems(options, selectedInvoiceIndex, (dialog, which) -> {
+                    selectedInvoiceIndex = which;
+                    dialog.dismiss();
+                    
+                    Invoice invoice = unpaidInvoiceList.get(selectedInvoiceIndex);
+                    currentInvoiceId = invoice.id;
+                    tvMonth.setText("Tháng " + invoice.billingMonth + " (Chọn)");
+                    loadInvoiceItems(invoice.id);
+                })
+                .show();
     }
 
     // ═══════════════════════════════════════════════════════════════
@@ -244,6 +282,7 @@ public class InvoiceActivity extends AppCompatActivity {
                         break;
 
                     case "INTERNET":
+                    case "MANAGEMENT":
                         if (isPaid) {
                             findViewById(R.id.layoutInternet).setVisibility(android.view.View.GONE);
                             cbInternet.setChecked(false);
@@ -252,6 +291,14 @@ public class InvoiceActivity extends AppCompatActivity {
                             findViewById(R.id.layoutInternet).setVisibility(android.view.View.VISIBLE);
                             priceInternet = item.amount;
                         }
+                        
+                        TextView tvIntTitle = findViewById(R.id.tvIntTitle);
+                        if ("MANAGEMENT".equals(item.serviceType)) {
+                            tvIntTitle.setText("Phí quản lý căn hộ");
+                        } else {
+                            tvIntTitle.setText("Thanh toán Internet");
+                        }
+                        
                         tvIntPkg.setText(item.description);
                         tvIntSpeed.setText(fmt(item.amount) + "đ/tháng");
                         tvIntTotal.setText(fmt(item.amount) + "đ");

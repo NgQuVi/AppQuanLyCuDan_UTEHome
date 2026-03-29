@@ -98,17 +98,21 @@
                     android:textSize="12sp"
                     android:layout_marginBottom="6dp" />
                 <RelativeLayout
+                    android:id="@+id/layoutApartmentPicker"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:background="@drawable/bg_compose_input"
                     android:paddingEnd="12dp"
                     android:paddingStart="12dp"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="12dp"
+                    android:clickable="true"
+                    android:focusable="true">
                     <TextView
+                        android:id="@+id/tvApartmentName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="P.1205 - Tòa S1"
+                        android:hint="Chọn căn hộ..."
                         android:textColor="#1A202C"
                         android:textSize="14sp" />
                     <ImageView
@@ -128,12 +132,16 @@
                     android:textSize="12sp"
                     android:layout_marginBottom="6dp" />
                 <RelativeLayout
+                    android:id="@+id/layoutMonthPicker"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:background="@drawable/bg_compose_input"
                     android:paddingEnd="12dp"
-                    android:paddingStart="12dp">
+                    android:paddingStart="12dp"
+                    android:clickable="true"
+                    android:focusable="true">
                     <TextView
+                        android:id="@+id/tvBillingMonth"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -202,17 +210,17 @@
                         <!-- Diện tích -->
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DIỆN TÍCH (M²)" android:textColor="#8F9BB3" android:textSize="10sp" android:layout_marginBottom="6dp" />
-                            <EditText android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="75" android:textColor="#1A202C" android:textSize="14sp" android:inputType="numberDecimal" android:padding="0dp" />
+                            <EditText android:id="@+id/etMgmtArea" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="75" android:textColor="#1A202C" android:textSize="14sp" android:inputType="numberDecimal" android:padding="0dp" />
                         </LinearLayout>
                         <!-- Đơn giá -->
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ĐƠN GIÁ (Đ)" android:textColor="#8F9BB3" android:textSize="10sp" android:layout_marginBottom="6dp" />
-                            <EditText android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="12000" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
+                            <EditText android:id="@+id/etMgmtPrice" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="12000" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
                         </LinearLayout>
                         <!-- Thành tiền -->
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" android:orientation="vertical">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="THÀNH TIỀN" android:textColor="#8F9BB3" android:textSize="10sp" android:layout_marginBottom="6dp" />
-                            <TextView android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_chip" android:backgroundTint="#FFF0E6" android:gravity="center" android:text="900,000đ" android:textColor="@color/brand_orange" android:textSize="14sp" android:fontFamily="sans-serif-bold"/>
+                            <TextView android:id="@+id/tvMgmtTotal" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_chip" android:backgroundTint="#FFF0E6" android:gravity="center" android:text="900,000đ" android:textColor="@color/brand_orange" android:textSize="14sp" android:fontFamily="sans-serif-bold"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -237,25 +245,25 @@
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="bottom" android:layout_marginBottom="12dp">
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SỐ LƯỢNG Ô TÔ" android:textColor="#8F9BB3" android:textSize="9sp" android:layout_marginBottom="6dp" />
-                            <EditText android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="1" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
+                            <EditText android:id="@+id/etCarCount" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="1" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
                         </LinearLayout>
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ĐƠN GIÁ Ô TÔ" android:textColor="#8F9BB3" android:textSize="9sp" android:layout_marginBottom="6dp" />
-                            <EditText android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="12000" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
+                            <EditText android:id="@+id/etCarPrice" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="1200000" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
                         </LinearLayout>
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" android:gravity="center_vertical" android:text="= 1,200,000đ" android:textColor="#8F9BB3" android:textSize="12sp" android:paddingBottom="10dp"/>
+                        <TextView android:id="@+id/tvCarTotal" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" android:gravity="center_vertical" android:text="= 1,200,000đ" android:textColor="#8F9BB3" android:textSize="12sp" android:paddingBottom="10dp"/>
                     </LinearLayout>
                     <!-- Xe máy -->
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="bottom">
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SỐ LƯỢNG XE MÁY" android:textColor="#8F9BB3" android:textSize="9sp" android:layout_marginBottom="6dp" />
-                            <EditText android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="2" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
+                            <EditText android:id="@+id/etMotorCount" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="2" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
                         </LinearLayout>
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ĐƠN GIÁ XE MÁY" android:textColor="#8F9BB3" android:textSize="9sp" android:layout_marginBottom="6dp" />
-                            <EditText android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="17500" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
+                            <EditText android:id="@+id/etMotorPrice" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="175000" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
                         </LinearLayout>
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" android:gravity="center_vertical" android:text="= 350,000đ" android:textColor="#8F9BB3" android:textSize="12sp" android:paddingBottom="10dp"/>
+                        <TextView android:id="@+id/tvMotorTotal" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" android:gravity="center_vertical" android:text="= 350,000đ" android:textColor="#8F9BB3" android:textSize="12sp" android:paddingBottom="10dp"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -274,6 +282,7 @@
                         android:textColor="#192A3E"
                         android:textSize="12sp" />
                     <TextView
+                        android:id="@+id/tvAptTotal"
                         android:layout_width="140dp"
                         android:layout_height="40dp"
                         android:background="@drawable/bg_compose_chip"
@@ -328,15 +337,15 @@
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CHỈ SỐ CŨ" android:textColor="#8F9BB3" android:textSize="9sp" android:layout_marginBottom="6dp" />
-                            <EditText android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_form_input_disabled" android:gravity="center" android:text="1240" android:textColor="#8F9BB3" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
+                            <EditText android:id="@+id/etElecOld" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="1240" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
                         </LinearLayout>
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CHỈ SỐ MỚI" android:textColor="#8F9BB3" android:textSize="9sp" android:layout_marginBottom="6dp" />
-                            <EditText android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_form_input_disabled" android:gravity="center" android:text="1456" android:textColor="#8F9BB3" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
+                            <EditText android:id="@+id/etElecNew" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="1456" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
                         </LinearLayout>
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ĐƠN GIÁ" android:textColor="#8F9BB3" android:textSize="9sp" android:layout_marginBottom="6dp" />
-                            <EditText android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_form_input_disabled" android:gravity="center" android:text="3,500" android:textColor="#8F9BB3" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
+                            <EditText android:id="@+id/etElecPrice" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="3500" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -350,15 +359,15 @@
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CHỈ SỐ CŨ" android:textColor="#8F9BB3" android:textSize="9sp" android:layout_marginBottom="6dp" />
-                            <EditText android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_form_input_disabled" android:gravity="center" android:text="452" android:textColor="#8F9BB3" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
+                            <EditText android:id="@+id/etWaterOld" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="452" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
                         </LinearLayout>
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CHỈ SỐ MỚI" android:textColor="#8F9BB3" android:textSize="9sp" android:layout_marginBottom="6dp" />
-                            <EditText android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_form_input_disabled" android:gravity="center" android:text="468" android:textColor="#8F9BB3" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
+                            <EditText android:id="@+id/etWaterNew" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="468" android:textColor="#1A202C" android:textSize="14sp" android:inputType="number" android:padding="0dp" />
                         </LinearLayout>
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ĐƠN GIÁ" android:textColor="#8F9BB3" android:textSize="9sp" android:layout_marginBottom="6dp" />
-                            <EditText android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_form_input_disabled" android:gravity="center" android:text="18,000" android:textColor="#8F9BB3" android:textSize="14sp" android:inputType="numberDecimal" android:padding="0dp" />
+                            <EditText android:id="@+id/etWaterPrice" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/bg_compose_input" android:gravity="center" android:text="18000" android:textColor="#1A202C" android:textSize="14sp" android:inputType="numberDecimal" android:padding="0dp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -409,6 +418,7 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/tvGrandTotal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"

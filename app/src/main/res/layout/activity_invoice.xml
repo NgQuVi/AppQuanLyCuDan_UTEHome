@@ -111,28 +111,37 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Month Selector -->
-    <TextView
-        android:id="@+id/tvMonth"
+    <LinearLayout
+        android:id="@+id/layoutMonthSelector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
-        android:text="@string/invoice_month"
-        android:textColor="@color/home_text_primary"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:layout_marginStart="20dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardApartment" />
-        
-    <ImageView
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:src="@drawable/ic_expand_more"
-        app:tint="@color/home_text_secondary"
-        android:layout_marginStart="4dp"
-        app:layout_constraintBottom_toBottomOf="@id/tvMonth"
-        app:layout_constraintStart_toEndOf="@id/tvMonth"
-        app:layout_constraintTop_toTopOf="@id/tvMonth" />
+        app:layout_constraintTop_toBottomOf="@id/cardApartment">
+
+        <TextView
+            android:id="@+id/tvMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invoice_month"
+            android:textColor="@color/home_text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+            
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_expand_more"
+            app:tint="@color/home_text_secondary"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
 
     <!-- Invoices List (ScrollView) -->
     <androidx.core.widget.NestedScrollView
@@ -143,7 +152,7 @@
         android:paddingBottom="100dp"
         android:clipToPadding="false"
         app:layout_constraintBottom_toTopOf="@id/bottomPayment"
-        app:layout_constraintTop_toBottomOf="@id/tvMonth">
+        app:layout_constraintTop_toBottomOf="@id/layoutMonthSelector">
 
         <LinearLayout
             android:layout_width="match_parent"

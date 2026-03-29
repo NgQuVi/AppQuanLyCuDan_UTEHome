@@ -59,13 +59,20 @@ public class PaymentRepository {
             if (elec) paymentDao.markInvoiceItemAsPaid(invoiceId, "ELECTRIC");
             if (water) paymentDao.markInvoiceItemAsPaid(invoiceId, "WATER");
             if (park) paymentDao.markInvoiceItemAsPaid(invoiceId, "PARKING");
-            if (internet) paymentDao.markInvoiceItemAsPaid(invoiceId, "INTERNET");
+            if (internet) {
+                paymentDao.markInvoiceItemAsPaid(invoiceId, "INTERNET");
+                paymentDao.markInvoiceItemAsPaid(invoiceId, "MANAGEMENT");
+            }
 
             // Kiểm tra xem đã thanh toán hết các mục trong Menu chưa?
+            int totalItems = paymentDao.countTotalItems(invoiceId);
             int unpaidCount = paymentDao.countUnpaidItems(invoiceId);
             if (unpaidCount == 0) {
                 // Nếu không còn mục nào UNPAID, lúc này mới cập nhật hóa đơn tổng thành PAID
                 paymentDao.markInvoiceAsPaid(invoiceId);
+            } else if (unpaidCount < totalItems) {
+                // Nếu còn nợ vài khoản nhưng đã thanh toán một số khoản khác
+                paymentDao.markInvoiceAsPartial(invoiceId);
             }
 
             // Ghi nhận Lịch sử giao dịch (Giữ nguyên như code cũ)
