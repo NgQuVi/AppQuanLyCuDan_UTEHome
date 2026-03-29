@@ -53,6 +53,13 @@ public class AdminMainActivity extends AppCompatActivity {
         );
 
         // Dashboard Stats Click Listeners
+        View cardResidents = findViewById(R.id.cardTotalResidents);
+        if (cardResidents != null) {
+            cardResidents.setOnClickListener(v -> {
+                startActivity(new android.content.Intent(this, ResidentListActivity.class));
+            });
+        }
+
         View cardApartments = findViewById(R.id.cardTotalApartments);
         if (cardApartments != null) {
             cardApartments.setOnClickListener(v -> {

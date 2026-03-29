@@ -1,6 +1,7 @@
 package com.example.quanlycudan_utehome.data.entity;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -18,11 +19,14 @@ public class Account {
     public String password;
     public String role;
     public boolean isActive = true;
+    public boolean mustChangePassword = false;
 
+    @Ignore
     public Account(String phone, String password, String role) {
         this.phone = phone;
         this.password = password;
         this.role = role;
         this.isActive = true;
+        this.mustChangePassword = false;
     }
 }

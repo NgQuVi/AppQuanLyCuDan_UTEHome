@@ -27,14 +27,181 @@ public class DatabaseInitializer {
     public static void initializeSampleData(Context context) {
         AppDatabase db = AppDatabase.getInstance(context);
 
-        insertSampleResidents(db);
-        insertSampleAccounts(db);
-        insertSampleApartments(db);
-        insertSampleApartmentMembers(db);
+        insertCoreSampleData(db);
         insertSampleVehicles(db);
         insertSampleInvoices(db);
         insertSampleGuestPasses(db);
         insertSampleNotifications(db);
+    }
+
+    private static void insertCoreSampleData(AppDatabase db) {
+        new Thread(() -> {
+            if (!db.residentDao().getAllResidents().isEmpty()
+                    || !db.apartmentDao().getAllApartmentsSync().isEmpty()
+                    || !db.apartmentMemberDao().getAllMembers().isEmpty()) {
+                return;
+            }
+
+            db.runInTransaction(() -> {
+                Resident r1 = new Resident();
+                r1.fullName = "Nguyen Van An";
+                r1.phone = "0901234567";
+                r1.email = "an.nguyen@example.com";
+                r1.gender = "Nam";
+                r1.idNum = "012345678910";
+                r1.avatarUrl = "https://via.placeholder.com/150?text=An";
+
+                Resident r2 = new Resident();
+                r2.fullName = "Tran Thi Huong";
+                r2.phone = "0901234568";
+                r2.email = "huong.tran@example.com";
+                r2.gender = "Nu";
+                r2.avatarUrl = "https://via.placeholder.com/150?text=Huong";
+
+                Resident r3 = new Resident();
+                r3.fullName = "Nguyen Anh Duc";
+                r3.phone = "0901234569";
+                r3.email = "duc.nguyen@example.com";
+                r3.gender = "Nam";
+                r3.avatarUrl = "https://via.placeholder.com/150?text=Duc";
+
+                Resident r4 = new Resident();
+                r4.fullName = "Pham Thi Tam";
+                r4.phone = "0902234567";
+                r4.email = "tam.pham@example.com";
+                r4.gender = "Nu";
+                r4.avatarUrl = "https://via.placeholder.com/150?text=Tam";
+
+                Resident r5 = new Resident();
+                r5.fullName = "Le Van Hung";
+                r5.phone = "0902234568";
+                r5.email = "hung.le@example.com";
+                r5.gender = "Nam";
+                r5.avatarUrl = "https://via.placeholder.com/150?text=Hung";
+
+                long resident1Id = db.residentDao().insert(r1);
+                long resident2Id = db.residentDao().insert(r2);
+                long resident3Id = db.residentDao().insert(r3);
+                long resident4Id = db.residentDao().insert(r4);
+                long resident5Id = db.residentDao().insert(r5);
+
+                r1.id = (int) resident1Id;
+                r2.id = (int) resident2Id;
+                r3.id = (int) resident3Id;
+                r4.id = (int) resident4Id;
+                r5.id = (int) resident5Id;
+
+                Account account1 = new Account();
+                account1.phone = "0901234567";
+                account1.password = "12345678";
+                account1.role = "Resident";
+                account1.isActive = true;
+                account1.mustChangePassword = false;
+
+                Account account4 = new Account();
+                account4.phone = "0902234567";
+                account4.password = "12345678";
+                account4.role = "Resident";
+                account4.isActive = true;
+                account4.mustChangePassword = false;
+
+                long account1Id = db.accountDao().insert(account1);
+                long account4Id = db.accountDao().insert(account4);
+
+                r1.accountId = (int) account1Id;
+                r4.accountId = (int) account4Id;
+                db.residentDao().update(r1);
+                db.residentDao().update(r4);
+
+                Apartment a1 = new Apartment();
+                a1.accountId = (int) account1Id;
+                a1.apartmentCode = "P.1205";
+                a1.buildingCode = "S1";
+                a1.floor = 12;
+                a1.area = 105.5f;
+                a1.status = "Dang su dung";
+
+                Apartment a2 = new Apartment();
+                a2.accountId = (int) account4Id;
+                a2.apartmentCode = "P.1206";
+                a2.buildingCode = "S1";
+                a2.floor = 12;
+                a2.area = 87.3f;
+                a2.status = "Dang su dung";
+
+                Apartment a3 = new Apartment();
+                a3.accountId = 0;
+                a3.apartmentCode = "P.1207";
+                a3.buildingCode = "S1";
+                a3.floor = 12;
+                a3.area = 92.0f;
+                a3.status = "Trong";
+
+                Apartment a4 = new Apartment();
+                a4.accountId = 0;
+                a4.apartmentCode = "P.0805";
+                a4.buildingCode = "S2";
+                a4.floor = 8;
+                a4.area = 115.0f;
+                a4.status = "Trong";
+
+                Apartment a5 = new Apartment();
+                a5.accountId = 0;
+                a5.apartmentCode = "P.0806";
+                a5.buildingCode = "S2";
+                a5.floor = 8;
+                a5.area = 95.5f;
+                a5.status = "Trong";
+
+                long apartment1Id = db.apartmentDao().insertApartment(a1);
+                long apartment2Id = db.apartmentDao().insertApartment(a2);
+                long apartment3Id = db.apartmentDao().insertApartment(a3);
+                long apartment4Id = db.apartmentDao().insertApartment(a4);
+                long apartment5Id = db.apartmentDao().insertApartment(a5);
+
+                a1.id = (int) apartment1Id;
+                a2.id = (int) apartment2Id;
+                a3.id = (int) apartment3Id;
+                a4.id = (int) apartment4Id;
+                a5.id = (int) apartment5Id;
+
+                ApartmentMember m1 = new ApartmentMember();
+                m1.apartmentId = a1.id;
+                m1.residentId = r1.id;
+                m1.role = "Chu ho";
+                m1.residentType = "Chinh";
+
+                ApartmentMember m2 = new ApartmentMember();
+                m2.apartmentId = a1.id;
+                m2.residentId = r2.id;
+                m2.role = "Vo";
+                m2.residentType = "Gia dinh";
+
+                ApartmentMember m3 = new ApartmentMember();
+                m3.apartmentId = a1.id;
+                m3.residentId = r3.id;
+                m3.role = "Con";
+                m3.residentType = "Gia dinh";
+
+                ApartmentMember m4 = new ApartmentMember();
+                m4.apartmentId = a2.id;
+                m4.residentId = r4.id;
+                m4.role = "Chu ho";
+                m4.residentType = "Chinh";
+
+                ApartmentMember m5 = new ApartmentMember();
+                m5.apartmentId = a2.id;
+                m5.residentId = r5.id;
+                m5.role = "Gia dinh";
+                m5.residentType = "Gia dinh";
+
+                db.apartmentMemberDao().insert(m1);
+                db.apartmentMemberDao().insert(m2);
+                db.apartmentMemberDao().insert(m3);
+                db.apartmentMemberDao().insert(m4);
+                db.apartmentMemberDao().insert(m5);
+            });
+        }).start();
     }
 
 

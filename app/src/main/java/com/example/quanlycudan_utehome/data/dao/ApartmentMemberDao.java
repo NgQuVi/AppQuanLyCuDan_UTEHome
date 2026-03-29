@@ -28,6 +28,8 @@ public interface ApartmentMemberDao {
     @Query("SELECT apartmentId FROM apartment_members WHERE residentId = :id")
     List<Integer> getApartmentIdsByResidentId(int id);
 
+    @Query("DELETE FROM apartment_members WHERE residentId = :residentId")
+    void deleteByResidentId(int residentId);
 
     @Query("SELECT residentId FROM apartment_members WHERE apartmentId = :apartmentId")
     LiveData<List<Integer>> getResidentIdsByApartmentId(int apartmentId);

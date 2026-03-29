@@ -50,6 +50,12 @@ public class ApartmentListActivity extends AppCompatActivity {
         loadApartments();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadApartments();
+    }
+
     private void loadApartments() {
         executorService.execute(() -> {
             List<ApartmentWithOwner> apartments = AppDatabase.getInstance(this).apartmentDao().getApartmentsWithOwners();
