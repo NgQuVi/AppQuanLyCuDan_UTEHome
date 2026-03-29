@@ -23,7 +23,7 @@ public interface PaymentDao {
     @Insert
     void insertTransaction(TransactionHistory transaction);
 
-    @Query("SELECT * FROM invoices WHERE apartmentId = :aptId AND status = 'UNPAID'")
+    @Query("SELECT * FROM invoices WHERE apartmentId = :aptId AND status IN ('UNPAID', 'PARTIALLY_PAID')")
     LiveData<List<Invoice>> getUnpaidInvoices(String aptId);
 
     @Query("SELECT * FROM transactions WHERE status = 'SUCCESS' ORDER BY transactionTime DESC")
@@ -47,7 +47,7 @@ public interface PaymentDao {
     @Query("SELECT SUM(paidAmount) FROM transactions WHERE status = 'SUCCESS'")
     long getTotalPaidAmount();
 
-    @Query("SELECT i.id AS invoiceId, a.apartmentCode, i.dueDate, i.totalAmount, i.status " +
+    @Query("SELECT i.id AS invoiceId, a.apartmentCode, i.billingMonth, i.dueDate, i.totalAmount, i.status " +
            "FROM invoices i INNER JOIN apartments a ON CAST(i.apartmentId AS INTEGER) = a.id")
     List<com.example.quanlycudan_utehome.data.entity.InvoiceItemRow> getInvoiceItemRows();
 
@@ -56,4 +56,22 @@ public interface PaymentDao {
 
     @Query("SELECT COUNT(*) FROM invoice_items WHERE invoiceId = :invoiceId AND status = 'UNPAID'")
     int countUnpaidItems(String invoiceId);
+
+    @Query("SELECT COUNT(*) FROM invoice_items WHERE invoiceId = :invoiceId")
+    int countTotalItems(String invoiceId);
+
+    @Query("UPDATE invoices SET status = 'PARTIALLY_PAID' WHERE id = :invoiceId")
+    void markInvoiceAsPartial(String invoiceId);
+
+    @Query("DELETE FROM invoice_items WHERE invoiceId = :invId")
+    void deleteInvoiceItems(String invId);
+
+    @androidx.room.Update
+    void updateInvoice(Invoice invoice);
+
+    @Query("SELECT * FROM invoices WHERE id = :invoiceId")
+    Invoice getInvoiceByIdSync(String invoiceId);
+
+    @Query("SELECT * FROM invoice_items WHERE invoiceId = :invId")
+    List<InvoiceItem> getInvoiceItemsDetailsSync(String invId);
 }

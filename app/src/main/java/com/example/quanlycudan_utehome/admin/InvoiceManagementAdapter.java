@@ -45,7 +45,13 @@ public class InvoiceManagementAdapter extends RecyclerView.Adapter<InvoiceManage
         if ("PAID".equalsIgnoreCase(item.status)) {
             holder.tvStatus.setText("ĐÃ THANH TOÁN");
             holder.tvStatus.setTextColor(Color.parseColor("#1F7343")); // Green
-            holder.tvStatus.setBackgroundResource(R.drawable.bg_tag_paid); // fallback if missing? we use existing resource or same logic
+            holder.tvStatus.setBackgroundResource(R.drawable.bg_tag_paid); 
+        } else if ("PARTIALLY_PAID".equalsIgnoreCase(item.status)) {
+            holder.tvStatus.setText("ĐÓNG 1 PHẦN");
+            holder.tvStatus.setTextColor(Color.parseColor("#2B6CB0")); // Blue color
+            // Re-use an existing drawable or generic
+            holder.tvStatus.setBackgroundResource(R.drawable.bg_tag_unpaid); 
+            // We can overwrite tint for the blue feel if necessary or rely on text color
         } else {
             holder.tvStatus.setText("CHƯA THANH TOÁN");
             holder.tvStatus.setTextColor(Color.parseColor("#C05030")); // Orange

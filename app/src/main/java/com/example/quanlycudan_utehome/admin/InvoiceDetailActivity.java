@@ -79,10 +79,25 @@ public class InvoiceDetailActivity extends AppCompatActivity {
             tvStatusDetail.setText("ĐÃ THANH TOÁN");
             tvStatusDetail.setTextColor(android.graphics.Color.parseColor("#1F7343"));
             tvStatusDetail.setBackgroundResource(R.drawable.bg_tag_paid);
+            findViewById(R.id.btnEdit).setAlpha(0.5f);
+            findViewById(R.id.btnEdit).setEnabled(false);
+        } else if ("PARTIALLY_PAID".equalsIgnoreCase(invoice.status)) {
+            tvStatusDetail.setText("ĐÓNG 1 PHẦN");
+            tvStatusDetail.setTextColor(android.graphics.Color.parseColor("#2B6CB0"));
+            tvStatusDetail.setBackgroundResource(R.drawable.bg_tag_unpaid);
+            findViewById(R.id.btnEdit).setAlpha(0.5f);
+            findViewById(R.id.btnEdit).setEnabled(false);
         } else {
             tvStatusDetail.setText("CHƯA THANH TOÁN");
             tvStatusDetail.setTextColor(android.graphics.Color.parseColor("#C05030"));
             tvStatusDetail.setBackgroundResource(R.drawable.bg_tag_unpaid);
+            findViewById(R.id.btnEdit).setAlpha(1.0f);
+            findViewById(R.id.btnEdit).setEnabled(true);
+            findViewById(R.id.btnEdit).setOnClickListener(v -> {
+                android.content.Intent intent = new android.content.Intent(this, ComposeInvoiceActivity.class);
+                intent.putExtra("edit_invoice_id", invoice.id);
+                startActivity(intent);
+            });
         }
 
         tvTotalAmountDetail.setText(currencyFormat.format(invoice.totalAmount) + "đ");
