@@ -54,7 +54,7 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Section 1: Vi tri & Dinh danh -->
+            <!-- Section 1: Vị Trí & Định Danh -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -77,6 +77,7 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
+            <!-- Tòa nhà & Tầng Row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,7 +85,7 @@
                 android:baselineAligned="false"
                 android:orientation="horizontal">
 
-                <!-- Chọn Tòa nhà -->
+                <!-- Nhập Tòa nhà -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -96,41 +97,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-bold"
-                        android:text="Chọn Tòa nhà"
+                        android:text="Tòa nhà"
                         android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
-                        <LinearLayout
-                            android:id="@+id/layoutSelectBuilding"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:layout_marginTop="8dp"
-                            android:background="@drawable/bg_form_input"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="12dp"
-                            android:clickable="true"
-                            android:focusable="true">
-
-                            <TextView
-                                android:id="@+id/tvSelectedBuilding"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Chọn tòa nhà"
-                                android:textColor="@color/text_primary"
-                                android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            app:srcCompat="@drawable/ic_expand_more_24"
-                            app:tint="@color/text_secondary" />
-                    </LinearLayout>
+                    <EditText
+                        android:id="@+id/etBuildingCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_form_input"
+                        android:hint="VD: S1"
+                        android:inputType="textCapCharacters"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/input_icon"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
-                <!-- Chọn Tầng -->
+                <!-- Nhập Tầng -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -142,41 +128,27 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-bold"
-                        android:text="Chọn Tầng"
+                        android:text="Tầng"
                         android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
-                        <LinearLayout
-                            android:id="@+id/layoutSelectFloor"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:layout_marginTop="8dp"
-                            android:background="@drawable/bg_form_input"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="12dp"
-                            android:clickable="true"
-                            android:focusable="true">
-
-                            <TextView
-                                android:id="@+id/tvSelectedFloor"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Chọn tầng"
-                                android:textColor="@color/text_primary"
-                                android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            app:srcCompat="@drawable/ic_expand_more_24"
-                            app:tint="@color/text_secondary" />
-                    </LinearLayout>
+                    <EditText
+                        android:id="@+id/etFloor"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_form_input"
+                        android:hint="VD: 5"
+                        android:inputType="number"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/input_icon"
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
 
+            <!-- Mã Căn Hộ -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -208,7 +180,7 @@
                 android:textColor="@color/dashboard_icon_muted"
                 android:textSize="12sp" />
 
-            <!-- Section 2: Thong tin chi tiet -->
+            <!-- Section 2: Thông Tin Chi Tiết -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -277,47 +249,9 @@
                         android:textColor="@color/text_secondary"
                         android:textSize="15sp" />
                 </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="sans-serif-bold"
-                    android:text="Loại căn hộ"
-                    android:textColor="#C05030"
-                    android:textSize="14sp" />
-
-                <LinearLayout
-                    android:id="@+id/layoutSelectApartmentType"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_form_input"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <TextView
-                        android:id="@+id/tvSelectedApartmentType"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="2PN"
-                        android:textColor="@color/text_primary"
-                        android:textSize="15sp" />
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@drawable/ic_expand_more_24"
-                        app:tint="@color/text_secondary" />
-                </LinearLayout>
             </LinearLayout>
 
-            <!-- Section 3: Trang thai cu tru -->
+            <!-- Section 3: Trạng Thái Cư Trú -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -350,27 +284,15 @@
                     android:id="@+id/btnStatusOccupied"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_status_toggle_unselected"
                     android:gravity="center"
-                    android:text="Đang ở"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/btnStatusHandover"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_status_toggle_unselected"
-                    android:gravity="center"
-                    android:text="Bàn giao"
+                    android:text="Đang sử dụng"
                     android:textColor="@color/text_secondary"
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Section 4: Chu ho -->
+            <!-- Section 4: Chủ Hộ -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -403,7 +325,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="Tìm kiếm theo tên hoặc số điện thoại..."
+                    android:hint="Tìm kiếm theo tên..."
                     android:inputType="text"
                     android:textColor="@color/text_primary"
                     android:textColorHint="@color/input_icon"
