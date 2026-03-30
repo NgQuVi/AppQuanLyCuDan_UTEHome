@@ -59,6 +59,20 @@
                         android:textColor="@color/home_text_secondary"
                         android:textSize="14sp" />
                 </LinearLayout>
+
+                <!-- Logout Button -->
+                <ImageView
+                    android:id="@+id/btnAdminLogout"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_logout"
+                    android:background="@drawable/bg_icon_orange"
+                    android:backgroundTint="#FFF0F0"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="Đăng xuất" />
+
             </LinearLayout>
 
             <!-- Stats Grid Section -->

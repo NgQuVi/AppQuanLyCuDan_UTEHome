@@ -1,5 +1,6 @@
 package com.example.quanlycudan_utehome.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -14,6 +16,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.quanlycudan_utehome.R;
 import com.example.quanlycudan_utehome.data.database.AppDatabase;
+import com.example.quanlycudan_utehome.data.local.SessionManager;
+import com.example.quanlycudan_utehome.feature.auth.login.LoginActivity;
 
 import java.text.DecimalFormat;
 import java.util.concurrent.ExecutorService;
@@ -86,6 +90,9 @@ public class AdminMainActivity extends AppCompatActivity {
             Toast.makeText(this, "Chức năng cài đặt", Toast.LENGTH_SHORT).show();
         });
 
+        // Admin Logout Button
+        findViewById(R.id.btnAdminLogout).setOnClickListener(v -> showLogoutConfirmDialog());
+
         loadDashboardData();
     }
 
@@ -118,5 +125,22 @@ public class AdminMainActivity extends AppCompatActivity {
         } else {
             return new DecimalFormat("#,###").format(amount) + " VNĐ";
         }
+    }
+
+    private void showLogoutConfirmDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Đăng xuất")
+                .setMessage("Bạn có chắc chắn muốn đăng xuất khỏi tài khoản quản trị không?")
+                .setPositiveButton("Đăng xuất", (dialog, which) -> performLogout())
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+    private void performLogout() {
+        SessionManager.getInstance(this).logout();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
