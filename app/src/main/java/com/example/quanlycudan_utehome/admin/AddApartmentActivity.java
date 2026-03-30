@@ -27,7 +27,6 @@ public class AddApartmentActivity extends AppCompatActivity {
 
     private EditText etApartmentCode, etArea, etBuildingCode, etFloor;
     private TextView btnStatusEmpty, btnStatusOccupied;
-    private android.view.View layoutSelectOwner;
 
     private String selectedStatus = "Trống";
     private int selectedAccountId = 0;
@@ -55,9 +54,11 @@ public class AddApartmentActivity extends AppCompatActivity {
         etFloor = findViewById(R.id.etFloor);
         btnStatusEmpty = findViewById(R.id.btnStatusEmpty);
         btnStatusOccupied = findViewById(R.id.btnStatusOccupied);
-        layoutSelectOwner = findViewById(R.id.layoutSelectOwner);
 
-        layoutSelectOwner.setOnClickListener(v -> showOwnerPickerDialog());
+        // Owner selection - click on search field to open picker
+        EditText etSearchOwner = findViewById(R.id.etSearchOwner);
+        etSearchOwner.setOnClickListener(v -> showOwnerPickerDialog());
+        etSearchOwner.setFocusable(false);  // Prevent keyboard from opening
 
         // Status Toggle Logic
         btnStatusEmpty.setOnClickListener(v -> updateStatus("Trống"));
@@ -107,6 +108,9 @@ public class AddApartmentActivity extends AppCompatActivity {
             selectedResident = resident;
             selectedAccountId = resident.accountId;
 
+            updateStatus("Đang sử dụng");
+            Toast.makeText(AddApartmentActivity.this, "Đã chọn chủ hộ: " + resident.fullName, Toast.LENGTH_SHORT).show();
+
             android.app.AlertDialog dialog = (android.app.AlertDialog) etSearch.getTag();
             if (dialog != null) dialog.dismiss();
         });
@@ -143,6 +147,9 @@ public class AddApartmentActivity extends AppCompatActivity {
         builder.setNeutralButton("Xóa chọn", (dialog, which) -> {
             selectedResident = null;
             selectedAccountId = 0;
+
+            updateStatus("Trống");
+            Toast.makeText(AddApartmentActivity.this, "Đã xóa chủ hộ", Toast.LENGTH_SHORT).show();
         });
 
         android.app.AlertDialog dialog = builder.create();
