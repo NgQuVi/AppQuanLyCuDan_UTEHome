@@ -70,7 +70,7 @@ public class FacilityDetailActivity extends AppCompatActivity {
                     String[] timeParts = TIMES[selectedTimeIndex].split(" - ");
                     booking.startTime = timeParts[0];
                     booking.endTime = timeParts[1];
-                    booking.status = "BOOKED";
+                    booking.status = "PENDING";
                     booking.cancelReason = "";
                     
                     db.facilityBookingDao().insertBooking(booking);
@@ -129,7 +129,8 @@ public class FacilityDetailActivity extends AppCompatActivity {
             
             bookedTimes.clear();
             for (FacilityBooking b : bookings) {
-                if ("BOOKED".equals(b.status)) {
+                // Block slots that are pending or approved
+                if ("PENDING".equalsIgnoreCase(b.status) || "APPROVED".equalsIgnoreCase(b.status) || "BOOKED".equalsIgnoreCase(b.status)) {
                     bookedTimes.add(b.startTime + " - " + b.endTime);
                 }
             }

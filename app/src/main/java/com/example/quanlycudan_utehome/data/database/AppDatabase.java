@@ -14,8 +14,10 @@ import com.example.quanlycudan_utehome.data.dao.ResidentDao;
 import com.example.quanlycudan_utehome.data.dao.AccountDao;
 import com.example.quanlycudan_utehome.data.dao.VehicleDao;
 import com.example.quanlycudan_utehome.data.dao.FacilityBookingDao;
+import com.example.quanlycudan_utehome.data.dao.FacilityDao;
 import com.example.quanlycudan_utehome.data.entity.Apartment;
 import com.example.quanlycudan_utehome.data.entity.ApartmentMember;
+import com.example.quanlycudan_utehome.data.entity.Facility;
 import com.example.quanlycudan_utehome.data.entity.Account;
 import com.example.quanlycudan_utehome.data.entity.Invoice;
 import com.example.quanlycudan_utehome.data.entity.InvoiceItem;
@@ -37,8 +39,9 @@ import com.example.quanlycudan_utehome.data.dao.AppNotificationDao;
         Vehicle.class,
         GuestPass.class,
         FacilityBooking.class,
-        AppNotification.class
-}, version = 15, exportSchema = false)
+        AppNotification.class,
+        Facility.class
+}, version = 16, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ApartmentDao apartmentDao();
@@ -49,6 +52,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract VehicleDao vehicleDao();
     public abstract GuestPassDao guestPassDao();
     public abstract FacilityBookingDao facilityBookingDao();
+    public abstract FacilityDao facilityDao();
     public abstract AppNotificationDao appNotificationDao();
     private static AppDatabase instance;
 

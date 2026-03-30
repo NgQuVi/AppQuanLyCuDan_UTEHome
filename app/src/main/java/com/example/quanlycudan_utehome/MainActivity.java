@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     hasShownInvoiceAlert = true;
                     new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this)
                         .setTitle("Thông báo cước phí")
-                        .setMessage("Bạn có hóa đơn cần thanh toán cho căn hộ " + selectedApartment.apartmentCode + ". Vui lòng thanh toán để tránh gián đoạn dịch vụ.")
+                        .setMessage("Bạn đang có " + invoices.size() + " tháng phí dịch vụ chưa thanh toán (hoặc đóng thiếu) cho căn hộ " + selectedApartment.apartmentCode + ". Vui lòng kiểm tra và thanh toán để tránh gián đoạn dịch vụ.")
                         .setPositiveButton("Đến trang Hóa đơn", (dialog, which) -> {
                             android.content.Intent intent = new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.invoice.InvoiceActivity.class);
                             startActivity(intent);
