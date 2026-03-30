@@ -29,4 +29,13 @@ public interface FacilityBookingDao {
 
     @Query("DELETE FROM facility_bookings WHERE residentId = :residentId")
     void deleteByResidentId(int residentId);
+
+    @Query("SELECT b.id as bookingId, b.facilityId, f.name as facilityName, " +
+           "b.residentId, r.fullName as residentName, b.bookingDate, b.DayBooking, " +
+           "b.startTime, b.endTime, b.status, b.cancelReason " +
+           "FROM facility_bookings b " +
+           "INNER JOIN facilities f ON b.facilityId = f.id " +
+           "INNER JOIN residents r ON b.residentId = r.id " +
+           "ORDER BY b.id DESC")
+    List<com.example.quanlycudan_utehome.data.entity.FacilityBookingRow> getAdminFacilityBookings();
 }

@@ -11,7 +11,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.quanlycudan_utehome.R;
-import com.example.quanlycudan_utehome.feature.facility.FacilityListActivity;
 import com.example.quanlycudan_utehome.feature.vehicle.VehicleManagementActivity;
 
 public class ManageActivity extends AppCompatActivity {
@@ -39,8 +38,7 @@ public class ManageActivity extends AppCompatActivity {
         });
 
         cardManageUtilities.setOnClickListener(v -> {
-            // Using existing FacilityListActivity
-            Intent intent = new Intent(this, FacilityListActivity.class);
+            Intent intent = new Intent(this, FacilityBookingAdminActivity.class);
             startActivity(intent);
         });
 
