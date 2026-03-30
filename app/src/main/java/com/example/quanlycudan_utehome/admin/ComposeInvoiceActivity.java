@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -120,6 +121,12 @@ public class ComposeInvoiceActivity extends AppCompatActivity {
         findViewById(R.id.btnSaveInvoice).setOnClickListener(v -> saveInvoice());
         findViewById(R.id.layoutApartmentPicker).setOnClickListener(v -> showApartmentPickerDialog());
         findViewById(R.id.layoutMonthPicker).setOnClickListener(v -> showMonthPickerDialog());
+        
+        View btnPickDate = findViewById(R.id.btnPickDate);
+        if (btnPickDate != null) {
+            btnPickDate.setOnClickListener(v -> showDatePicker());
+        }
+
         if (isEditMode) {
             TextView tvTitle = findViewById(R.id.tvHeaderTitle);
             if (tvTitle != null) tvTitle.setText("Chỉnh sửa hóa đơn");
@@ -435,3 +442,4 @@ public class ComposeInvoiceActivity extends AppCompatActivity {
         return getLong(etWaterNew) - getLong(etWaterOld);
     }
 }
+

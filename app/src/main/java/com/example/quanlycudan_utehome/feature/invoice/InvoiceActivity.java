@@ -233,8 +233,9 @@ public class InvoiceActivity extends AppCompatActivity {
 
             for (InvoiceItem item : items) {
                 boolean isPaid = "PAID".equals(item.status); // Kiểm tra xem đã thanh toán chưa
+                String type = item.serviceType != null ? item.serviceType.toUpperCase() : "";
 
-                switch (item.serviceType) {
+                switch (type) {
                     case "ELECTRIC":
                         if (isPaid) {
                             findViewById(R.id.layoutElec).setVisibility(android.view.View.GONE);

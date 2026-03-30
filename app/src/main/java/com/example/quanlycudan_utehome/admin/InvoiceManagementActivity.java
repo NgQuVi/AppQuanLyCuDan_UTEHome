@@ -79,6 +79,12 @@ public class InvoiceManagementActivity extends AppCompatActivity {
         loadInvoices();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadInvoices();
+    }
+
     private void loadInvoices() {
         executorService.execute(() -> {
             allInvoices = AppDatabase.getInstance(this).paymentDao().getInvoiceItemRows();
