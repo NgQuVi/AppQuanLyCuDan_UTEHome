@@ -47,7 +47,8 @@ public interface PaymentDao {
     @Query("SELECT SUM(paidAmount) FROM transactions WHERE status = 'SUCCESS'")
     long getTotalPaidAmount();
 
-    @Query("SELECT i.id AS invoiceId, a.apartmentCode, i.billingMonth, i.dueDate, i.totalAmount, i.status " +
+    @Query("SELECT i.id AS invoiceId, a.apartmentCode, i.billingMonth, i.dueDate, i.totalAmount, i.status, " +
+            "(SELECT COALESCE(SUM(amount), 0) FROM invoice_items WHERE invoiceId = i.id AND status = 'UNPAID') AS unpaidAmount " +
             "FROM invoices i INNER JOIN apartments a ON CAST(i.apartmentId AS INTEGER) = a.id")
     List<com.example.quanlycudan_utehome.data.entity.InvoiceItemRow> getInvoiceItemRows();
 

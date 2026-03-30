@@ -141,8 +141,13 @@ public class InvoiceDetailActivity extends AppCompatActivity {
             tvStatusDetail.setTextColor(android.graphics.Color.parseColor("#2B6CB0"));
             tvStatusDetail.setBackgroundResource(R.drawable.bg_tag_unpaid);
             if (findViewById(R.id.btnEdit) != null) {
-                findViewById(R.id.btnEdit).setAlpha(0.5f);
-                findViewById(R.id.btnEdit).setEnabled(false);
+                findViewById(R.id.btnEdit).setAlpha(1.0f);
+                findViewById(R.id.btnEdit).setEnabled(true);
+                findViewById(R.id.btnEdit).setOnClickListener(v -> {
+                    android.content.Intent intent = new android.content.Intent(this, ComposeInvoiceActivity.class);
+                    intent.putExtra("edit_invoice_id", invoice.id);
+                    startActivity(intent);
+                });
             }
             if (findViewById(R.id.btnConfirmPayment) != null) {
                 findViewById(R.id.btnConfirmPayment).setAlpha(1.0f);
@@ -186,16 +191,25 @@ public class InvoiceDetailActivity extends AppCompatActivity {
 
         for (InvoiceItem item : items) {
             String formatAmt = currencyFormat.format(item.amount) + "đ";
+            boolean isPaid = "PAID".equalsIgnoreCase(item.status);
+            if (isPaid) {
+                formatAmt += " (Đã thu)";
+            }
+            
             String type = item.serviceType != null ? item.serviceType.toUpperCase() : "";
             
             if ("MANAGEMENT".equals(type) && tvManagementFee != null) {
                 tvManagementFee.setText(formatAmt);
+                if (isPaid) tvManagementFee.setTextColor(android.graphics.Color.parseColor("#1F7343"));
             } else if ("PARKING".equals(type) && tvParkingFee != null) {
                 tvParkingFee.setText(formatAmt);
+                if (isPaid) tvParkingFee.setTextColor(android.graphics.Color.parseColor("#1F7343"));
             } else if ("ELECTRIC".equals(type) && tvElectricityFee != null) {
                 tvElectricityFee.setText(formatAmt);
+                if (isPaid) tvElectricityFee.setTextColor(android.graphics.Color.parseColor("#1F7343"));
             } else if ("WATER".equals(type) && tvWaterFee != null) {
                 tvWaterFee.setText(formatAmt);
+                if (isPaid) tvWaterFee.setTextColor(android.graphics.Color.parseColor("#1F7343"));
             }
         }
     }
