@@ -77,7 +77,8 @@ public class TransactionDetailActivity extends AppCompatActivity {
         repository.getInvoiceItemsDetails(transaction.invoiceId).observe(this, items -> {
             if (items == null) return;
             for (InvoiceItem item : items) {
-                switch (item.serviceType) {
+                String type = item.serviceType != null ? item.serviceType.toUpperCase() : "";
+                switch (type) {
                     case "ELECTRIC":
                         tvElectricAmountDetail.setText(df.format(item.amount) + "đ");
                         break;
@@ -88,6 +89,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
                         tvParkingAmountDetail.setText(df.format(item.amount) + "đ");
                         break;
                     case "INTERNET":
+                    case "MANAGEMENT":
                         tvInternetAmountDetail.setText(df.format(item.amount) + "đ");
                         break;
                 }

@@ -7,4 +7,5 @@ public class InvoiceItemRow {
     public String dueDate;
     public long totalAmount;
     public String status;
+    public long unpaidAmount; // Mới thêm: Số tiền còn nợ
 }
