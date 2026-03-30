@@ -133,10 +133,10 @@ public class GuestQrDetailActivity extends AppCompatActivity {
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle("Hủy mã QR")
                 .setMessage("Bạn chắc chắn muốn hủy mã QR này?")
-                .setPositiveButton("Hủy", (dialog, which) -> {
+                .setPositiveButton("Có", (dialog, which) -> {
                     updateQrStatus("CANCELLED");
                 })
-                .setNegativeButton("Hủy bỏ", null)
+                .setNegativeButton("Không", null)
                 .show();
     }
 

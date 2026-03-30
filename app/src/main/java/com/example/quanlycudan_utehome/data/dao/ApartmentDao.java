@@ -34,8 +34,6 @@ public interface ApartmentDao {
     @Query("SELECT * FROM apartments")
     java.util.List<Apartment> getAllApartmentsSync();
 
-    @Query("SELECT * FROM apartments WHERE id NOT IN (SELECT apartmentId FROM apartment_members) ORDER BY buildingCode, floor, apartmentCode")
-    java.util.List<Apartment> getAvailableApartments();
 
     @Query("SELECT id FROM apartments WHERE accountId = :accountId")
     Integer getApartmentIdByAccountId(int accountId);
@@ -49,4 +47,7 @@ public interface ApartmentDao {
     @androidx.room.Transaction
     @Query("SELECT * FROM apartments")
     List<ApartmentWithOwner> getApartmentsWithOwners();
+
+    @Query("SELECT * FROM apartments WHERE status = 'Trống' AND accountId = 0")
+    List<Apartment> getAvailableApartments();
 }
