@@ -18,6 +18,21 @@ import java.util.List;
 public class MemberDetailAdapter extends RecyclerView.Adapter<MemberDetailAdapter.MemberViewHolder> {
 
     private List<ResidentWithRole> members = new ArrayList<>();
+    private OnEditMemberListener editListener;
+    private OnDeleteMemberListener deleteListener;
+
+    public interface OnEditMemberListener {
+        void onEditMember(ResidentWithRole member, int position);
+    }
+
+    public interface OnDeleteMemberListener {
+        void onDeleteMember(ResidentWithRole member, int position);
+    }
+
+    public MemberDetailAdapter(OnEditMemberListener editListener, OnDeleteMemberListener deleteListener) {
+        this.editListener = editListener;
+        this.deleteListener = deleteListener;
+    }
 
     public void setMembers(List<ResidentWithRole> members) {
         this.members = members;
@@ -37,7 +52,19 @@ public class MemberDetailAdapter extends RecyclerView.Adapter<MemberDetailAdapte
         holder.tvName.setText(item.resident.fullName);
         holder.tvRole.setText(item.role);
         
-        // Simple divider logic: hide for last item if needed, but here we can just use layout padding/margin
+        // Edit button
+        holder.btnEdit.setOnClickListener(v -> {
+            if (editListener != null) {
+                editListener.onEditMember(item, position);
+            }
+        });
+
+        // Delete button
+        holder.btnDelete.setOnClickListener(v -> {
+            if (deleteListener != null) {
+                deleteListener.onDeleteMember(item, position);
+            }
+        });
     }
 
     @Override
@@ -47,13 +74,15 @@ public class MemberDetailAdapter extends RecyclerView.Adapter<MemberDetailAdapte
 
     static class MemberViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvRole;
-        ImageView ivAvatar;
+        ImageView ivAvatar, btnEdit, btnDelete;
 
         public MemberViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvMemberName);
             tvRole = itemView.findViewById(R.id.tvMemberRole);
             ivAvatar = itemView.findViewById(R.id.ivMemberAvatar);
+            btnEdit = itemView.findViewById(R.id.btnEditMember);
+            btnDelete = itemView.findViewById(R.id.btnDeleteMember);
         }
     }
 

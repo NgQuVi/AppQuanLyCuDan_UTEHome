@@ -38,4 +38,10 @@ public interface ResidentDao {
 
     @Query("SELECT COUNT(*) FROM residents")
     int getResidentCount();
+
+    @Query("SELECT * FROM residents WHERE accountId > 0 ORDER BY fullName ASC")
+    List<Resident> getAllResidentsWithAccount();
+
+    @Query("SELECT * FROM residents WHERE accountId > 0 AND fullName LIKE '%' || :query || '%' ORDER BY fullName ASC")
+    List<Resident> searchResidentsByName(String query);
 }
