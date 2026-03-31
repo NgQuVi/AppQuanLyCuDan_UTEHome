@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,12 +14,203 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyCuDan_UTEHome">
         <activity
-            android:name=".MainActivity"
+            android:name=".feature.auth.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminMainActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ManageActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ResidentListActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ResidentDetailActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AddResidentActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ApartmentListActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ApartmentDetailActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AddApartmentActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.OccupancyListActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.EditApartmentActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ResidentPickerActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.InvoiceManagementActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.InvoiceDetailActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ComposeInvoiceActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.NotificationManagementActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.NotificationDetailAdminActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ComposeNotificationActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.VehicleDetailAdminActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.VehicleApprovalListActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.FacilityBookingAdminActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.FacilityManagementActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AddEditFacilityActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
+        <activity
+            android:name=".feature.apartment.ApartmentInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.auth.register.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.auth.forgotpassword.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.auth.otp.OtpVerificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.auth.reset.ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.auth.reset.PasswordSuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.member.MemberDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.member.AddMemberActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.member.EditMemberActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.invoice.InvoiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.payment.PaymentConfirmationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.invoice.PaymentSuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.profile.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.profile.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.payment.PaymentHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.payment.TransactionDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.facility.FacilityListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.facility.FacilityDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.guest.GuestQrActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.guest.GuestQrHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.guest.GuestQrDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.feedback.FeedbackActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.vehicle.VehicleManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.vehicle.VehicleRegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.accesscard.AccessCardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.accesscard.AccessCardMemberListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.facility.FacilityHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.notification.NotificationListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.notification.NotificationDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.invoice.VNPayWebActivity"
+            android:exported="true"
+            android:label="Thanh toán VNPAY"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="vnpay_return"
+                    android:scheme="appquanlycudan" />
             </intent-filter>
         </activity>
     </application>

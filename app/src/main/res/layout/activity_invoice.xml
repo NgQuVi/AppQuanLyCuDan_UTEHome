@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_background"
+    tools:context=".feature.invoice.InvoiceActivity">
+
+    <!-- Header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/invoice_title"
+            android:textColor="@color/home_text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btnHistory"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_history_outline"
+            app:tint="@color/home_text_primary"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Apartment Info Card -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardApartment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_invoice_card"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/header">
+
+        <ImageView
+            android:id="@+id/ivLocation"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_building_orange"
+            android:background="@drawable/bg_tag_event"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvAptName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/home_apartment_name"
+            android:textColor="@color/home_text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/ivLocation"
+            app:layout_constraintTop_toTopOf="@id/ivLocation" />
+
+        <TextView
+            android:id="@+id/tvAptAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="2dp"
+            android:text="Phú Mỹ Hưng, Quận 7, TP.HCM"
+            android:textColor="@color/home_text_secondary"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/ivLocation"
+            app:layout_constraintTop_toBottomOf="@id/tvAptName" />
+            
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_expand_more"
+            app:tint="@color/home_text_secondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Month Selector -->
+    <LinearLayout
+        android:id="@+id/layoutMonthSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="20dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardApartment">
+
+        <TextView
+            android:id="@+id/tvMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invoice_month"
+            android:textColor="@color/home_text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+            
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_expand_more"
+            app:tint="@color/home_text_secondary"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
+
+    <!-- Invoices List (ScrollView) -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:fillViewport="true"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toTopOf="@id/bottomPayment"
+        app:layout_constraintTop_toBottomOf="@id/layoutMonthSelector">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="24dp">
+
+            <!-- Item: Electricity -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutElec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_invoice_card"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:id="@+id/ivElec"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_invoice_electric"
+                    android:background="#FFF9C4"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvElecTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="@string/invoice_electric"
+                    android:textColor="@color/home_text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/ivElec"
+                    app:layout_constraintTop_toTopOf="@id/ivElec" />
+
+                <TextView
+                    android:id="@+id/tvElecStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/invoice_unpaid"
+                    android:textColor="@color/login_primary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@id/ivElec"
+                    app:layout_constraintTop_toBottomOf="@id/tvElecTitle" />
+
+                <CheckBox
+                    android:id="@+id/cbElec"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:button="@drawable/bg_checkbox_orange"
+                    android:checked="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- Details Grid -->
+                <TextView
+                    android:id="@+id/tvElecOld"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="52dp"
+                    android:text="@string/invoice_electric_old"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tvElecNew"
+                    app:layout_constraintTop_toBottomOf="@id/tvElecStatus" />
+
+                <TextView
+                    android:id="@+id/tvElecNew"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_electric_new"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@id/tvElecOld"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvElecStatus" />
+
+                <TextView
+                    android:id="@+id/tvElecConsumed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="52dp"
+                    android:text="@string/invoice_electric_consumed"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tvElecPrice"
+                    app:layout_constraintTop_toBottomOf="@id/tvElecOld" />
+
+                <TextView
+                    android:id="@+id/tvElecPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/invoice_electric_price"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@id/tvElecConsumed"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvElecNew" />
+
+                <View
+                    android:id="@+id/divElec"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/home_border_color"
+                    app:layout_constraintTop_toBottomOf="@id/tvElecConsumed" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_total_label"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@id/tvElecTitle"
+                    app:layout_constraintTop_toBottomOf="@id/divElec" />
+
+                <TextView
+                    android:id="@+id/tvElecTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_electric_total"
+                    android:textColor="@color/home_text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divElec" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Item: Water -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutWater"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_invoice_card"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:id="@+id/ivWater"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_invoice_water"
+                    android:background="#E1F5FE"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvWaterTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="@string/invoice_water"
+                    android:textColor="@color/home_text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/ivWater"
+                    app:layout_constraintTop_toTopOf="@id/ivWater" />
+
+                <TextView
+                    android:id="@+id/tvWaterStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/invoice_unpaid"
+                    android:textColor="@color/login_primary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@id/ivWater"
+                    app:layout_constraintTop_toBottomOf="@id/tvWaterTitle" />
+
+                <CheckBox
+                    android:id="@+id/cbWater"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:button="@drawable/bg_checkbox_orange"
+                    android:checked="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- Details Grid -->
+                <TextView
+                    android:id="@+id/tvWaterOld"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_water_old"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@id/tvWaterTitle"
+                    app:layout_constraintEnd_toStartOf="@id/tvWaterNew"
+                    app:layout_constraintTop_toBottomOf="@id/tvWaterStatus" />
+
+                <TextView
+                    android:id="@+id/tvWaterNew"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_water_new"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@id/tvWaterOld"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvWaterStatus" />
+
+                <TextView
+                    android:id="@+id/tvWaterConsumed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/invoice_water_consumed"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@id/tvWaterTitle"
+                    app:layout_constraintEnd_toStartOf="@id/tvWaterPrice"
+                    app:layout_constraintTop_toBottomOf="@id/tvWaterOld" />
+
+                <TextView
+                    android:id="@+id/tvWaterPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/invoice_water_price"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@id/tvWaterConsumed"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvWaterNew" />
+
+                <View
+                    android:id="@+id/divWater"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/home_border_color"
+                    app:layout_constraintTop_toBottomOf="@id/tvWaterConsumed" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_total_label"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@id/tvWaterTitle"
+                    app:layout_constraintTop_toBottomOf="@id/divWater" />
+
+                <TextView
+                    android:id="@+id/tvWaterTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_water_total"
+                    android:textColor="@color/home_text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divWater" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Item: Parking -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutPark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_invoice_card"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:id="@+id/ivPark"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_invoice_car"
+                    android:background="#ECEFF1"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvParkTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="@string/invoice_parking"
+                    android:textColor="@color/home_text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/ivPark"
+                    app:layout_constraintTop_toTopOf="@id/ivPark" />
+
+                <TextView
+                    android:id="@+id/tvParkStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/invoice_parking_month"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@id/ivPark"
+                    app:layout_constraintTop_toBottomOf="@id/tvParkTitle" />
+
+                <CheckBox
+                    android:id="@+id/cbPark"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:button="@drawable/bg_checkbox_orange"
+                    android:checked="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvParkCar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_parking_car"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@id/tvParkTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tvParkStatus" />
+
+                <TextView
+                    android:id="@+id/tvParkCarPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_parking_car_price"
+                    android:textColor="@color/home_text_primary"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvParkStatus" />
+                    
+                <TextView
+                    android:id="@+id/tvParkMoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/invoice_parking_moto"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@id/tvParkTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tvParkCar" />
+
+                <TextView
+                    android:id="@+id/tvParkMotoPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/invoice_parking_moto_price"
+                    android:textColor="@color/home_text_primary"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvParkCar" />
+
+                <View
+                    android:id="@+id/divPark"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/home_border_color"
+                    app:layout_constraintTop_toBottomOf="@id/tvParkMoto" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_total_label"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@id/tvParkTitle"
+                    app:layout_constraintTop_toBottomOf="@id/divPark" />
+
+                <TextView
+                    android:id="@+id/tvParkTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_parking_total"
+                    android:textColor="@color/home_text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divPark" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Item: Internet -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutInternet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_invoice_card"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:id="@+id/ivInternet"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_invoice_wifi"
+                    android:background="#EDE7F6"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvIntTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="@string/invoice_internet"
+                    android:textColor="@color/home_text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/ivInternet"
+                    app:layout_constraintTop_toTopOf="@id/ivInternet" />
+
+                <TextView
+                    android:id="@+id/tvIntPkg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/invoice_internet_pkg"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@id/ivInternet"
+                    app:layout_constraintTop_toBottomOf="@id/tvIntTitle" />
+
+                <CheckBox
+                    android:id="@+id/cbInternet"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:button="@drawable/bg_checkbox_orange"
+                    android:checked="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvIntSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_internet_speed"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@id/tvIntTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tvIntPkg" />
+
+                <View
+                    android:id="@+id/divInt"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/home_border_color"
+                    app:layout_constraintTop_toBottomOf="@id/tvIntSpeed" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_total_label"
+                    android:textColor="@color/home_text_secondary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@id/tvIntTitle"
+                    app:layout_constraintTop_toBottomOf="@id/divInt" />
+
+                <TextView
+                    android:id="@+id/tvIntTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/invoice_internet_total"
+                    android:textColor="@color/home_text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divInt" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Action Bar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomPayment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="16dp"
+        android:elevation="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tvSumLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invoice_total_payment"
+            android:textColor="@color/home_text_secondary"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSumValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invoice_sum_total"
+            android:textColor="@color/login_primary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSumLabel" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invoice_btn_pay"
+            android:backgroundTint="@color/login_primary"
+            app:cornerRadius="8dp"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

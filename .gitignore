@@ -1,15 +1,38 @@
 *.iml
 .gradle
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+
+# Android Studio / IntelliJ
+.idea/
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/compiler.xml
+.idea/deploymentTargetSelector.xml
+.idea/misc.xml
+.idea/runConfigurations.xml
+.idea/vcs.xml
+.idea/.name
+
+# macOS
 .DS_Store
+
+# Build
 /build
+*/build
 /captures
 .externalNativeBuild
 .cxx
-local.properties
+
+# Gradle wrapper cache
+gradle-app.setting
+
+# Log
+*.log
+
+# Keystore (nếu có)
+*.jks
+*.keystore
