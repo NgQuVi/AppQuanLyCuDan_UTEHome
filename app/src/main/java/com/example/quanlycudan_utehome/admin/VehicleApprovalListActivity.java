@@ -105,7 +105,7 @@ public class VehicleApprovalListActivity extends AppCompatActivity {
         List<String> apartmentLabels = new ArrayList<>();
         apartmentLabels.add("Tất cả căn hộ");
         for (Apartment apt : apartmentList) {
-            apartmentLabels.add("P." + apt.id);
+            apartmentLabels.add(apt.apartmentCode);
         }
 
         android.widget.ArrayAdapter<String> spinnerAdapter = new android.widget.ArrayAdapter<>(
