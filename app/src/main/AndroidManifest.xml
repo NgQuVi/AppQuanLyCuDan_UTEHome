@@ -200,11 +200,19 @@
             android:name=".feature.notification.NotificationDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".feature.payment.VNPayActivity"
-            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
-            android:exported="false" />
+            android:name=".feature.invoice.VNPayWebActivity"
+            android:exported="true"
+            android:label="Thanh toán VNPAY"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="vnpay_return"
+                    android:scheme="appquanlycudan" />
+            </intent-filter>
+        </activity>
     </application>
-
-
 
 </manifest>

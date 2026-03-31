@@ -20,9 +20,9 @@ import java.util.Locale;
 public class PaymentConfirmationActivity extends AppCompatActivity {
 
     private TextView tvSubtotalVal, tvTotalValue;
+
+    // 4 card container – ẩn/hiện tùy theo checkbox đã chọn ở màn hóa đơn
     private View cardElec, cardWater, cardPark, cardInternet;
-    private View cardMomo, cardBank, cardTransfer, cardVNPay;
-    private android.widget.RadioButton rbMomo, rbBank, rbTransfer, rbVNPay;
 
     private PaymentRepository repository;
     private final DecimalFormat df = new DecimalFormat("#,###");
@@ -30,7 +30,6 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
     private String  invoiceId  = "";
     private long    totalSum   = 0;
     private boolean hasElec, hasWater, hasPark, hasInternet;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +54,8 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
         cardPark      = findViewById(R.id.cardPark);
         cardInternet  = findViewById(R.id.cardInternet);
 
-        cardMomo      = findViewById(R.id.cardMomo);
-        cardBank      = findViewById(R.id.cardBank);
-        cardTransfer  = findViewById(R.id.cardTransfer);
-        cardVNPay     = findViewById(R.id.cardVNPay);
-
-        rbMomo        = findViewById(R.id.rbMomo);
-        rbBank        = findViewById(R.id.rbBank);
-        rbTransfer    = findViewById(R.id.rbTransfer);
-        rbVNPay       = findViewById(R.id.rbVNPay);
-
         // ── 3. Ẩn card nào người dùng KHÔNG chọn ─────────────────
+        //   View.GONE → card biến mất, không chiếm không gian
         cardElec.setVisibility(    hasElec     ? View.VISIBLE : View.GONE);
         cardWater.setVisibility(   hasWater    ? View.VISIBLE : View.GONE);
         cardPark.setVisibility(    hasPark     ? View.VISIBLE : View.GONE);
@@ -76,70 +66,28 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
         tvSubtotalVal.setText(fmtTotal);
         tvTotalValue.setText(fmtTotal);
 
-        // ── 5. Setup RadioButtons ────────────────────────────────
-        setupPaymentMethods();
-
-        // ── 6. Repository ─────────────────────────────────────────
+        // ── 5. Repository ─────────────────────────────────────────
         repository = new PaymentRepository(getApplication());
 
-        // ── 7. Nút bấm ───────────────────────────────────────────
+        // ── 6. Nút bấm ───────────────────────────────────────────
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
         findViewById(R.id.btnConfirm).setOnClickListener(v -> processPayment());
     }
 
-    private void setupPaymentMethods() {
-        View.OnClickListener listener = v -> {
-            rbMomo.setChecked(v.getId() == R.id.cardMomo);
-            rbBank.setChecked(v.getId() == R.id.cardBank);
-            rbTransfer.setChecked(v.getId() == R.id.cardTransfer);
-            rbVNPay.setChecked(v.getId() == R.id.cardVNPay);
-        };
-        cardMomo.setOnClickListener(listener);
-        cardBank.setOnClickListener(listener);
-        cardTransfer.setOnClickListener(listener);
-        cardVNPay.setOnClickListener(listener);
-    }
-
-    /** Tạo TransactionHistory, lưu DB, chuyển sang màn PaymentHistory */
+    /** Chuyển sang màn hình thanh toán VNPay */
     private void processPayment() {
         if (invoiceId.isEmpty()) {
             Toast.makeText(this, "Lỗi: không tìm thấy hóa đơn", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (rbVNPay.isChecked()) {
-            // Thanh toán qua VNPay
-            Intent intent = new Intent(this, VNPayActivity.class);
-            intent.putExtra("INVOICE_ID", invoiceId);
-            intent.putExtra("TOTAL_SUM", totalSum);
-            intent.putExtra("HAS_ELEC", hasElec);
-            intent.putExtra("HAS_WATER", hasWater);
-            intent.putExtra("HAS_PARK", hasPark);
-            intent.putExtra("HAS_INTERNET", hasInternet);
-            startActivityForResult(intent, 1234);
-        } else {
-            // Thanh toán giả lập cho các phương thức khác
-            String method = "Ví MoMo";
-            if (rbBank.isChecked()) method = "Thẻ ngân hàng";
-            else if (rbTransfer.isChecked()) method = "Chuyển khoản";
-
-            repository.processMockPayment(invoiceId, totalSum, method, hasElec, hasWater, hasPark, hasInternet);
-            Toast.makeText(this, "Thanh toán thành công!", Toast.LENGTH_LONG).show();
-            finishPayment();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1234 && resultCode == RESULT_OK) {
-            finishPayment();
-        }
-    }
-
-    private void finishPayment() {
-        Intent intent = new Intent(this, PaymentHistoryActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent intent = new Intent(this, com.example.quanlycudan_utehome.feature.invoice.VNPayWebActivity.class);
+        intent.putExtra("INVOICE_ID", invoiceId);
+        intent.putExtra("TOTAL_SUM", totalSum);
+        intent.putExtra("HAS_ELEC", hasElec);
+        intent.putExtra("HAS_WATER", hasWater);
+        intent.putExtra("HAS_PARK", hasPark);
+        intent.putExtra("HAS_INTERNET", hasInternet);
         startActivity(intent);
         finish();
     }
@@ -148,4 +96,3 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
         return df.format(n).replace(',', '.');
     }
 }
-
