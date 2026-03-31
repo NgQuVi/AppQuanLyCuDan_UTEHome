@@ -199,6 +199,12 @@
         <activity
             android:name=".feature.notification.NotificationDetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".feature.payment.VNPayActivity"
+            android:theme="@style/Theme.QuanLyCuDan_UTEHome"
+            android:exported="false" />
     </application>
+
+
 
 </manifest>
