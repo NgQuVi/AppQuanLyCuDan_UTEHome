@@ -92,6 +92,23 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.feedback.FeedbackActivity.class));
         });
 
+        // Xử lý nút Đăng xuất
+        android.view.View btnLogout = findViewById(R.id.btnLogout);
+        if (btnLogout != null) {
+            btnLogout.setOnClickListener(v -> handleLogout());
+        }
+
+        // Xử lý sự kiện Event & Offer click
+        android.view.View cardEvent = findViewById(R.id.cardEvent);
+        if (cardEvent != null) {
+            cardEvent.setOnClickListener(v -> showInfoDialog("Sự kiện", "Thông tin chi tiết về Lễ hội thả diều mùa hè. Thời gian diễn ra vào cuối tuần này tại công viên trung tâm."));
+        }
+
+        android.view.View cardOffer = findViewById(R.id.cardOffer);
+        if (cardOffer != null) {
+            cardOffer.setOnClickListener(v -> showInfoDialog("Ưu đãi", "Giảm ngay 20% phí gửi xe tháng tới dành cho mọi cư dân thanh toán trước ngày 15."));
+        }
+
         loadUserData();
     }
 
@@ -130,10 +147,10 @@ public class MainActivity extends AppCompatActivity {
                     if (tvUserName != null) {
                         tvUserName.setText(user.fullName);
                     }
-                    
+
                     userApartments.clear();
                     userApartments.addAll(apartments);
-                    
+
                     if (!userApartments.isEmpty()) {
                         setupApartmentDropdown(userApartments.get(0));
                     } else {
@@ -176,14 +193,14 @@ public class MainActivity extends AppCompatActivity {
                 if (!hasShownInvoiceAlert) {
                     hasShownInvoiceAlert = true;
                     new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Thông báo cước phí")
-                        .setMessage("Bạn đang có " + invoices.size() + " tháng phí dịch vụ chưa thanh toán (hoặc đóng thiếu) cho căn hộ " + selectedApartment.apartmentCode + ". Vui lòng kiểm tra và thanh toán để tránh gián đoạn dịch vụ.")
-                        .setPositiveButton("Đến trang Hóa đơn", (dialog, which) -> {
-                            android.content.Intent intent = new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.invoice.InvoiceActivity.class);
-                            startActivity(intent);
-                        })
-                        .setNegativeButton("Đóng", null)
-                        .show();
+                            .setTitle("Thông báo cước phí")
+                            .setMessage("Bạn đang có " + invoices.size() + " tháng phí dịch vụ chưa thanh toán (hoặc đóng thiếu) cho căn hộ " + selectedApartment.apartmentCode + ". Vui lòng kiểm tra và thanh toán để tránh gián đoạn dịch vụ.")
+                            .setPositiveButton("Đến trang Hóa đơn", (dialog, which) -> {
+                                android.content.Intent intent = new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.invoice.InvoiceActivity.class);
+                                startActivity(intent);
+                            })
+                            .setNegativeButton("Đóng", null)
+                            .show();
                 }
             } else {
                 // Không có hóa đơn nợ
@@ -217,5 +234,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void handleLogout() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Đăng xuất")
+                .setMessage("Bạn có chắc chắn muốn đăng xuất?")
+                .setPositiveButton("Đăng xuất", (dialog, which) -> {
+                    com.example.quanlycudan_utehome.data.local.SessionManager.getInstance(this).logout();
+                    android.content.Intent intent = new android.content.Intent(MainActivity.this, com.example.quanlycudan_utehome.feature.auth.login.LoginActivity.class);
+                    intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+    private void showInfoDialog(String title, String message) {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Đóng", null)
+                .show();
+    }
 
 }

@@ -70,6 +70,20 @@
                 app:layout_constraintStart_toEndOf="@id/ivAvatar"
                 app:layout_constraintTop_toBottomOf="@id/tvGreeting" />
 
+            <ImageView
+                android:id="@+id/btnLogout"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="20dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="6dp"
+                android:src="@drawable/ic_logout"
+                app:layout_constraintBottom_toBottomOf="@id/ivAvatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ivAvatar" />
+
             <!-- Apartment Info Card -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardApartment"
@@ -394,10 +408,14 @@
 
                     <!-- Event Card -->
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cardEvent"
                         android:layout_width="260dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_card_white"
                         android:clipToOutline="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
                         android:paddingBottom="16dp">
 
                         <ImageView
@@ -405,6 +423,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="120dp"
                             android:background="#A5D6A7"
+                            android:src="@drawable/img_summer_festival"
                             android:scaleType="centerCrop"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -417,7 +436,7 @@
                             android:background="@drawable/bg_tag_event"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
-                            android:text="@string/home_tag_event"
+                            android:text="SỰ KIỆN"
                             android:textColor="@color/home_tag_event_text"
                             android:textSize="10sp"
                             android:textStyle="bold"
@@ -430,7 +449,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="16dp"
                             android:layout_marginTop="8dp"
-                            android:text="@string/home_event_title"
+                            android:text="Lễ hội thả diều mùa hè"
                             android:textColor="@color/home_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -458,11 +477,15 @@
 
                     <!-- Offer Card -->
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cardOffer"
                         android:layout_width="260dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:background="@drawable/bg_card_white"
                         android:clipToOutline="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
                         android:paddingBottom="16dp">
 
                         <ImageView
@@ -470,6 +493,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="120dp"
                             android:background="#29B6F6"
+                            android:src="@drawable/img_discount_20"
                             android:scaleType="centerCrop"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -482,7 +506,7 @@
                             android:background="@drawable/bg_tag_offer"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
-                            android:text="@string/home_tag_offer"
+                            android:text="ƯU ĐÃI"
                             android:textColor="@color/home_tag_offer_text"
                             android:textSize="10sp"
                             android:textStyle="bold"
@@ -495,7 +519,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="16dp"
                             android:layout_marginTop="8dp"
-                            android:text="@string/home_offer_title"
+                            android:text="Giảm 20% phí gửi xe tháng này"
                             android:textColor="@color/home_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold"
