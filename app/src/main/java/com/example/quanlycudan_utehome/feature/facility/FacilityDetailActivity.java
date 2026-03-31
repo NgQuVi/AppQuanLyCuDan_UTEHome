@@ -1,6 +1,8 @@
 package com.example.quanlycudan_utehome.feature.facility;
 
 import android.os.Bundle;
+import android.view.Gravity;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,8 +16,11 @@ import com.example.quanlycudan_utehome.data.entity.Facility;
 import com.example.quanlycudan_utehome.data.entity.FacilityBooking;
 import com.example.quanlycudan_utehome.data.local.SessionManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class FacilityDetailActivity extends AppCompatActivity {
 
@@ -28,8 +33,16 @@ public class FacilityDetailActivity extends AppCompatActivity {
     private int selectedDateIndex = 0; // Default to first (TH 2, 15)
     private int selectedTimeIndex = -1; // None initially
 
-    private final String[] DATES = {"Thứ 2, 15/10", "Thứ 3, 16/10", "Thứ 4, 17/10"};
-    private final String[] TIMES = {"08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00", "14:00 - 15:00"};
+    private String[] DATES = new String[3];
+    private String[] DATES_DISPLAY_DAY = new String[3];
+    private String[] DATES_DISPLAY_NUM = new String[3];
+
+    private final String[] TIMES_ALL = {
+        "08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00",
+        "11:00 - 12:00", "13:00 - 14:00", "14:00 - 15:00",
+        "15:00 - 16:00", "16:00 - 17:00", "17:00 - 18:00",
+        "18:00 - 19:00", "19:00 - 20:00", "20:00 - 21:00"
+    };
     
     private AppDatabase db;
     private int currentResidentId;
@@ -67,7 +80,7 @@ public class FacilityDetailActivity extends AppCompatActivity {
                     booking.residentId = currentResidentId;
                     booking.bookingDate = DATES[selectedDateIndex];
                     booking.DayBooking = DATES[selectedDateIndex].split(",")[0];
-                    String[] timeParts = TIMES[selectedTimeIndex].split(" - ");
+                    String[] timeParts = TIMES_ALL[selectedTimeIndex].split(" - ");
                     booking.startTime = timeParts[0];
                     booking.endTime = timeParts[1];
                     booking.status = "PENDING";
@@ -105,13 +118,44 @@ public class FacilityDetailActivity extends AppCompatActivity {
             (TextView) dates[2].getChildAt(1)
         };
 
-        times = new TextView[]{
-            findViewById(R.id.tvTime1),
-            findViewById(R.id.tvTime2),
-            findViewById(R.id.tvTime3),
-            findViewById(R.id.tvTime4),
-            findViewById(R.id.tvTime5)
-        };
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat textFormat = new SimpleDateFormat("dd/MM", Locale.getDefault());
+        for (int i = 0; i < 3; i++) {
+            int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+            String dayStr = (dayOfWeek == Calendar.SUNDAY) ? "CN" : "Thứ " + dayOfWeek;
+            DATES_DISPLAY_DAY[i] = (dayOfWeek == Calendar.SUNDAY) ? "CN" : "TH " + dayOfWeek;
+            DATES_DISPLAY_NUM[i] = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+            DATES[i] = dayStr + ", " + textFormat.format(cal.getTime());
+            
+            dateDays[i].setText(DATES_DISPLAY_DAY[i]);
+            dateNumbers[i].setText(DATES_DISPLAY_NUM[i]);
+            
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        GridLayout glTimeSlots = findViewById(R.id.glTimeSlots);
+        glTimeSlots.removeAllViews();
+        times = new TextView[TIMES_ALL.length];
+        
+        for (int i = 0; i < TIMES_ALL.length; i++) {
+            TextView tv = new TextView(this);
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+            params.width = 0;
+            params.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+            
+            int margin = (int) (4 * getResources().getDisplayMetrics().density);
+            params.setMargins(margin, margin, margin, margin);
+            tv.setLayoutParams(params);
+            
+            tv.setGravity(Gravity.CENTER);
+            int paddingVertical = (int) (12 * getResources().getDisplayMetrics().density);
+            tv.setPadding(0, paddingVertical, 0, paddingVertical);
+            tv.setText(TIMES_ALL[i].split(" - ")[0]);
+            
+            glTimeSlots.addView(tv);
+            times[i] = tv;
+        }
 
         for (int i = 0; i < dates.length; i++) {
             final int index = i;
@@ -163,16 +207,36 @@ public class FacilityDetailActivity extends AppCompatActivity {
             }
         }
 
+        Calendar now = Calendar.getInstance();
+        int currentHour = now.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = now.get(Calendar.MINUTE);
+        boolean isToday = selectedDateIndex == 0;
+
         // Update Times
         for (int i = 0; i < times.length; i++) {
-            boolean isBooked = bookedTimes.contains(TIMES[i]);
+            boolean isBooked = bookedTimes.contains(TIMES_ALL[i]);
+            boolean isPassed = false;
             
-            if (isBooked) {
+            if (isToday) {
+                String startTime = TIMES_ALL[i].split(" - ")[0]; // e.g. "08:00"
+                String[] parts = startTime.split(":");
+                int hour = Integer.parseInt(parts[0]);
+                int minute = Integer.parseInt(parts[1]);
+                if (currentHour > hour || (currentHour == hour && currentMinute > minute)) {
+                    isPassed = true;
+                }
+            }
+            
+            if (isPassed || isBooked) {
                 times[i].setBackgroundResource(R.drawable.bg_card_white);
                 times[i].setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#F5F5F5")));
                 times[i].setTextColor(android.graphics.Color.parseColor("#BDBDBD"));
                 times[i].setTypeface(null, android.graphics.Typeface.NORMAL);
-                times[i].setOnClickListener(v -> Toast.makeText(this, "Khung giờ này đã đầy", Toast.LENGTH_SHORT).show());
+                if (isPassed) {
+                    times[i].setOnClickListener(v -> Toast.makeText(this, "Khung giờ này đã qua", Toast.LENGTH_SHORT).show());
+                } else {
+                    times[i].setOnClickListener(v -> Toast.makeText(this, "Khung giờ này đã đầy", Toast.LENGTH_SHORT).show());
+                }
             } else if (i == selectedTimeIndex) {
                 times[i].setBackgroundResource(R.drawable.bg_card_white);
                 times[i].setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#FFF3E0")));
@@ -191,7 +255,7 @@ public class FacilityDetailActivity extends AppCompatActivity {
 
         // Update text
         if (selectedTimeIndex != -1) {
-            tvSelectedTime.setText(DATES[selectedDateIndex] + " • " + TIMES[selectedTimeIndex]);
+            tvSelectedTime.setText(DATES[selectedDateIndex] + " • " + TIMES_ALL[selectedTimeIndex]);
         } else {
             tvSelectedTime.setText("Chưa chọn • Hãy chọn giờ");
         }
