@@ -350,9 +350,9 @@
                 android:textSize="12sp"
                 android:textStyle="bold" />
                 
-            <!-- Payment Method: MoMo -->
+            <!-- Payment Method: VNPAY -->
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cardMomo"
+                android:id="@+id/cardVnPay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_invoice_card"
@@ -361,10 +361,10 @@
                 app:layout_constraintTop_toBottomOf="@id/tvAptAddress">
                 
                 <ImageView
-                    android:id="@+id/ivMomo"
+                    android:id="@+id/ivVnPay"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_momo"
+                    android:src="@drawable/ic_vnpay"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -373,16 +373,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:text="@string/payment_confirm_momo"
+                    android:text="VNPAY"
                     android:textColor="@color/home_text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@id/ivMomo"
+                    app:layout_constraintStart_toEndOf="@id/ivVnPay"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <RadioButton
-                    android:id="@+id/rbMomo"
+                    android:id="@+id/rbVnPay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/login_primary"
@@ -392,88 +392,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
                     
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            
-            <!-- Payment Method: Bank Card -->
-             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cardBank"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_invoice_card"
-                android:padding="16dp"
-                android:layout_marginBottom="8dp">
-                
-                <ImageView
-                    android:id="@+id/ivBank"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_bank_card"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="@string/payment_confirm_card"
-                    android:textColor="@color/home_text_primary"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@id/ivBank"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-                <RadioButton
-                    android:id="@+id/rbBank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/login_primary"
-                    android:clickable="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- Payment Method: Transfer -->
-             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cardTransfer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_invoice_card"
-                android:padding="16dp"
-                android:layout_marginBottom="8dp">
-
-                <ImageView
-                    android:id="@+id/ivTransfer"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_transfer"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="@string/payment_confirm_transfer"
-                    android:textColor="@color/home_text_primary"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@id/ivTransfer"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-                <RadioButton
-                    android:id="@+id/rbTransfer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/login_primary"
-                    android:clickable="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

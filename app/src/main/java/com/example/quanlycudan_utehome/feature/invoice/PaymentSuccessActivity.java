@@ -40,6 +40,8 @@ public class PaymentSuccessActivity extends AppCompatActivity {
                 methodIconRes = R.drawable.ic_bank_card;
             } else if ("Chuyển khoản".equals(method)) {
                 methodIconRes = R.drawable.ic_transfer;
+            } else if ("VNPAY".equals(method)) {
+                methodIconRes = R.drawable.ic_vnpay;
             }
             valMethod.setCompoundDrawablesWithIntrinsicBounds(methodIconRes, 0, 0, 0);
         }
