@@ -26,7 +26,6 @@ public class VehicleManagementActivity extends AppCompatActivity {
     private RecyclerView rvVehicles;
     private VehicleAdapter adapter;
     private int accountId;
-    private int resolvedAccountId = -1;
     private androidx.lifecycle.LiveData<java.util.List<VehicleWithOwner>> currentVehicleSource;
     private TextView chipAll, chipCar, chipMotor, chipElectric;
     private final List<VehicleWithOwner> allVehicles = new ArrayList<>();
@@ -131,7 +130,15 @@ public class VehicleManagementActivity extends AppCompatActivity {
             currentVehicleSource = null;
         }
 
-        currentVehicleSource = db.vehicleDao().getVehiclesWithOwner();
+        // Load vehicles based on accountId (for both admin and regular users)
+        int resolvedId = resolveAccountId();
+        if (resolvedId != -1) {
+            currentVehicleSource = db.vehicleDao().getVehiclesWithOwnerByAccountId(resolvedId);
+        } else {
+            // Fallback to all vehicles if no accountId can be resolved
+            currentVehicleSource = db.vehicleDao().getVehiclesWithOwner();
+        }
+
         currentVehicleSource.observe(this, vehiclesWithOwner -> {
             allVehicles.clear();
             if (vehiclesWithOwner != null) {
