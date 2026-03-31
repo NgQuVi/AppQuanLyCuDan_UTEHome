@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -120,6 +121,12 @@ public class ComposeInvoiceActivity extends AppCompatActivity {
         findViewById(R.id.btnSaveInvoice).setOnClickListener(v -> saveInvoice());
         findViewById(R.id.layoutApartmentPicker).setOnClickListener(v -> showApartmentPickerDialog());
         findViewById(R.id.layoutMonthPicker).setOnClickListener(v -> showMonthPickerDialog());
+        
+        View btnPickDate = findViewById(R.id.btnPickDate);
+        if (btnPickDate != null) {
+            btnPickDate.setOnClickListener(v -> showDatePicker());
+        }
+
         if (isEditMode) {
             TextView tvTitle = findViewById(R.id.tvHeaderTitle);
             if (tvTitle != null) tvTitle.setText("Chỉnh sửa hóa đơn");
@@ -185,18 +192,35 @@ public class ComposeInvoiceActivity extends AppCompatActivity {
             if (items != null) {
                 for (InvoiceItem item : items) {
                     try {
-                        if ("MANAGEMENT".equals(item.serviceType)) {
+                        boolean isPaid = "PAID".equalsIgnoreCase(item.status);
+                        String type = item.serviceType != null ? item.serviceType.toUpperCase() : "";
+                        
+                        if ("MANAGEMENT".equals(type)) {
                             etMgmtArea.setText(String.valueOf((long)item.quantity));
                             etMgmtPrice.setText(String.valueOf(item.unitPrice));
-                        } else if ("ELECTRIC".equals(item.serviceType)) {
+                            if (isPaid) {
+                                etMgmtArea.setEnabled(false);
+                                etMgmtPrice.setEnabled(false);
+                            }
+                        } else if ("ELECTRIC".equals(type)) {
                             etElecOld.setText(String.valueOf(item.oldIndex));
                             etElecNew.setText(String.valueOf(item.newIndex));
                             etElecPrice.setText(String.valueOf(item.unitPrice));
-                        } else if ("WATER".equals(item.serviceType)) {
+                            if (isPaid) {
+                                etElecOld.setEnabled(false);
+                                etElecNew.setEnabled(false);
+                                etElecPrice.setEnabled(false);
+                            }
+                        } else if ("WATER".equals(type)) {
                             etWaterOld.setText(String.valueOf(item.oldIndex));
                             etWaterNew.setText(String.valueOf(item.newIndex));
                             etWaterPrice.setText(String.valueOf(item.unitPrice));
-                        } else if ("PARKING".equals(item.serviceType)) {
+                            if (isPaid) {
+                                etWaterOld.setEnabled(false);
+                                etWaterNew.setEnabled(false);
+                                etWaterPrice.setEnabled(false);
+                            }
+                        } else if ("PARKING".equals(type)) {
                             String desc = item.description != null ? item.description : "";
                             long cCount = 0, mCount = 0;
                             if (desc.contains("Ô tô (")) {
@@ -211,6 +235,10 @@ public class ComposeInvoiceActivity extends AppCompatActivity {
                             }
                             etCarCount.setText(String.valueOf(cCount));
                             etMotorCount.setText(String.valueOf(mCount));
+                            if (isPaid) {
+                                etCarCount.setEnabled(false);
+                                etMotorCount.setEnabled(false);
+                            }
                         }
                     } catch (Exception ignored) {}
                 }
@@ -327,20 +355,7 @@ public class ComposeInvoiceActivity extends AppCompatActivity {
             
             long grandTotal = mgmtTotalValue + carTotalValue + motorTotalValue + elecTotalValue + waterTotalValue;
 
-            if (isEditMode) {
-                Invoice invoice = db.paymentDao().getInvoiceByIdSync(invId);
-                if (invoice != null) {
-                    invoice.apartmentId = String.valueOf(selectedApartment.id);
-                    invoice.billingMonth = month;
-                    invoice.totalAmount = grandTotal;
-                    invoice.dueDate = selectedDueDate;
-                    db.paymentDao().updateInvoice(invoice);
-                }
-                db.paymentDao().deleteInvoiceItems(invId);
-            } else {
-                Invoice invoice = new Invoice(invId, String.valueOf(selectedApartment.id), month, grandTotal, selectedDueDate, "UNPAID");
-                db.paymentDao().insertInvoice(invoice);
-            }
+            List<InvoiceItem> oldItems = isEditMode ? db.paymentDao().getInvoiceItemsDetailsSync(invId) : new ArrayList<>();
 
             // Insert Items
             List<InvoiceItem> items = new ArrayList<>();
@@ -353,6 +368,7 @@ public class ComposeInvoiceActivity extends AppCompatActivity {
             itemMgmt.quantity = getLong(etMgmtArea);
             itemMgmt.unitPrice = getLong(etMgmtPrice);
             itemMgmt.amount = mgmtTotalValue;
+            itemMgmt.status = getOldStatus(oldItems, "MANAGEMENT");
             items.add(itemMgmt);
 
             // Parking (Gộp Car và Motor)
@@ -375,6 +391,7 @@ public class ComposeInvoiceActivity extends AppCompatActivity {
                 // unitPrice doesn't make sense to combine, so just put 0 or math
                 itemPark.unitPrice = 0;
                 itemPark.amount = carTotalValue + motorTotalValue;
+                itemPark.status = getOldStatus(oldItems, "PARKING");
                 items.add(itemPark);
             }
 
@@ -388,6 +405,7 @@ public class ComposeInvoiceActivity extends AppCompatActivity {
             itemElec.quantity = itemElec.newIndex - itemElec.oldIndex;
             itemElec.unitPrice = getLong(etElecPrice);
             itemElec.amount = elecTotalValue;
+            itemElec.status = getOldStatus(oldItems, "ELECTRIC");
             items.add(itemElec);
 
             // Water
@@ -400,7 +418,31 @@ public class ComposeInvoiceActivity extends AppCompatActivity {
             itemWater.quantity = itemWater.newIndex - itemWater.oldIndex;
             itemWater.unitPrice = getLong(etWaterPrice);
             itemWater.amount = waterTotalValue;
+            itemWater.status = getOldStatus(oldItems, "WATER");
             items.add(itemWater);
+
+            int tItems = items.size();
+            int unpdCount = 0;
+            for (InvoiceItem i : items) {
+                if (!"PAID".equals(i.status)) unpdCount++;
+            }
+            String newStatus = (unpdCount == 0) ? "PAID" : (unpdCount < tItems ? "PARTIALLY_PAID" : "UNPAID");
+
+            if (isEditMode) {
+                Invoice invoice = db.paymentDao().getInvoiceByIdSync(invId);
+                if (invoice != null) {
+                    invoice.apartmentId = String.valueOf(selectedApartment.id);
+                    invoice.billingMonth = month;
+                    invoice.totalAmount = grandTotal;
+                    invoice.dueDate = selectedDueDate;
+                    invoice.status = newStatus;
+                    db.paymentDao().updateInvoice(invoice);
+                }
+                db.paymentDao().deleteInvoiceItems(invId);
+            } else {
+                Invoice invoice = new Invoice(invId, String.valueOf(selectedApartment.id), month, grandTotal, selectedDueDate, newStatus);
+                db.paymentDao().insertInvoice(invoice);
+            }
 
             db.paymentDao().insertInvoiceItems(items);
 
@@ -434,4 +476,16 @@ public class ComposeInvoiceActivity extends AppCompatActivity {
     private long getWaterUsageCount() {
         return getLong(etWaterNew) - getLong(etWaterOld);
     }
+    
+    private String getOldStatus(List<InvoiceItem> oldItems, String type) {
+        if (oldItems == null) return "UNPAID";
+        for (InvoiceItem old : oldItems) {
+            String oldType = old.serviceType != null ? old.serviceType.toUpperCase() : "";
+            if (oldType.equals(type)) {
+                return old.status != null ? old.status : "UNPAID";
+            }
+        }
+        return "UNPAID";
+    }
 }
+

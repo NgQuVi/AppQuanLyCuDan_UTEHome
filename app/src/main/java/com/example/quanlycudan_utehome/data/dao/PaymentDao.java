@@ -47,8 +47,9 @@ public interface PaymentDao {
     @Query("SELECT SUM(paidAmount) FROM transactions WHERE status = 'SUCCESS'")
     long getTotalPaidAmount();
 
-    @Query("SELECT i.id AS invoiceId, a.apartmentCode, i.billingMonth, i.dueDate, i.totalAmount, i.status " +
-           "FROM invoices i INNER JOIN apartments a ON CAST(i.apartmentId AS INTEGER) = a.id")
+    @Query("SELECT i.id AS invoiceId, a.apartmentCode, i.billingMonth, i.dueDate, i.totalAmount, i.status, " +
+            "(SELECT COALESCE(SUM(amount), 0) FROM invoice_items WHERE invoiceId = i.id AND status = 'UNPAID') AS unpaidAmount " +
+            "FROM invoices i INNER JOIN apartments a ON CAST(i.apartmentId AS INTEGER) = a.id")
     List<com.example.quanlycudan_utehome.data.entity.InvoiceItemRow> getInvoiceItemRows();
 
     @Query("UPDATE invoice_items SET status = 'PAID' WHERE invoiceId = :invoiceId AND serviceType = :serviceType")
@@ -65,6 +66,12 @@ public interface PaymentDao {
 
     @Query("DELETE FROM invoice_items WHERE invoiceId = :invId")
     void deleteInvoiceItems(String invId);
+
+    @Query("DELETE FROM invoices WHERE id = :invId")
+    void deleteInvoice(String invId);
+
+    @Query("UPDATE invoice_items SET status = 'PAID' WHERE invoiceId = :invoiceId")
+    void markAllInvoiceItemsAsPaid(String invoiceId);
 
     @androidx.room.Update
     void updateInvoice(Invoice invoice);
