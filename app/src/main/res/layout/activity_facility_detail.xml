@@ -358,69 +358,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:columnCount="3">
-                
-                <TextView
-                    android:id="@+id/tvTime1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/bg_time_slot_available"
-                    android:gravity="center"
-                    android:paddingVertical="12dp"
-                    android:text="08:00"
-                    android:textColor="@color/home_text_secondary" />
-
-                <TextView
-                    android:id="@+id/tvTime2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/bg_time_slot_available"
-                    android:gravity="center"
-                    android:paddingVertical="12dp"
-                    android:text="09:00"
-                    android:textColor="@color/home_text_secondary" />
-
-                <TextView
-                    android:id="@+id/tvTime3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/bg_card_white"
-                    android:backgroundTint="#FFF3E0"
-                    android:gravity="center"
-                    android:paddingVertical="12dp"
-                    android:text="10:00"
-                    android:textColor="@color/home_primary_orange"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvTime4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/bg_time_slot_available"
-                    android:gravity="center"
-                    android:paddingVertical="12dp"
-                    android:text="11:00"
-                    android:textColor="@color/home_text_secondary" />
-
-                <TextView
-                    android:id="@+id/tvTime5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/bg_card_white"
-                    android:backgroundTint="#F5F5F5"
-                    android:gravity="center"
-                    android:paddingVertical="12dp"
-                    android:text="14:00"
-                    android:textColor="#BDBDBD" />
             </GridLayout>
 
             <!-- Legend -->
