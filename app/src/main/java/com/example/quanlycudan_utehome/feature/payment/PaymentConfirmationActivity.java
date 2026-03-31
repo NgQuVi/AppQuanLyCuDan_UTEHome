@@ -74,19 +74,20 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
         findViewById(R.id.btnConfirm).setOnClickListener(v -> processPayment());
     }
 
-    /** Tạo TransactionHistory, lưu DB, chuyển sang màn PaymentHistory */
+    /** Chuyển sang màn hình thanh toán VNPay */
     private void processPayment() {
         if (invoiceId.isEmpty()) {
             Toast.makeText(this, "Lỗi: không tìm thấy hóa đơn", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        repository.processMockPayment(invoiceId, totalSum, "Ví MoMo", hasElec, hasWater, hasPark, hasInternet);
-
-        Toast.makeText(this, "Thanh toán thành công!", Toast.LENGTH_LONG).show();
-
-        Intent intent = new Intent(this, PaymentHistoryActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent intent = new Intent(this, com.example.quanlycudan_utehome.feature.invoice.VNPayWebActivity.class);
+        intent.putExtra("INVOICE_ID", invoiceId);
+        intent.putExtra("TOTAL_SUM", totalSum);
+        intent.putExtra("HAS_ELEC", hasElec);
+        intent.putExtra("HAS_WATER", hasWater);
+        intent.putExtra("HAS_PARK", hasPark);
+        intent.putExtra("HAS_INTERNET", hasInternet);
         startActivity(intent);
         finish();
     }

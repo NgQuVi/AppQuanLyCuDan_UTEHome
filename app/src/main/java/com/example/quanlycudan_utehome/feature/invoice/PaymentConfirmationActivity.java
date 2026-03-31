@@ -53,54 +53,18 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
         if (tvSubtotalVal != null) tvSubtotalVal.setText(formattedTotal);
         if (tvTotalValue != null) tvTotalValue.setText(formattedTotal);
 
-        // Setup Payment Method Radio Buttons
-        View cardMomo = findViewById(R.id.cardMomo);
-        View cardBank = findViewById(R.id.cardBank);
-        View cardTransfer = findViewById(R.id.cardTransfer);
-        
-        RadioButton rbMomo = findViewById(R.id.rbMomo);
-        RadioButton rbBank = findViewById(R.id.rbBank);
-        RadioButton rbTransfer = findViewById(R.id.rbTransfer);
-
-        cardMomo.setOnClickListener(v -> {
-            rbMomo.setChecked(true);
-            rbBank.setChecked(false);
-            if (rbTransfer != null) rbTransfer.setChecked(false);
-        });
-
-        cardBank.setOnClickListener(v -> {
-            rbMomo.setChecked(false);
-            rbBank.setChecked(true);
-            if (rbTransfer != null) rbTransfer.setChecked(false);
-        });
-        
-        if (cardTransfer != null) {
-            cardTransfer.setOnClickListener(v -> {
-                rbMomo.setChecked(false);
-                rbBank.setChecked(false);
-                if (rbTransfer != null) rbTransfer.setChecked(true);
-            });
-        }
+        // Removed old Payment Method Radio Buttons logic because VNPAY is now the only method.
 
         // Setup Confirm Payment Button
         findViewById(R.id.btnConfirm).setOnClickListener(v -> {
-            String selectedMethod = "Ví MoMo";
-            if (rbBank.isChecked()) selectedMethod = "Thẻ ngân hàng";
-            else if (rbTransfer != null && rbTransfer.isChecked()) selectedMethod = "Chuyển khoản";
-
-            // Lấy ID và các biến chọn dịch vụ
-
-            // GỌI REPOSITORY MỚI
-            if (invoiceId != null && !invoiceId.isEmpty()) {
-                paymentRepository.processMockPayment(invoiceId, totalSum, selectedMethod, hasElec, hasWater, hasPark, hasInternet);
-            }
-
-            Intent intent = new Intent(PaymentConfirmationActivity.this, PaymentSuccessActivity.class);
-            // Lưu ý: totalSum ở đây phải lấy bằng getLongExtra như đã nhắc ở phần trước nhé!
+            Intent intent = new Intent(PaymentConfirmationActivity.this, VNPayWebActivity.class);
+            intent.putExtra("INVOICE_ID", invoiceId);
             intent.putExtra("TOTAL_SUM", totalSum);
-            intent.putExtra("METHOD", selectedMethod);
+            intent.putExtra("HAS_ELEC", hasElec);
+            intent.putExtra("HAS_WATER", hasWater);
+            intent.putExtra("HAS_PARK", hasPark);
+            intent.putExtra("HAS_INTERNET", hasInternet);
             startActivity(intent);
-            finish();
         });
 
     }
