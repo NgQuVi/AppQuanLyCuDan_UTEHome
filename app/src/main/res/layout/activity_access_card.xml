@@ -7,7 +7,7 @@
     android:background="@color/home_background"
     tools:context=".feature.accesscard.AccessCardActivity">
 
-    <!-- Top bar with back button and title -->
+    <!-- Back button with icon and click listener -->
     <ImageView
         android:id="@+id/ivBack"
         android:layout_width="24dp"
@@ -16,10 +16,11 @@
         android:layout_marginTop="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="4dp"
-        android:src="@drawable/ic_nav_person"
+        android:src="@drawable/ic_back_arrow"
         android:contentDescription="@string/access_card_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/home_text_primary" />
 
     <TextView
         android:id="@+id/tvTitle"
@@ -227,7 +228,6 @@
                     app:layout_constraintStart_toEndOf="@id/tvApartmentLabel"
                     app:layout_constraintTop_toTopOf="@id/tvApartmentLabel" />
 
-                <!-- Color -->
                 <TextView
                     android:id="@+id/tvColorLabel"
                     android:layout_width="wrap_content"
@@ -240,7 +240,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvApartmentLabel" />
 
-                <!-- Expired -->
                 <TextView
                     android:id="@+id/tvColorValue"
                     android:layout_width="0dp"
@@ -255,39 +254,13 @@
                     app:layout_constraintStart_toEndOf="@id/tvColorLabel"
                     app:layout_constraintTop_toTopOf="@id/tvColorLabel" />
 
-                <TextView
-                    android:id="@+id/tvExpiredLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/access_card_expired_date"
-                    android:textColor="@color/home_text_secondary"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvColorLabel" />
-
                 <!-- Bottom spacer -->
-                <TextView
-                    android:id="@+id/tvExpiredValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="31/12/2024"
-                    android:textColor="@color/home_primary_orange"
-                    android:textSize="14sp"
-                    android:layout_marginStart="12dp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@id/tvExpiredLabel"
-                    app:layout_constraintTop_toTopOf="@id/tvExpiredLabel" />
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvExpiredValue" />
+                    app:layout_constraintTop_toBottomOf="@id/tvColorValue" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

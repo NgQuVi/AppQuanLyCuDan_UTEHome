@@ -21,10 +21,11 @@
             android:id="@+id/ivBack"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_nav_person"
+            android:src="@drawable/ic_back_arrow"
             android:contentDescription="@string/access_card_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/home_text_primary" />
 
         <TextView
             android:id="@+id/tvTitle"

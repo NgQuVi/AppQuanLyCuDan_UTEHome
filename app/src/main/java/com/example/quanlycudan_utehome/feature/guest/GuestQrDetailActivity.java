@@ -36,7 +36,6 @@ public class GuestQrDetailActivity extends AppCompatActivity {
     private TextView tvValidFrom;
     private TextView tvValidTo;
     private Button btnCancel;
-    private Button btnBack;
 
     private GuestPass currentPass;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
@@ -67,9 +66,13 @@ public class GuestQrDetailActivity extends AppCompatActivity {
         tvValidFrom = findViewById(R.id.tvValidFrom);
         tvValidTo = findViewById(R.id.tvValidTo);
         btnCancel = findViewById(R.id.btnCancel);
-        btnBack = findViewById(R.id.btnBack);
 
-        btnBack.setOnClickListener(v -> finish());
+        // Set click listener cho ImageView quay lại (mũi tên ở header)
+        ImageView ivBack = findViewById(R.id.ivBack);
+        if (ivBack != null) {
+            ivBack.setOnClickListener(v -> finish());
+        }
+
         btnCancel.setOnClickListener(v -> cancelQrPass());
 
         loadQrDetail(qrId);
