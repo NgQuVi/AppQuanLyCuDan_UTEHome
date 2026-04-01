@@ -89,16 +89,7 @@ public class InvoiceManagementActivity extends AppCompatActivity {
         executorService.execute(() -> {
             allInvoices = AppDatabase.getInstance(this).paymentDao().getInvoiceItemRows();
             runOnUiThread(() -> {
-                // Mặc định "Tất cả các tháng" -> Force UNPAID
-                if ("Tất cả các tháng".equals(currentMonthFilter)) {
-                    chipAll.setEnabled(false);
-                    chipPaid.setEnabled(false);
-                    chipAll.setAlpha(0.5f);
-                    chipPaid.setAlpha(0.5f);
-                    setFilter("UNPAID");
-                } else {
-                    applyFilter();
-                }
+                setFilter(currentFilter);
             });
         });
     }
@@ -178,19 +169,7 @@ public class InvoiceManagementActivity extends AppCompatActivity {
                 TextView tvFilterMonth = findViewById(R.id.tvFilterMonth);
                 if (tvFilterMonth != null) tvFilterMonth.setText(currentMonthFilter);
                 
-                if ("Tất cả các tháng".equals(currentMonthFilter)) {
-                    chipAll.setEnabled(false);
-                    chipPaid.setEnabled(false);
-                    chipAll.setAlpha(0.5f);
-                    chipPaid.setAlpha(0.5f);
-                    setFilter("UNPAID");
-                } else {
-                    chipAll.setEnabled(true);
-                    chipPaid.setEnabled(true);
-                    chipAll.setAlpha(1.0f);
-                    chipPaid.setAlpha(1.0f);
-                    setFilter("All");
-                }
+                applyFilter();
             })
             .show();
     }

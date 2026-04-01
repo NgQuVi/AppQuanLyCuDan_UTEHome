@@ -45,25 +45,34 @@ import com.example.quanlycudan_utehome.data.dao.AppNotificationDao;
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ApartmentDao apartmentDao();
+
     public abstract ResidentDao residentDao();
+
     public abstract AccountDao accountDao();
+
     public abstract ApartmentMemberDao apartmentMemberDao();
+
     public abstract PaymentDao paymentDao();
+
     public abstract VehicleDao vehicleDao();
+
     public abstract GuestPassDao guestPassDao();
+
     public abstract FacilityBookingDao facilityBookingDao();
+
     public abstract FacilityDao facilityDao();
+
     public abstract AppNotificationDao appNotificationDao();
+
     private static AppDatabase instance;
 
-    public static synchronized AppDatabase getInstance(Context context){
+    public static synchronized AppDatabase getInstance(Context context) {
 
-        if(instance == null){
+        if (instance == null) {
             instance = Room.databaseBuilder(
-                            context.getApplicationContext(),
-                            AppDatabase.class,
-                            "utehome_db"
-                    ).fallbackToDestructiveMigration()
+                    context.getApplicationContext(),
+                    AppDatabase.class,
+                    "utehome_db").fallbackToDestructiveMigration()
                     .build();
         }
 
