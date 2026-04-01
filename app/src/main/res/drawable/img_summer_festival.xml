@@ -1,0 +1,25 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="260dp"
+    android:height="120dp"
+    android:viewportWidth="260"
+    android:viewportHeight="120">
+  <path
+      android:fillColor="#FFCA28"
+      android:pathData="M0,0h260v120h-260z"/>
+  <!-- Symbolizing Summer/Kite Festival -->
+  <path
+      android:fillColor="#FF5722"
+      android:pathData="M130,20 L160,50 L130,80 L100,50 Z"/>
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M130,20 L130,80"
+      android:strokeWidth="2" android:strokeColor="#FFFFFF" />
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M100,50 L160,50"
+      android:strokeWidth="2" android:strokeColor="#FFFFFF" />
+  <path
+      android:fillColor="#B0BEC5"
+      android:pathData="M130,80 L130,120"
+      android:strokeWidth="1" android:strokeColor="#B0BEC5" />
+</vector>

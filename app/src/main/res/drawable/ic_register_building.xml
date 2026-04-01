@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="80"
+    android:viewportHeight="80">
+    <!-- Building body -->
+    <path
+        android:fillColor="#FFFF7E4E"
+        android:pathData="M14,28 L14,70 L66,70 L66,28 Z" />
+    <!-- Roof / top bar -->
+    <path
+        android:fillColor="#FFFF7E4E"
+        android:pathData="M10,24 L40,10 L70,24 L70,30 L10,30 Z" />
+    <!-- Windows row 1 -->
+    <path
+        android:fillColor="#FFFCE8DE"
+        android:pathData="M20,35h8v8h-8zM36,35h8v8h-8zM52,35h8v8h-8z" />
+    <!-- Windows row 2 -->
+    <path
+        android:fillColor="#FFFCE8DE"
+        android:pathData="M20,48h8v8h-8zM36,48h8v8h-8zM52,48h8v8h-8z" />
+    <!-- Door -->
+    <path
+        android:fillColor="#FFFCE8DE"
+        android:pathData="M33,57h14v13h-14z" />
+</vector>

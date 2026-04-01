@@ -1,0 +1,94 @@
+package com.example.quanlycudan_utehome.data.dao;
+
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.Update;
+
+import com.example.quanlycudan_utehome.data.entity.Vehicle;
+import com.example.quanlycudan_utehome.feature.vehicle.VehicleWithOwner;
+
+import java.util.List;
+
+@Dao
+public interface VehicleDao {
+
+    // Insert
+    @Insert
+    long insertVehicle(Vehicle vehicle);
+
+    // Update
+    @Update
+    void updateVehicle(Vehicle vehicle);
+
+    // Delete
+    @Delete
+    void deleteVehicle(Vehicle vehicle);
+
+    // Get all vehicles
+    @Query("SELECT * FROM vehicles")
+    LiveData<List<Vehicle>> getAllVehicles();
+
+    // Get vehicle by id
+    @Query("SELECT * FROM vehicles WHERE id = :id")
+    LiveData<Vehicle> getVehicleById(int id);
+
+    // Get vehicles by apartment
+    @Query("SELECT * FROM vehicles WHERE apartmentId = :apartmentId")
+    LiveData<List<Vehicle>> getVehiclesByApartment(int apartmentId);
+
+    // Get vehicles by resident
+    @Query("SELECT * FROM vehicles WHERE residentId = :residentId")
+    LiveData<List<Vehicle>> getVehiclesByResident(int residentId);
+
+    // Search by license plate
+    @Query("SELECT * FROM vehicles WHERE licensePlate LIKE '%' || :plate || '%'")
+    LiveData<List<Vehicle>> searchByLicensePlate(String plate);
+
+
+    @Query("SELECT * FROM vehicles WHERE residentId IN (:residentIds)")
+    LiveData<List<Vehicle>> getVehiclesByResidentIds(List<Integer> residentIds);
+
+    // Phiên bản đồng bộ (dùng trên background thread, không cần LiveData)
+    @Query("SELECT * FROM vehicles WHERE residentId IN (:residentIds)")
+    List<Vehicle> getVehiclesByResidentIdsSync(List<Integer> residentIds);
+
+
+    @Query("SELECT v.*, COALESCE(r.fullName, '') AS ownerName, COALESCE(a.apartmentCode, '') AS apartmentCode " +
+            "FROM vehicles v " +
+            "LEFT JOIN residents r ON v.residentId = r.id " +
+            "LEFT JOIN apartments a ON v.apartmentId = a.id")
+    LiveData<List<VehicleWithOwner>> getVehiclesWithOwner();
+
+    @Query("SELECT v.*, COALESCE(r.fullName, '') AS ownerName " +
+            "FROM vehicles v " +
+            "LEFT JOIN residents r ON v.residentId = r.id " +
+            "WHERE v.apartmentId = :apartmentId")
+    LiveData<List<VehicleWithOwner>> getVehiclesWithOwnerByApartmentId(int apartmentId);
+
+    @Query("SELECT v.*, COALESCE(r.fullName, '') AS ownerName " +
+            "FROM vehicles v " +
+            "LEFT JOIN residents r ON v.residentId = r.id " +
+            "WHERE v.apartmentId IN (" +
+            "   SELECT a.id FROM apartments a WHERE a.accountId = :accountId" +
+            ")")
+    LiveData<List<VehicleWithOwner>> getVehiclesWithOwnerByAccountId(int accountId);
+    // Delete by id
+    @Query("DELETE FROM vehicles WHERE id = :id")
+    void deleteById(int id);
+
+    @Query("DELETE FROM vehicles WHERE residentId = :residentId")
+    void deleteByResidentId(int residentId);
+
+    // Sync
+    @Query("SELECT * FROM vehicles WHERE id = :id LIMIT 1")
+    Vehicle getVehicleByIdSync(int id);
+
+    @Query("SELECT * FROM vehicles WHERE apartmentId = :apartmentId")
+    List<Vehicle> getVehiclesByApartmentIdSync(int apartmentId);
+
+    @Query("DELETE FROM vehicles WHERE apartmentId = :apartmentId")
+    void deleteVehiclesByApartmentId(int apartmentId);
+}
