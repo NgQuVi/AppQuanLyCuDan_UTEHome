@@ -69,6 +69,10 @@ public class ApartmentDetailActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        findViewById(R.id.btnDelete).setOnClickListener(v -> {
+            showDeleteConfirmDialog();
+        });
+
         RecyclerView rvMembers = findViewById(R.id.rvMembers);
         rvMembers.setLayoutManager(new LinearLayoutManager(this));
         memberAdapter = new MemberDetailAdapter((member, position) -> {
@@ -708,6 +712,42 @@ public class ApartmentDetailActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 Toast.makeText(this, "Thêm thành viên mới thành công!", Toast.LENGTH_SHORT).show();
                 loadApartmentDetails();
+            });
+        });
+    }
+
+    private void showDeleteConfirmDialog() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("Xóa căn hộ");
+        builder.setMessage("Bạn có chắc muốn xóa căn hộ này? Tất cả dữ liệu liên quan (thành viên, phương tiện, hóa đơn) sẽ bị xóa.");
+        builder.setPositiveButton("Xóa", (dialog, which) -> {
+            deleteApartment();
+        });
+        builder.setNegativeButton("Hủy", null);
+        builder.show();
+    }
+
+    private void deleteApartment() {
+        executorService.execute(() -> {
+            AppDatabase db = AppDatabase.getInstance(this);
+
+            // Delete all apartment members
+            db.apartmentMemberDao().deleteByApartmentId(apartmentId);
+
+            // Delete all vehicles of this apartment
+            db.vehicleDao().deleteVehiclesByApartmentId(apartmentId);
+
+            // Delete all invoices of this apartment
+            db.paymentDao().deleteInvoicesByApartmentId(apartmentId);
+
+            // Delete the apartment itself
+            if (currentApartment != null) {
+                db.apartmentDao().delete(currentApartment);
+            }
+
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Xóa căn hộ thành công!", Toast.LENGTH_SHORT).show();
+                finish();
             });
         });
     }

@@ -41,6 +41,7 @@ public class ApartmentListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.rvApartments);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ApartmentAdminAdapter();
+        adapter.setOnDeleteListener(this::showDeleteConfirmDialog);
         recyclerView.setAdapter(adapter);
 
         findViewById(R.id.fabAddApartment).setOnClickListener(v -> {
@@ -61,6 +62,40 @@ public class ApartmentListActivity extends AppCompatActivity {
             List<ApartmentWithOwner> apartments = AppDatabase.getInstance(this).apartmentDao().getApartmentsWithOwners();
             runOnUiThread(() -> {
                 adapter.setApartments(apartments);
+            });
+        });
+    }
+
+    private void showDeleteConfirmDialog(ApartmentWithOwner apartment) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("Xóa căn hộ");
+        builder.setMessage("Bạn có chắc muốn xóa căn hộ " + apartment.apartment.apartmentCode + "? Tất cả dữ liệu liên quan sẽ bị xóa.");
+        builder.setPositiveButton("Xóa", (dialog, which) -> {
+            deleteApartment(apartment);
+        });
+        builder.setNegativeButton("Hủy", null);
+        builder.show();
+    }
+
+    private void deleteApartment(ApartmentWithOwner apartment) {
+        executorService.execute(() -> {
+            AppDatabase db = AppDatabase.getInstance(this);
+
+            // Delete all apartment members
+            db.apartmentMemberDao().deleteByApartmentId(apartment.apartment.id);
+
+            // Delete all vehicles of this apartment
+            db.vehicleDao().deleteVehiclesByApartmentId(apartment.apartment.id);
+
+            // Delete all invoices of this apartment
+            db.paymentDao().deleteInvoicesByApartmentId(apartment.apartment.id);
+
+            // Delete the apartment itself
+            db.apartmentDao().delete(apartment.apartment);
+
+            runOnUiThread(() -> {
+                android.widget.Toast.makeText(this, "Xóa căn hộ thành công!", android.widget.Toast.LENGTH_SHORT).show();
+                loadApartments();
             });
         });
     }

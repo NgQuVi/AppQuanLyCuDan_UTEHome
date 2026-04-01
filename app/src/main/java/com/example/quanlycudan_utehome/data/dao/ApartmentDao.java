@@ -22,6 +22,9 @@ public interface ApartmentDao {
     @androidx.room.Update
     void update(Apartment apartment);
 
+    @androidx.room.Delete
+    void delete(Apartment apartment);
+
     @Query("SELECT * FROM apartments WHERE id = :id")
     Apartment getApartmentById(int id);
 

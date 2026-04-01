@@ -31,6 +31,12 @@ public interface ApartmentMemberDao {
     @Query("DELETE FROM apartment_members WHERE residentId = :residentId")
     void deleteByResidentId(int residentId);
 
+    @Query("DELETE FROM apartment_members WHERE apartmentId = :apartmentId")
+    void deleteByApartmentId(int apartmentId);
+
+    @androidx.room.Delete
+    void delete(ApartmentMember member);
+
     @Query("SELECT residentId FROM apartment_members WHERE apartmentId = :apartmentId")
     LiveData<List<Integer>> getResidentIdsByApartmentId(int apartmentId);
 

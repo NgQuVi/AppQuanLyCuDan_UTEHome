@@ -85,4 +85,10 @@ public interface VehicleDao {
     // Sync
     @Query("SELECT * FROM vehicles WHERE id = :id LIMIT 1")
     Vehicle getVehicleByIdSync(int id);
+
+    @Query("SELECT * FROM vehicles WHERE apartmentId = :apartmentId")
+    List<Vehicle> getVehiclesByApartmentIdSync(int apartmentId);
+
+    @Query("DELETE FROM vehicles WHERE apartmentId = :apartmentId")
+    void deleteVehiclesByApartmentId(int apartmentId);
 }
