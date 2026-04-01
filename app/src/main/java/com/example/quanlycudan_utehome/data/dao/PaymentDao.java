@@ -81,4 +81,13 @@ public interface PaymentDao {
 
     @Query("SELECT * FROM invoice_items WHERE invoiceId = :invId")
     List<InvoiceItem> getInvoiceItemsDetailsSync(String invId);
+
+    @Query("SELECT * FROM invoices WHERE apartmentId = :apartmentId")
+    List<Invoice> getInvoicesByApartmentId(int apartmentId);
+
+    @Query("DELETE FROM invoices WHERE apartmentId = :apartmentId")
+    void deleteInvoicesByApartmentId(int apartmentId);
+
+    @androidx.room.Delete
+    void deleteInvoiceItem(InvoiceItem item);
 }

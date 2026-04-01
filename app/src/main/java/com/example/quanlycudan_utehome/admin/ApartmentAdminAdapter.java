@@ -18,6 +18,15 @@ import java.util.List;
 public class ApartmentAdminAdapter extends RecyclerView.Adapter<ApartmentAdminAdapter.ApartmentViewHolder> {
 
     private List<ApartmentWithOwner> apartments = new ArrayList<>();
+    private OnDeleteListener deleteListener;
+
+    public interface OnDeleteListener {
+        void onDelete(ApartmentWithOwner apartment);
+    }
+
+    public void setOnDeleteListener(OnDeleteListener listener) {
+        this.deleteListener = listener;
+    }
 
     public void setApartments(List<ApartmentWithOwner> apartments) {
         this.apartments = apartments;
@@ -60,6 +69,12 @@ public class ApartmentAdminAdapter extends RecyclerView.Adapter<ApartmentAdminAd
             intent.putExtra("apartment_id", item.apartment.id);
             v.getContext().startActivity(intent);
         });
+
+        holder.btnDelete.setOnClickListener(v -> {
+            if (deleteListener != null) {
+                deleteListener.onDelete(item);
+            }
+        });
     }
 
     @Override
@@ -69,6 +84,7 @@ public class ApartmentAdminAdapter extends RecyclerView.Adapter<ApartmentAdminAd
 
     static class ApartmentViewHolder extends RecyclerView.ViewHolder {
         TextView tvBuilding, tvApartmentNumber, tvStatus, tvOwner, tvArea;
+        android.widget.ImageView btnDelete;
 
         public ApartmentViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,6 +93,7 @@ public class ApartmentAdminAdapter extends RecyclerView.Adapter<ApartmentAdminAd
             tvStatus = itemView.findViewById(R.id.tvStatus);
             tvOwner = itemView.findViewById(R.id.tvOwner);
             tvArea = itemView.findViewById(R.id.tvArea);
+            btnDelete = itemView.findViewById(R.id.btnDeleteItem);
         }
     }
 }

@@ -82,7 +82,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -94,11 +94,23 @@
 
         <TextView
             android:id="@+id/tvArea"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
+            android:layout_weight="1"
             android:text="Diện tích: 75 m²"
             android:textColor="@color/text_primary"
             android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/btnDeleteItem"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            app:srcCompat="@drawable/ic_delete_outline_24"
+            app:tint="#FF6B6B" />
     </LinearLayout>
 </LinearLayout>
