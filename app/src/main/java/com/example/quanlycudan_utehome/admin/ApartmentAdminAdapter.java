@@ -49,10 +49,10 @@ public class ApartmentAdminAdapter extends RecyclerView.Adapter<ApartmentAdminAd
         holder.tvArea.setText("Diện tích: " + item.apartment.area + " m²");
         
         String ownerName = item.getOwnerName();
-        if (ownerName != null) {
-            holder.tvOwner.setText("Chủ hộ: " + ownerName);
-        } else {
+        if ("Trống".equalsIgnoreCase(item.apartment.status) || ownerName == null) {
             holder.tvOwner.setText("Chưa có chủ hộ");
+        } else {
+            holder.tvOwner.setText("Chủ hộ: " + ownerName);
         }
 
         holder.tvStatus.setText(item.apartment.status);
