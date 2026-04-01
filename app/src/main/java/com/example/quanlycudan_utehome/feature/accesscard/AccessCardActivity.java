@@ -65,7 +65,6 @@ public class AccessCardActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.tvResidentName)).setText(residentName);
         ((TextView) findViewById(R.id.tvApartmentValue)).setText(apartmentLabel);
         ((TextView) findViewById(R.id.tvColorValue)).setText(vehicleColor);
-        ((TextView) findViewById(R.id.tvExpiredValue)).setText(expiredDate);
 
         ImageView ivQrCode = findViewById(R.id.ivQrCode);
         generateQrCode(qrContent, ivQrCode);
